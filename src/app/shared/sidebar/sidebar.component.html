@@ -1,0 +1,28 @@
+<nav class="sidebar-nav">
+  <ul id="sidebarnav">
+    <!-- First level menu -->
+    <li
+      class="sidebar-item"
+      [class.active]="showMenu === sidebarnavItem.title"
+      [routerLinkActiveOptions]="{exact: true}"
+      [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'"
+      *ngFor="let sidebarnavItem of sidebarnavItems"
+    >
+      <div class="nav-small-cap" *ngIf="sidebarnavItem.extralink === true">
+        {{sidebarnavItem.title}}
+      </div>
+      <a
+        *ngIf="!sidebarnavItem.extralink;"
+        class="sidebar-link waves-effect waves-dark"
+        [ngClass]="[sidebarnavItem.class]"
+        [routerLink]="sidebarnavItem.class === '' ? [sidebarnavItem.path] : null"
+        [routerLinkActiveOptions]="{exact: true}"
+        [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'"
+        (click)="addExpandClass(sidebarnavItem.title)"
+      >
+        <i [ngClass]="[sidebarnavItem.icon]"></i>
+        <span class="hide-menu">{{sidebarnavItem.title}}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

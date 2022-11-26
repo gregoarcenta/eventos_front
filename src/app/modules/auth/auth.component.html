@@ -1,0 +1,43 @@
+<div
+  class="vh-100 vw-100 d-flex justify-content-center align-items-center bg-light"
+>
+  <div class="w-100 row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4 col-xl-3">
+      <form
+        [formGroup]="authForm"
+        class="card shadow rounded-3 p-4"
+        (ngSubmit)="login()"
+      >
+        <!--Logo-->
+        <h1 class="text-center mb-0">Inicio de sesión</h1>
+        <hr>
+        <!--user-->
+        <div class="mb-3">
+          <label for="user" class="form-label">Usuario</label>
+          <input
+            type="text"
+            class="form-control"
+            id="user"
+            placeholder="ingrese su usuario"
+            formControlName="user"
+          />
+        </div>
+        <!--password-->
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label"
+            >Contraseña</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="ingrese su contraseña"
+            formControlName="password"
+          />
+        </div>
+        <!--btn submit-->
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+      </form>
+    </div>
+  </div>
+</div>
