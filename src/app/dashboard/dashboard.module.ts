@@ -26,6 +26,13 @@ const routes: Routes = [
         },
       },
       {
+        path: "ajustes",
+        loadChildren: () =>
+          import("../modules/account-settings/account-settings.module").then(
+            (m) => m.AccountSettingsModule
+          ),
+      },
+      {
         path: "boletos",
         loadChildren: () =>
           import("../modules/tickets/tickets.module").then(

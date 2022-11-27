@@ -1,11 +1,12 @@
 // App
 
-/*============================================================== 
- For all pages 
+/*==============================================================
+ For all pages
  ============================================================== */
 
 #main-wrapper {
   width: 100%;
+  min-height: 100vh;
   overflow: hidden;
 }
 
@@ -17,9 +18,19 @@
 
 .page-wrapper > .container-fluid {
   padding: 20px;
-  min-height: calc(100vh - 180px);
+  min-height: calc(100vh - 118px);
   max-width: $page-wrapper-max-width;
   margin: 0 auto;
+  margin-top: 64px;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: $primary;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
 }
 
 /*******************
