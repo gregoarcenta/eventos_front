@@ -13,7 +13,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '/dashboard/boletos',
     title: 'Boletos',
-    icon: 'bi bi-bell',
+    icon: 'bi bi-ticket-perforated',
     class: '',
     extralink: false,
     submenu: []

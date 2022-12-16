@@ -19,10 +19,7 @@ const routes: Routes = [
         component: DashboardComponent,
         data: {
           title: "Dashboard",
-          urls: [
-            { title: "Dashboard", url: "/dashboard" },
-            { title: "Dashboard" },
-          ],
+          urls: [{ title: "Dashboard", url: "/dashboard" }],
         },
       },
       {
@@ -31,6 +28,9 @@ const routes: Routes = [
           import("../modules/account-settings/account-settings.module").then(
             (m) => m.AccountSettingsModule
           ),
+          data:{
+            title:'Ajustes'
+          }
       },
       {
         path: "boletos",
@@ -38,6 +38,9 @@ const routes: Routes = [
           import("../modules/tickets/tickets.module").then(
             (m) => m.TicketsModule
           ),
+        data: {
+          title: "Boletos",
+        },
       },
     ],
   },
