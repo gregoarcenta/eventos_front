@@ -1,3 +1,4 @@
+import { AuthService } from "./../../modules/auth/services/auth.service";
 import {
   Component,
   AfterViewInit,
@@ -26,7 +27,11 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
 
   public showSearch = false;
 
-  constructor(private modalService: NgbModal, private router: Router) {
+  constructor(
+    private modalService: NgbModal,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.titleSubs$ = this.router.events
       .pipe(
         filter((event) => event instanceof ActivationEnd),
@@ -137,4 +142,8 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
   ];
 
   ngAfterViewInit() {}
+
+  logout() {
+    this.authService.logout();
+  }
 }

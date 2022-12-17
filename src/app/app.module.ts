@@ -1,3 +1,4 @@
+import { ComponentsModule } from './components/components.module';
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
@@ -19,7 +20,6 @@ import { SidebarComponent } from "./shared/sidebar/sidebar.component";
 
 import { Approutes } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { SpinnerComponent } from "./shared/spinner.component";
 
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
@@ -36,11 +36,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 @NgModule({
   declarations: [
     AppComponent,
-    SpinnerComponent,
     FullComponent,
     NavigationComponent,
     SidebarComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +49,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
+    ComponentsModule,
     RouterModule.forRoot(Approutes, {
       useHash: false,
       relativeLinkResolution: "legacy",

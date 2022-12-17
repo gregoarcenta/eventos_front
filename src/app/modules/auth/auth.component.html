@@ -10,7 +10,7 @@
       >
         <!--Logo-->
         <h1 class="text-center mb-0">Inicio de sesión</h1>
-        <hr>
+        <hr />
         <!--user-->
         <div class="mb-3">
           <label for="user" class="form-label">Usuario</label>
@@ -18,9 +18,10 @@
             type="text"
             class="form-control"
             id="user"
-            placeholder="ingrese su usuario"
-            formControlName="user"
+            placeholder="ingrese su usuario o email"
+            formControlName="username"
           />
+          <small *ngIf="validInput('username')" class="form-text text-danger">Usuario o email requerido</small>
         </div>
         <!--password-->
         <div class="mb-3">
@@ -34,6 +35,7 @@
             placeholder="ingrese su contraseña"
             formControlName="password"
           />
+          <small *ngIf="validInput('password')" class="form-text text-danger">La contraseña es requerida</small>
         </div>
         <!--btn submit-->
         <button type="submit" class="btn btn-primary">Iniciar Sesión</button>

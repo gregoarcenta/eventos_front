@@ -1,6 +1,8 @@
+import { SpinnerService } from "./../../services/spinner.service";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { AuthService } from "./services/auth.service";
 
 @Component({
   selector: "app-auth",
@@ -9,14 +11,42 @@ import { Router } from "@angular/router";
 })
 export class AuthComponent implements OnInit {
   public authForm = this.fb.group({
-    user: ["", [Validators.required]],
+    username: ["", [Validators.required]],
     password: ["", [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private spinner: SpinnerService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
+
+  validInput(name: string) {
+    return this.authForm.get(name)?.invalid && this.authForm.get(name)?.touched;
+  }
+
   login() {
-    console.log("enviando... ", this.authForm.value);
+    if (this.authForm.invalid) {
+      this.authForm.markAllAsTouched();
+      return;
+    }
+    this.spinner.setActive(true);
+    this.authService.login(this.authForm.value).subscribe({
+      next: (response) => {
+        this.router.navigateByUrl("/");
+        this.spinner.setActive(false);
+      },
+      error: ({ error }) => {
+        this.spinner.setActive(false);
+        if (error.status === 422 || error.status === 401) {
+          console.log("Usuario o contraseña incorrectos");
+        } else {
+          console.log("Ha ocurrido un error inesperado en el sitstema");
+        }
+      },
+    });
   }
 }
