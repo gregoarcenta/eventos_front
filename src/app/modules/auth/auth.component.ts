@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "./services/auth.service";
-
+import Swal from "sweetalert2";
 @Component({
   selector: "app-auth",
   templateUrl: "./auth.component.html",
@@ -42,9 +42,13 @@ export class AuthComponent implements OnInit {
       error: ({ error }) => {
         this.spinner.setActive(false);
         if (error.status === 422 || error.status === 401) {
-          console.log("Usuario o contraseña incorrectos");
+          Swal.fire("Error", "Usuario o contraseña incorrectos", "error");
         } else {
-          console.log("Ha ocurrido un error inesperado en el sitstema");
+          Swal.fire(
+            "Error",
+            "Ha ocurrido un error inesperado en el sistema, vuelva a intentarlo mas tarde",
+            "error"
+          );
         }
       },
     });
