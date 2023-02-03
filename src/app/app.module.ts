@@ -1,4 +1,4 @@
-import { ComponentsModule } from './components/components.module';
+import { ComponentsModule } from "./components/components.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
@@ -11,20 +11,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
-import { FullComponent } from "./layouts/full/full.component";
-
-import { NavigationComponent } from "./shared/header/navigation.component";
-import { SidebarComponent } from "./shared/sidebar/sidebar.component";
-
 import { Approutes } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
-import { PageNotFoundComponent } from "./shared/page-not-found/page-not-found.component";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -34,13 +26,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FullComponent,
-    NavigationComponent,
-    SidebarComponent,
-    PageNotFoundComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -48,7 +34,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModule,
     ComponentsModule,
     RouterModule.forRoot(Approutes, {
       useHash: false,

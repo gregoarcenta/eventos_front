@@ -1,41 +1,23 @@
+import { DomainAdminGuard } from "./guards/domain-admin.guard";
 import { Routes } from "@angular/router";
-import { DashboardGuard } from "./dashboard/guards/dashboard.guard";
-
-import { FullComponent } from "./layouts/full/full.component";
-import { AuthGuard } from "./modules/auth/guards/auth.guard";
-import { PageNotFoundComponent } from "./shared/page-not-found/page-not-found.component";
+import { DomainClientGuard } from "./guards/domain-client.guard";
 
 export const Approutes: Routes = [
   {
     path: "",
-    component: FullComponent,
-    children: [
-      { path: "", redirectTo: "/dashboard", pathMatch: "full" },
-      {
-        path: "dashboard",
-        loadChildren: () =>
-          import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
-        canLoad: [DashboardGuard],
-      },
-      {
-        path: "component",
-        loadChildren: () =>
-          import("./component/component.module").then(
-            (m) => m.ComponentsModule
-          ),
-        canLoad: [DashboardGuard],
-      },
-    ],
+    loadChildren: () =>
+      import("./client/client.module").then((m) => m.ClientModule),
+    canLoad: [DomainClientGuard],
+    pathMatch: "full",
   },
   {
-    path: "login",
+    path: "administrador",
     loadChildren: () =>
-      import("./modules/auth/auth.module").then((m) => m.AuthModule),
-    canLoad: [AuthGuard],
+      import("./admin/admin.module").then((m) => m.AdminModule),
+    canLoad: [DomainAdminGuard],
   },
   {
     path: "**",
     redirectTo: "",
-    // component: PageNotFoundComponent,
   },
 ];
