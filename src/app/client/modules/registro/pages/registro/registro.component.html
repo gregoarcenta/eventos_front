@@ -28,8 +28,10 @@
                   class="form-control"
                   id="name"
                 />
-                <small *ngIf="validInput('name')" class="form-text text-danger"
-                  >La nombre es requerido</small
+                <small
+                  *ngIf="formService.validInput(registerForm, 'name')"
+                  class="form-text text-danger"
+                  >{{formService.getMsgErrorName(registerForm)}}</small
                 >
               </div>
             </div>
@@ -45,9 +47,9 @@
                   id="surname"
                 />
                 <small
-                  *ngIf="validInput('surname')"
+                  *ngIf="formService.validInput(registerForm, 'surname')"
                   class="form-text text-danger"
-                  >El apellido es requerido</small
+                  >{{formService.getMsgErrorSurname(registerForm)}}</small
                 >
               </div>
             </div>
@@ -62,8 +64,10 @@
                   class="form-control"
                   id="email"
                 />
-                <small *ngIf="validInput('email')" class="form-text text-danger"
-                  >{{getMsgErrorEmail}}</small
+                <small
+                  *ngIf="formService.validInput(registerForm, 'email')"
+                  class="form-text text-danger"
+                  >{{formService.getMsgErrorEmail(registerForm)}}</small
                 >
               </div>
             </div>
@@ -79,9 +83,9 @@
                   id="username"
                 />
                 <small
-                  *ngIf="validInput('username')"
+                  *ngIf="formService.validInput(registerForm, 'username')"
                   class="form-text text-danger"
-                  >{{getMsgErrorUsername}}</small
+                  >{{formService.getMsgErrorUsername(registerForm)}}</small
                 >
               </div>
             </div>
@@ -97,9 +101,9 @@
                   id="password"
                 />
                 <small
-                  *ngIf="validInput('password')"
+                  *ngIf="formService.validInput(registerForm, 'password')"
                   class="form-text text-danger"
-                  [innerHTML]="getMsgErrorPass"
+                  [innerHTML]="formService.getMsgErrorPass(registerForm)"
                 ></small>
               </div>
             </div>
@@ -115,9 +119,9 @@
                   id="password2"
                 />
                 <small
-                  *ngIf="validInput('password2')"
+                  *ngIf="formService.validInput(registerForm, 'password2')"
                   class="form-text text-danger"
-                  >{{getMsgErrorConfirm}}</small
+                  >{{formService.getMsgErrorPass2(registerForm)}}</small
                 >
               </div>
             </div>

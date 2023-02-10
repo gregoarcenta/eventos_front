@@ -1,19 +1,20 @@
-import { UserService } from './../../../../../services/user.service';
-import { environment } from './../../../../../../environments/environment';
-import { SpinnerService } from './../../../../../services/spinner.service';
-import { UsernameValidatorService } from './../../../../../validations/Services/username-validator.service';
-import { EmailValidatorService } from './../../../../../validations/Services/email-validator.service';
-import { RegisterService } from './../../../../../services/register.service';
+import { FormService } from "./../../../../../services/form.service";
+import { environment } from "./../../../../../../environments/environment";
+import { SpinnerService } from "./../../../../../services/spinner.service";
+import { UsernameValidatorService } from "./../../../../../validations/Services/username-validator.service";
+import { EmailValidatorService } from "./../../../../../validations/Services/email-validator.service";
+import { RegisterService } from "./../../../../../services/register.service";
 import { CustomValidators } from "./../../../../../validations/validations-forms";
 import {
   _patternMail,
   _patterUsername,
   _patternPassword,
+  _patterName,
 } from "./../../../../../utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { Router } from "@angular/router";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-registro",
@@ -25,8 +26,22 @@ export class RegistroComponent implements OnInit {
 
   public registerForm = this.fb.group(
     {
-      name: ["", [Validators.required]],
-      surname: ["", [Validators.required]],
+      name: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern(_patterName),
+        ],
+      ],
+      surname: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern(_patterName),
+        ],
+      ],
       email: [
         "",
         [Validators.required, Validators.pattern(_patternMail)],
@@ -49,93 +64,17 @@ export class RegistroComponent implements OnInit {
     }
   );
 
-  get getMsgErrorEmail() {
-    const controlEmail = this.registerForm.controls["email"];
-    if (controlEmail.getError("required")) {
-      return "El email es requerido";
-    }
-    if (controlEmail.getError("pattern")) {
-      return "Formato de email invalido";
-    }
-    if (controlEmail.getError("exists_email")) {
-      return "El email ingresado ya existe";
-    }
-    return "";
-  }
-
-  get getMsgErrorUsername() {
-    const controlEmail = this.registerForm.controls["username"];
-    if (controlEmail.getError("required")) {
-      return "El nombre de usuario es requerido";
-    }
-    if (controlEmail.getError("pattern")) {
-      return "Nombre de usuario invalido";
-    }
-    if (controlEmail.getError("exists_username")) {
-      return "El nombre de usuario ingresado ya esta en uso";
-    }
-    return "";
-  }
-
-  get getMsgErrorPass() {
-    const controlPass = this.registerForm.controls["password"];
-    if (controlPass.getError("required")) {
-      return "La contraseña es requerida";
-    }
-    if (controlPass.getError("pattern")) {
-      return `
-      <small class="form-text text-danger little-alert d-block"
-      >Ingrese una contraseña válida. Esta debe contener al
-      menos:</small
-    >
-    <small class="form-text text-muted little-alert d-block"
-      >- Entre 8 y 16 caracteres</small
-    >
-    <small class="form-text text-muted little-alert d-block"
-      >- Una letra mayúscula</small
-    >
-    <small class="form-text text-muted little-alert d-block"
-      >- Una letra minúscula</small
-    >
-    <small class="form-text text-muted little-alert d-block"
-      >- Un número</small
-    >
-    <small class="form-text text-muted little-alert d-block"
-      >- Puede contener caracteres especiales (-&*@/.)</small
-    >
-      `;
-    }
-    return "";
-  }
-
-  get getMsgErrorConfirm() {
-    const controlConfirm = this.registerForm.controls["password2"];
-    if (controlConfirm.getError("required")) {
-      return "La confirmación de la contraseña es requerida";
-    }
-    if (controlConfirm.getError("NoPassswordMatch")) {
-      return "Las contraseñas deben ser iguales";
-    }
-    return "";
-  }
-
   constructor(
     private registerService: RegisterService,
-    private evs: EmailValidatorService,
     private uvs: UsernameValidatorService,
+    private evs: EmailValidatorService,
+    public formService: FormService,
     private spinner: SpinnerService,
     private fb: FormBuilder,
     private router: Router
   ) {}
 
   ngOnInit() {}
-
-  validInput(name: string) {
-    return (
-      this.registerForm.get(name)?.invalid &&
-      this.registerForm.get(name)?.touched
-    );
-  }
 
   formSubmit() {
     if (this.registerForm.invalid) return this.registerForm.markAllAsTouched();

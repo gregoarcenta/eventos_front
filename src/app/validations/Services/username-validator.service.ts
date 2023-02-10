@@ -1,3 +1,5 @@
+import { UserService } from './../../services/user.service';
+import { environment } from './../../../environments/environment';
 import { Injectable } from "@angular/core";
 import {
   AbstractControl,
@@ -7,8 +9,6 @@ import {
 
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { UserService } from "src/app/services/user.service";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
