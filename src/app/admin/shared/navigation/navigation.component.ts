@@ -1,4 +1,4 @@
-import { AuthService } from "./../../modules/auth/services/auth.service";
+import { AuthService } from "../../../services/auth.service";
 import {
   AfterViewInit,
   Component,
@@ -84,28 +84,28 @@ export class NavigationComponent implements OnInit, OnDestroy, AfterViewInit {
   // This is for Mymessages
   mymessages: Object[] = [
     {
-      useravatar: "assets/images/users/user1.jpg",
+      useravatar: "assets/images2/users/user1.jpg",
       status: "online",
       from: "Pavan kumar",
       subject: "Just see the my admin!",
       time: "9:30 AM",
     },
     {
-      useravatar: "assets/images/users/user2.jpg",
+      useravatar: "assets/images2/users/user2.jpg",
       status: "busy",
       from: "Sonu Nigam",
       subject: "I have sung a song! See you at",
       time: "9:10 AM",
     },
     {
-      useravatar: "assets/images/users/user2.jpg",
+      useravatar: "assets/images2/users/user2.jpg",
       status: "away",
       from: "Arijit Sinh",
       subject: "I am a singer!",
       time: "9:08 AM",
     },
     {
-      useravatar: "assets/images/users/user4.jpg",
+      useravatar: "assets/images2/users/user4.jpg",
       status: "offline",
       from: "Pavan kumar",
       subject: "Just see the my admin!",

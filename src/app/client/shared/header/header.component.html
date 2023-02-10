@@ -1,0 +1,101 @@
+<nav class="navbar fixed-top navbar-expand-sm bg-light">
+  <div class="container-fluid">
+    <!--logo-->
+    <a class="navbar-brand" routerLink="/">
+      <img
+        src="/assets/logos/logoletrasblack200.png"
+        alt="Logo Eventosec"
+        class="img-fluid"
+      />
+    </a>
+    <!--button responsive-->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!--items-->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!--list items-->
+      <ul class="navbar-nav nav-items mx-auto">
+        <li class="nav-item px-2">
+          <a
+            class="nav-link position-relative"
+            [routerLink]="['/']"
+            routerLinkActive="router-link-active"
+            [routerLinkActiveOptions]="{exact : true}"
+            >Inicio</a
+          >
+        </li>
+        <li class="nav-item px-2">
+          <a
+            class="nav-link position-relative"
+            [routerLink]="['/eventos']"
+            routerLinkActive="router-link-active"
+            [routerLinkActiveOptions]="{exact : true}"
+            >Eventos</a
+          >
+        </li>
+        <li class="nav-item px-2">
+          <a
+            class="nav-link position-relative"
+            [routerLink]="['/contactanos']"
+            routerLinkActive="router-link-active"
+            [routerLinkActiveOptions]="{exact : true}"
+            >Contáctanos</a
+          >
+        </li>
+      </ul>
+
+      <!--buttons login-->
+      <button
+        class="btn btn-primary"
+        [routerLink]="['/login']"
+        *ngIf="!authUser"
+      >
+        Iniciar sesión
+      </button>
+
+      <!--menu desplegable-->
+      <ng-container *ngIf="authUser">
+        <div
+          class="container-name-profile"
+          [attr.aria-expanded]="!isCollapsed"
+          (click)="collapse.toggle()"
+        >
+          <img
+            class="img-fluid"
+            type="button"
+            [src]="getImgUser"
+            [alt]="getImgUser"
+            style="width: 25px; height: 25px;"
+          />
+          <i class="bi bi-triangle-fill"></i>
+        </div>
+        <div
+          #collapse="ngbCollapse"
+          [(ngbCollapse)]="isCollapsed"
+          class="menus-collapse bg-secondary rounded-3"
+        >
+          <ul class="navbar-nav flex-column text-white rounded-3">
+            <li
+              class="nav-item rounded-3 pointer px-3"
+              (click)="navigateByUrl('/cuenta')"
+            >
+              <a class="nav-link">Mi cuenta</a>
+            </li>
+            <li class="nav-item rounded-3 pointer px-3">
+              <a class="nav-link" (click)="logout()">Cerrar sesión</a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</nav>

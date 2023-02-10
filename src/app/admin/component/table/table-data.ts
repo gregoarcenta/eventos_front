@@ -17,7 +17,7 @@ export interface TableRows {
 export const TopSelling: Product[] = [
 
     {
-        image: 'assets/images/users/user1.jpg',
+        image: 'assets/images2/users/user1.jpg',
         uname: 'Hanna Gover',
         gmail: 'hgover@gmail.com',
         productName: 'Flexy React',
@@ -26,7 +26,7 @@ export const TopSelling: Product[] = [
         budget: '95K'
     },
     {
-        image: 'assets/images/users/user2.jpg',
+        image: 'assets/images2/users/user2.jpg',
         uname: 'Hanna Gover',
         gmail: 'hgover@gmail.com',
         productName: 'Landing pro React',
@@ -35,7 +35,7 @@ export const TopSelling: Product[] = [
         budget: '95K'
     },
     {
-        image: 'assets/images/users/user3.jpg',
+        image: 'assets/images2/users/user3.jpg',
         uname: 'Hanna Gover',
         gmail: 'hgover@gmail.com',
         productName: 'Elite React	',
@@ -44,7 +44,7 @@ export const TopSelling: Product[] = [
         budget: '95K'
     },
     {
-        image: 'assets/images/users/user4.jpg',
+        image: 'assets/images2/users/user4.jpg',
         uname: 'Hanna Gover',
         gmail: 'hgover@gmail.com',
         productName: 'Ample React',

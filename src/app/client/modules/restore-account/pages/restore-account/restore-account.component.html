@@ -1,0 +1,27 @@
+<div class="container" *ngIf="user">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+      <h4 class="my-3">
+        Hola, <span class="fw-bold">{{user.name}} {{user.surname}}</span>
+      </h4>
+      <div class="mb-3">
+        <label for="email" class="fw-bold">Ingresa tu nueva contraseña</label>
+        <input
+          type="password"
+          placeholder="*********"
+          class="form-control"
+          [formControl]="password"
+          id="email"
+        />
+        <small
+          *ngIf="validInput()"
+          class="form-text text-danger"
+          [innerHTML]="getMsgErrorPass"
+        ></small>
+      </div>
+      <button (click)="restorePassword()" class="btn btn-primary">
+        Cambiar contraseña
+      </button>
+    </div>
+  </div>
+</div>

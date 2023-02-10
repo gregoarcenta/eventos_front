@@ -1,6 +1,6 @@
-export interface Auth {
+export interface ResponseUser {
   status:  number;
-  message: null;
+  message: string;
   data:    Data;
 }
 

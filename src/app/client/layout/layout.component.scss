@@ -1,0 +1,15 @@
+.main {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main .container-fluid {
+  flex-grow: 1;
+  margin-top: 68px;
+}
+
+.main .footer {
+  padding: 0;
+}

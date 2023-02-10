@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row justify-content-center  ">
+    <div class="col-md-8 col-lg-5">
+      <ng-container *ngIf="!sendEmail;else templateMsg">
+        <h1 class="my-3 fw-bold text-center">¿Has olvidado tu contaseña?</h1>
+        <p class="text-center">
+          Escribenos tu correo electrónico registrado y te enviaremos un enlace
+          para poder reestablecer tu contraseña y recuperar tu cuenta. 😃
+        </p>
+        <div class="mb-3">
+          <label for="email" class="fw-bold">Correo electrónico</label>
+          <input
+            type="text"
+            placeholder="micorreo@mail.com"
+            class="form-control"
+            [formControl]="email"
+            id="email"
+          />
+          <small *ngIf="validInput()" class="form-text text-danger"
+            >El email requerido</small
+          >
+        </div>
+        <div class="text-center">
+          <button (click)="sendMail()" class="btn btn-primary">
+            Recuperar cuenta
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #templateMsg>
+  <div class="alert alert-info mt-3" role="alert">
+    <h2 class="text-center"><strong>Listo!</strong></h2>
+    <h5 class="text-center">
+      Hemos enviado a tu correo un enlace para restablecer tu contraseña
+    </h5>
+  </div>
+</ng-template>

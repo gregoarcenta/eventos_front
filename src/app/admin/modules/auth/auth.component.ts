@@ -1,8 +1,9 @@
-import { SpinnerService } from './../../../services/spinner.service';
+import { environment } from "./../../../../environments/environment";
+import { SpinnerService } from "./../../../services/spinner.service";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { AuthService } from "./services/auth.service";
+import { AuthService } from "../../../services/auth.service";
 import Swal from "sweetalert2";
 @Component({
   selector: "app-auth",
@@ -16,10 +17,10 @@ export class AuthComponent implements OnInit {
   });
 
   constructor(
-    private router: Router,
-    private fb: FormBuilder,
+    private authService: AuthService,
     private spinner: SpinnerService,
-    private authService: AuthService
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -29,26 +30,28 @@ export class AuthComponent implements OnInit {
   }
 
   login() {
-    if (this.authForm.invalid) {
-      this.authForm.markAllAsTouched();
-      return;
-    }
+    if (this.authForm.invalid) return this.authForm.markAllAsTouched();
+
     this.spinner.setActive(true);
     this.authService.login(this.authForm.value).subscribe({
       next: (response) => {
-        this.router.navigateByUrl("/");
+        if (environment.domain === "eventosec.com") {
+          this.router.navigate(["/"]);
+        } else {
+          this.router.navigate(["/administrador/dashboard"]);
+        }
         this.spinner.setActive(false);
       },
       error: ({ error }) => {
         this.spinner.setActive(false);
         if (error.status === 422 || error.status === 401) {
-          Swal.fire("Error", "Usuario o contraseña incorrectos", "error");
-        } else {
           Swal.fire(
-            "Error",
-            "Ha ocurrido un error inesperado en el sistema, vuelva a intentarlo mas tarde",
+            "Lo sentimos!",
+            "Usuario o contraseña incorrectos",
             "error"
           );
+        } else {
+          Swal.fire("Error", environment.msgErrorDefault, "error");
         }
       },
     });

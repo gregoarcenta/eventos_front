@@ -1,3 +1,5 @@
+import { environment } from "./../../environments/environment";
+import { AuthService } from "../services/auth.service";
 import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
@@ -8,8 +10,8 @@ import {
   RouterStateSnapshot,
   UrlSegment,
 } from "@angular/router";
-import { Observable, tap, map } from "rxjs";
-import { AuthService } from "../services/auth.service";
+
+import { Observable, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -22,24 +24,26 @@ export class AuthGuard implements CanActivate, CanLoad {
   ): Observable<boolean> | boolean {
     return this.authService.isAuthenticate().pipe(
       tap((auth) => {
-        if (auth) {
-          this.router.navigateByUrl("/dashboard");
+        if (!auth) {
+          if (environment.domain === "admin.eventosec.com") {
+            this.router.navigate(["/administrador/login"]);
+          } else {
+            this.router.navigate(["/login"]);
+          }
         }
-      }),
-      map((value) => {
-        return !value;
       })
     );
   }
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | boolean {
     return this.authService.isAuthenticate().pipe(
       tap((auth) => {
-        if (auth) {
-          this.router.navigateByUrl("/dashboard");
+        if (!auth) {
+          if (environment.domain === "admin.eventosec.com") {
+            this.router.navigate(["/administrador/login"]);
+          } else {
+            this.router.navigate(["/login"]);
+          }
         }
-      }),
-      map((value) => {
-        return !value;
       })
     );
   }

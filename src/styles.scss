@@ -1,3 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800');
+
+.pointer {
+  cursor: pointer;
+}
+
+.enlace {
+  color: #7460ee
+}
+
+.enlace:hover {
+  text-decoration-line: underline;
+}
