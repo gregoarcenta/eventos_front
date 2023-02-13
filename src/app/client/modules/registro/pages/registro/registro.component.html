@@ -1,161 +1,178 @@
 <div class="container-fluid vh-100">
-  <div class="row h-100 justify-content-center">
-    <div class="col-md-6 d-none d-md-block position-relative bg"></div>
-
-    <div class="col-12 col-sm-8 col-md-6 p-4">
-      <ng-container *ngIf="!register; else msgTemplate">
-        <!--logo mobile-->
-        <div class="logo text-center">
-          <img
-            src="/assets/logos/logoletrasblack200.png"
-            alt="logo"
-            class="img-fluid"
-          />
+  <div class="container-float h-100 w-100 p-0 px-md-5 py-md-5">
+    <div class="row justify-content-center shadow h-100 rounded-5">
+      <div class="col-md-6 h-100 d-none d-lg-block position-relative bg">
+        <div class="button text-center">
+          <button class="btn btn-info btn-lg text-white" routerLink="/">
+            Ver eventos
+          </button>
         </div>
-        <!--formulario de registro-->
-        <form [formGroup]="registerForm">
-          <h2 class="text-center fw-bold mt-5 mb-4">Crea tu cuenta</h2>
+      </div>
 
-          <div class="row justify-content-center">
-            <!--name-->
-            <div class="col-lg-6">
+      <div class="col-12 col-sm-8 col-md-6 h-100 p-4">
+        <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+          <ng-container *ngIf="!register; else msgTemplate">
+            <!--logo mobile-->
+            <div class="logo text-center">
+              <img
+                src="/assets/logos/logoletrasblack200.png"
+                alt="logo"
+                class="img-fluid"
+              />
+            </div>
+            <!--formulario de registro-->
+            <form [formGroup]="registerForm">
+              <h2 class="text-center fw-bold mt-5 mb-4">Crea tu cuenta</h2>
+
+              <div class="row justify-content-center">
+                <!--name-->
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label for="name">Nombre</label>
+                    <input
+                      type="text"
+                      placeholder="ingrese su nombre"
+                      formControlName="name"
+                      class="form-control"
+                      id="name"
+                    />
+                    <small
+                      *ngIf="formService.validInput(registerForm, 'name')"
+                      class="form-text text-danger"
+                      >{{formService.getMsgErrorName(registerForm)}}</small
+                    >
+                  </div>
+                </div>
+                <!--surname-->
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label for="surname">Apellido</label>
+                    <input
+                      type="text"
+                      placeholder="ingrese su apellido"
+                      formControlName="surname"
+                      class="form-control"
+                      id="surname"
+                    />
+                    <small
+                      *ngIf="formService.validInput(registerForm, 'surname')"
+                      class="form-text text-danger"
+                      >{{formService.getMsgErrorSurname(registerForm)}}</small
+                    >
+                  </div>
+                </div>
+                <!--email-->
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label for="email">Correo electrónico</label>
+                    <input
+                      type="email"
+                      placeholder="ingrese su correo"
+                      formControlName="email"
+                      class="form-control"
+                      id="email"
+                    />
+                    <small
+                      *ngIf="formService.validInput(registerForm, 'email')"
+                      class="form-text text-danger"
+                      >{{formService.getMsgErrorEmail(registerForm)}}</small
+                    >
+                  </div>
+                </div>
+                <!--username-->
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label for="username">Usuario</label>
+                    <input
+                      type="text"
+                      placeholder="ingrese un nombre de usuario"
+                      formControlName="username"
+                      class="form-control"
+                      id="username"
+                    />
+                    <small
+                      *ngIf="formService.validInput(registerForm, 'username')"
+                      class="form-text text-danger"
+                      >{{formService.getMsgErrorUsername(registerForm)}}</small
+                    >
+                  </div>
+                </div>
+                <!--password-->
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label for="password">Contraseña</label>
+                    <input
+                      type="password"
+                      placeholder="**********"
+                      formControlName="password"
+                      class="form-control"
+                      id="password"
+                    />
+                    <small
+                      *ngIf="formService.validInput(registerForm, 'password')"
+                      class="form-text text-danger"
+                      [innerHTML]="formService.getMsgErrorPass(registerForm)"
+                    ></small>
+                  </div>
+                </div>
+                <!--password2-->
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label for="password2">Confirmar contraseña</label>
+                    <input
+                      type="password"
+                      placeholder="**********"
+                      formControlName="password2"
+                      class="form-control"
+                      id="password2"
+                    />
+                    <small
+                      *ngIf="formService.validInput(registerForm, 'password2')"
+                      class="form-text text-danger"
+                      >{{formService.getMsgErrorPass2(registerForm)}}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <!--terminos-->
               <div class="mb-3">
-                <label for="name">Nombre</label>
                 <input
-                  type="text"
-                  placeholder="ingrese su nombre"
-                  formControlName="name"
-                  class="form-control"
-                  id="name"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkTerminos"
+                  formControlName="terminos"
                 />
-                <small
-                  *ngIf="formService.validInput(registerForm, 'name')"
-                  class="form-text text-danger"
-                  >{{formService.getMsgErrorName(registerForm)}}</small
+                <label class="form-check-label ms-2" for="checkTerminos">
+                  He leído y acepto los
+                  <a
+                    target="_blank"
+                    [routerLink]="['/terminos']"
+                    class="enlace fw-bold"
+                    >términos y condiciones</a
+                  >
+                </label>
+              </div>
+              <!--boton submit-->
+              <div class="text-center my-2">
+                <button
+                  type="submit"
+                  class="w-100 btn btn-primary"
+                  (click)="formSubmit()"
                 >
+                  Registrarse
+                </button>
               </div>
-            </div>
-            <!--surname-->
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="surname">Apellido</label>
-                <input
-                  type="text"
-                  placeholder="ingrese su apellido"
-                  formControlName="surname"
-                  class="form-control"
-                  id="surname"
-                />
-                <small
-                  *ngIf="formService.validInput(registerForm, 'surname')"
-                  class="form-text text-danger"
-                  >{{formService.getMsgErrorSurname(registerForm)}}</small
+              <!--ya tienes cuenta-->
+              <p class="text-center">
+                ¿Ya tienes cuenta?
+                <a [routerLink]="['/login']" class="enlace fw-bold"
+                  >Inicia sesión</a
                 >
-              </div>
-            </div>
-            <!--email-->
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="email">Correo electrónico</label>
-                <input
-                  type="email"
-                  placeholder="ingrese su correo"
-                  formControlName="email"
-                  class="form-control"
-                  id="email"
-                />
-                <small
-                  *ngIf="formService.validInput(registerForm, 'email')"
-                  class="form-text text-danger"
-                  >{{formService.getMsgErrorEmail(registerForm)}}</small
-                >
-              </div>
-            </div>
-            <!--username-->
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="username">Usuario</label>
-                <input
-                  type="text"
-                  placeholder="ingrese un nombre de usuario"
-                  formControlName="username"
-                  class="form-control"
-                  id="username"
-                />
-                <small
-                  *ngIf="formService.validInput(registerForm, 'username')"
-                  class="form-text text-danger"
-                  >{{formService.getMsgErrorUsername(registerForm)}}</small
-                >
-              </div>
-            </div>
-            <!--password-->
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="password">Contraseña</label>
-                <input
-                  type="password"
-                  placeholder="**********"
-                  formControlName="password"
-                  class="form-control"
-                  id="password"
-                />
-                <small
-                  *ngIf="formService.validInput(registerForm, 'password')"
-                  class="form-text text-danger"
-                  [innerHTML]="formService.getMsgErrorPass(registerForm)"
-                ></small>
-              </div>
-            </div>
-            <!--password2-->
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="password2">Confirmar contraseña</label>
-                <input
-                  type="password"
-                  placeholder="**********"
-                  formControlName="password2"
-                  class="form-control"
-                  id="password2"
-                />
-                <small
-                  *ngIf="formService.validInput(registerForm, 'password2')"
-                  class="form-text text-danger"
-                  >{{formService.getMsgErrorPass2(registerForm)}}</small
-                >
-              </div>
-            </div>
-          </div>
-          <!--terminos-->
-          <div class="mb-3">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="checkTerminos"
-              formControlName="terminos"
-            />
-            <label class="form-check-label ms-2" for="checkTerminos">
-              He leído y acepto los
-              <a
-                target="_blank"
-                [routerLink]="['/terminos']"
-                class="enlace fw-bold"
-                >términos y condiciones</a
-              >
-            </label>
-          </div>
-          <!--boton submit-->
-          <div class="text-center my-2">
-            <button
-              type="submit"
-              class="w-100 btn btn-primary"
-              (click)="formSubmit()"
-            >
-              Registrarse
-            </button>
-          </div>
-        </form>
-      </ng-container>
+              </p>
+            </form>
+          </ng-container>
+        </div>
+      </div>
     </div>
   </div>
 </div>

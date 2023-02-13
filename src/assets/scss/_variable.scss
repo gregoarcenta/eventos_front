@@ -78,6 +78,7 @@ $teal: #20c997 !default;
 $cyan: #4fc3f7 !default;
 $primary: #7460ee !default;
 $text-muted: $gray-500 !default;
+$tertiary: #5dd9c1 !default;
 $inverse: #2f3d4a !default;
 
 
@@ -106,7 +107,7 @@ $colors: (
 $primary: $primary!default;
 $secondary: $gray-600 !default;
 $success: $green !default;
-$info: $blue !default;
+$info: $tertiary !default;
 $warning: $yellow !default;
 $danger: $red !default;
 $light: $gray-100 !default;

@@ -1,99 +1,105 @@
 <div class="container-fluid vh-100">
-  <div class="row h-100">
-    <div class="col-md-6 d-none d-md-block position-relative bg"></div>
-
-    <div class="col-12 col-md-6 position-relative">
-      <!--logo mobile-->
-      <div class="logo text-center">
-        <img
-          src="/assets/logos/logoletrasblack200.png"
-          alt="logo"
-          class="img-fluid d-inline-block d-md-none"
-        />
+  <div class="container-float h-100 w-100 p-0 px-md-5 py-md-5">
+    <div class="row h-100 justify-content-center rounded-5 shadow">
+      <div class="col-md-6 d-none d-lg-block position-relative bg">
+        <div class="button text-center">
+          <button class="btn btn-info btn-lg text-white" routerLink="/">
+            Ver eventos
+          </button>
+        </div>
       </div>
 
-      <!--formulario-->
-      <form
-        [formGroup]="loginForm"
-        (ngSubmit)="login()"
-        class="rounded-3 p-3"
-      >
-        <div class="container-form">
-          <!--logo desktop-->
-          <div class="text-center mb-5">
+      <div class="col-12 col-md-6 h-100 position-relative">
+        <div
+          class="h-100 d-flex flex-column justify-content-center align-items-center"
+        >
+          <!--logo mobile-->
+          <div class="logo text-center">
             <img
-              src="/assets/logos/logoletrasblack400.png"
+              src="/assets/logos/logoletrasblack200.png"
               alt="logo"
-              class="img-fluid d-none d-md-inline-block"
-              style="height: auto; max-width: 180px;"
+              class="img-fluid d-inline-block d-md-none"
             />
           </div>
 
-          <!-- <h3 class="text-center my-4">Inicio de sesión</h3> -->
+          <div class="row w-100 justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-6">
+              <!--formulario-->
+              <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <!--logo desktop-->
+                <div class="text-center mb-5">
+                  <img
+                    src="/assets/logos/logoletrasblack400.png"
+                    alt="logo"
+                    class="img-fluid d-none d-md-inline-block"
+                    style="height: auto; max-width: 180px;"
+                  />
+                </div>
 
-          <!--email-->
-          <div class="mb-3">
-            <label for="email">Usuario o correo electrónico</label>
-            <input
-              type="text"
-              placeholder="micorreo@mail.com"
-              class="form-control"
-              formControlName="username"
-              id="email"
-            />
-            <small
-              *ngIf="validInput('username')"
-              class="form-text text-danger"
-              >Usuario o email requerido</small
-            >
+                <!--email-->
+                <div class="mb-3">
+                  <label for="email">Usuario o correo electrónico</label>
+                  <input
+                    type="text"
+                    placeholder="micorreo@mail.com"
+                    class="form-control"
+                    formControlName="username"
+                    id="email"
+                  />
+                  <small
+                    *ngIf="validInput('username')"
+                    class="form-text text-danger"
+                    >Usuario o email requerido</small
+                  >
+                </div>
+
+                <!--password-->
+                <div class="mb-2">
+                  <label for="password">Contraseña</label>
+                  <input
+                    type="password"
+                    placeholder="**********"
+                    formControlName="password"
+                    class="form-control"
+                    id="password"
+                  />
+                  <small
+                    *ngIf="validInput('password')"
+                    class="form-text text-danger"
+                    >La contraseña es requerida</small
+                  >
+                </div>
+
+                <!--recuperar contraseña-->
+                <div class="text-end">
+                  <a
+                    class="enlace fw-bold small"
+                    [routerLink]="['/recuperar-cuenta']"
+                  >
+                    Olvide mi contraseña
+                  </a>
+                </div>
+
+                <!--boton submit-->
+                <div class="text-center my-2">
+                  <button type="submit" class="w-100 btn btn-primary">
+                    Iniciar sesión
+                  </button>
+                </div>
+
+                <!--registrate-->
+                <div class="text-center mt-3">
+                  ¿No tienes cuenta?
+                  <a class="enlace fw-bold small" [routerLink]="['/registro']">
+                    Regístrate aquí
+                  </a>
+                </div>
+              </form>
+            </div>
           </div>
 
-          <!--password-->
-          <div class="mb-2">
-            <label for="password">Contraseña</label>
-            <input
-              type="password"
-              placeholder="**********"
-              formControlName="password"
-              class="form-control"
-              id="password"
-            />
-            <small
-              *ngIf="validInput('password')"
-              class="form-text text-danger"
-              >La contraseña es requerida</small
-            >
-          </div>
-
-          <!--recuperar contraseña-->
-          <div class="text-end">
-            <a
-              class="enlace fw-bold small"
-              [routerLink]="['/recuperar-cuenta']"
-            >
-              Olvide mi contraseña
-            </a>
-          </div>
-
-          <!--boton submit-->
-          <div class="text-center my-2">
-            <button type="submit" class="w-100 btn btn-primary">
-              Iniciar sesión
-            </button>
-          </div>
-
-          <!--registrate-->
-          <div class="text-center mt-3">
-            ¿No tienes cuenta?
-            <a
-              class="enlace fw-bold small"
-              [routerLink]="['/registro']"
-            >
-              Regístrate aquí
-            </a>
-          </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

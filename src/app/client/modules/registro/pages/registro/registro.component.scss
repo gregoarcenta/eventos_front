@@ -1,6 +1,16 @@
-.bg {
+
+.container-float .bg{
+  border-bottom-left-radius: 2rem;
+  border-top-left-radius: 2rem;
   background-image: url("/assets/images/imgevent1.jpg");
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
+}
+
+.container-float .bg .button{
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
 }
