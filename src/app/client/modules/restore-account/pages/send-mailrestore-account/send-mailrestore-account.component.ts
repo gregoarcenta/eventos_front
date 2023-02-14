@@ -42,7 +42,6 @@ export class SendMailrestoreAccountComponent implements OnInit {
             title: "Listo!",
             text: response.message,
             icon: "success",
-            heightAuto: false,
           });
           this.sendEmail = true;
           setTimeout(() => {
@@ -56,21 +55,18 @@ export class SendMailrestoreAccountComponent implements OnInit {
               title: "Lo sentimos!",
               text: error.message,
               icon: "error",
-              heightAuto: false,
             });
           } else if (error.status === 401) {
             Swal.fire({
               title: "Lo sentimos!",
               text: `Ya se a enviado un correo recuperación a ${this.email.value} recientemente`,
               icon: "error",
-              heightAuto: false,
             });
           } else {
             Swal.fire({
               title: "Lo sentimos!",
               text: environment.msgErrorDefault,
               icon: "error",
-              heightAuto: false,
             });
           }
         },

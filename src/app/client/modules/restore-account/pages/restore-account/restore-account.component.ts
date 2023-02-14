@@ -78,21 +78,18 @@ export class RestoreAccountComponent implements OnInit {
               title: "Lo sentimos!",
               text: error.message,
               icon: "error",
-              heightAuto: false,
             });
           } else if (error.message === "jwt expired") {
             Swal.fire({
               title: "Lo sentimos!",
               text: "El token ha exiprado, intentelo nuevamente",
               icon: "error",
-              heightAuto: false,
             });
           } else {
             Swal.fire({
               title: "Lo sentimos!",
               text: environment.msgErrorDefault,
               icon: "error",
-              heightAuto: false,
             });
           }
           this.router.navigateByUrl("/");
@@ -117,7 +114,6 @@ export class RestoreAccountComponent implements OnInit {
             title: "Listo!",
             text: response.message,
             icon: "success",
-            heightAuto: false,
           });
           localStorage.setItem("token", response.data.token);
           location.reload();
@@ -129,21 +125,18 @@ export class RestoreAccountComponent implements OnInit {
               title: "Lo sentimos!",
               text: "El token ha exiprado, intentelo nuevamente",
               icon: "error",
-              heightAuto: false,
             });
           } else if (error.status === 401) {
             Swal.fire({
               title: "Lo sentimos!",
               text: error.message,
               icon: "error",
-              heightAuto: false,
             });
           } else {
             Swal.fire({
               title: "Lo sentimos!",
               text: environment.msgErrorDefault,
               icon: "error",
-              heightAuto: false,
             });
           }
           this.router.navigateByUrl("/");

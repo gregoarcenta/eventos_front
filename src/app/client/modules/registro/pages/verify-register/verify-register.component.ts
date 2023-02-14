@@ -32,7 +32,6 @@ export class VerifyRegisterComponent implements OnInit {
           title: "Listo!",
           text: response.message,
           icon: "success",
-          heightAuto: false,
         });
         localStorage.setItem("token", response.data.token);
         this.router.navigateByUrl("eventos");
@@ -44,21 +43,18 @@ export class VerifyRegisterComponent implements OnInit {
             title: "Lo sentimos!",
             text: "La cuenta ya ha sido verificada",
             icon: "error",
-            heightAuto: false,
           });
         } else if (error.message === "jwt expired") {
           Swal.fire({
             title: "Lo sentimos!",
             text: "El token ha exiprado, intentelo nuevamente",
             icon: "error",
-            heightAuto: false,
           });
         } else {
           Swal.fire({
             title: "Lo sentimos!",
             text: environment.msgErrorDefault,
             icon: "error",
-            heightAuto: false,
           });
         }
         this.router.navigateByUrl("/");

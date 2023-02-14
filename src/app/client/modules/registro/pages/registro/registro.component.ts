@@ -91,7 +91,6 @@ export class RegistroComponent implements OnInit {
           title: "Listo!",
           text: response.message,
           icon: "success",
-          heightAuto: false,
         });
         this.register = true;
         setTimeout(() => {
@@ -105,14 +104,12 @@ export class RegistroComponent implements OnInit {
             title: "Lo sentimos!",
             text: error.message,
             icon: "error",
-            heightAuto: false,
           });
         } else {
           Swal.fire({
             title: "Lo sentimos!",
             text: environment.msgErrorDefault,
             icon: "error",
-            heightAuto: false,
           });
         }
       },

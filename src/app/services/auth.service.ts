@@ -54,7 +54,6 @@ export class AuthService {
                 title: "Sesión expirada",
                 text: "Tu sesión expiró, inicia sesión nuevamente",
                 icon: "info",
-                heightAuto: false,
               });
             }
             this.spinner.setActive(false);
