@@ -50,13 +50,13 @@ export class AuthComponent implements OnInit {
             "Usuario o contraseña incorrectos",
             "error"
           );
-        } else if(error.status === 403) {
+        } else if (error.status === 403) {
           Swal.fire({
             title: "Lo sentimos!",
             text: error.message,
             icon: "error",
           });
-        } {
+        } else {
           Swal.fire("Error", environment.msgErrorDefault, "error");
         }
       },
