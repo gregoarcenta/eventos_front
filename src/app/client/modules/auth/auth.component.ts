@@ -49,7 +49,6 @@ export class AuthComponent implements OnInit {
             text:
               "Tienes que confirmar tu cuenta con el enlace que te hemos enviado a tu correo electrónico",
             icon: "error",
-
           });
         } else if (error.status === 422 || error.status === 401) {
           Swal.fire({
@@ -57,13 +56,13 @@ export class AuthComponent implements OnInit {
             text: "Usuario o contraseña incorrectos",
             icon: "error",
           });
-        } else if(error.status === 403){
+        } else if (error.status === 403) {
           Swal.fire({
             title: "Lo sentimos!",
-            text: "Usuario o contraseña incorrectos",
+            text: error.message,
             icon: "error",
           });
-        }else {
+        } else {
           Swal.fire({
             title: "Lo sentimos!",
             text: environment.msgErrorDefault,
