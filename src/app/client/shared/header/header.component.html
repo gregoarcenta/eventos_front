@@ -86,9 +86,21 @@
           <ul class="navbar-nav flex-column text-white rounded-3">
             <li
               class="nav-item rounded-3 pointer px-3"
-              (click)="navigateByUrl('/cuenta')"
+              (click)="navigateByUrl('/cuenta/mis-datos')"
             >
               <a class="nav-link">Mi cuenta</a>
+            </li>
+            <li
+              class="nav-item rounded-3 pointer px-3"
+              (click)="navigateByUrl('/cuenta/mis-compras')"
+            >
+              <a class="nav-link">Mis compras</a>
+            </li>
+            <li
+              class="nav-item rounded-3 pointer px-3"
+              (click)="navigateByUrl('/cuenta/cambiar-contrasenia')"
+            >
+              <a class="nav-link">Cambiar contraseña</a>
             </li>
             <li class="nav-item rounded-3 pointer px-3">
               <a class="nav-link" (click)="logout()">Cerrar sesión</a>

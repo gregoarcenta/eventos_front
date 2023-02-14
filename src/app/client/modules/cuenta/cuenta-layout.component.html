@@ -1,0 +1,51 @@
+<div class="container-fluid mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-11 col-lg-10 col-xl-9">
+      <div class="row">
+        <div class="col-md-4 col-lg-3 col-xl-2">
+          <div class="sticky-top bg-light rounded-4 shadow">
+            <div class="mb-2 p-4">
+              <img
+                src="assets/images/default-image-profile.png"
+                alt="sdfad"
+                class="img-fluid"
+              />
+            </div>
+            <ul class="list-group">
+              <li
+                class="list-group-item border-0 bg-light text-dark"
+                routerLink="/cuenta/mis-datos"
+                routerLinkActive="actived"
+              >
+                Mis datos
+              </li>
+              <li
+                class="list-group-item border-0 bg-light text-dark"
+                routerLink="/cuenta/mis-compras"
+                routerLinkActive="actived"
+              >
+                Mis compras
+              </li>
+              <li
+                class="list-group-item border-0 bg-light text-dark"
+                routerLink="/cuenta/cambiar-contrasenia"
+                routerLinkActive="actived"
+              >
+                Cambiar contraseña
+              </li>
+              <li
+                class="list-group-item border-0 bg-light text-dark"
+                (click)="logout()"
+              >
+                Cerrar Sesión
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-8 col-lg-9 col-xl-10">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

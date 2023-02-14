@@ -1,0 +1,17 @@
+.list-group li {
+  cursor: pointer;
+}
+
+.actived {
+  background-color: #7460ee !important;
+  color: white !important;
+}
+
+.sticky-top{
+  top: 92px !important;
+}
+
+.sticky-top .list-group{
+  border-bottom-left-radius: 2rem !important;
+  border-bottom-right-radius: 2rem !important;
+}
