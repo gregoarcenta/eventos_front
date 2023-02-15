@@ -1,13 +1,9 @@
-import {
-  AbstractControl,
-  ValidationErrors,
-} from "@angular/forms";
-// import { AtiDocumentValidator } from "@devoxs/ati-doc-validator";
-// import * as moment from "moment";
+import { AtiDocumentValidator } from "@devoxs/ati-doc-validator/lib/cjs/index";
+import { AbstractControl, ValidationErrors } from "@angular/forms";
 
 export class CustomValidators {
- /*  static validCedula(control: AbstractControl): ValidationErrors | null {
-    const cedula = control.value + "";
+  static validCedula(control: AbstractControl): ValidationErrors | null {
+    const cedula: string = String(control.value);
     const instaceValidator = new AtiDocumentValidator();
     const result = instaceValidator.cedulaValidator(cedula);
     if (result.result) return null;
@@ -15,12 +11,12 @@ export class CustomValidators {
   }
 
   static validRuc(control: AbstractControl): ValidationErrors | null {
-    const ruc = control.value + "";
+    const ruc: string = String(control.value);
     const instaceValidator = new AtiDocumentValidator();
     const result = instaceValidator.rucValidator(ruc);
     if (result.result) return null;
     else return { error_ruc: true };
-  } */
+  }
 
   static validNotZero(control: AbstractControl): ValidationErrors | null {
     let valueSelect = control.value;
@@ -28,7 +24,13 @@ export class CustomValidators {
     else return null;
   }
 
-/*   static validBirthDate(control: AbstractControl): ValidationErrors | null {
+  static validAge(control: AbstractControl): ValidationErrors | null {
+    let value: number = Number(control.value);
+    if (value < 18) return { not_valid_age: true };
+    else return null;
+  }
+
+  /*   static validBirthDate(control: AbstractControl): ValidationErrors | null {
     //variables que validan los limites de fechas
     const dateMin: Date = new Date("1970-01-01");
     const dateMax: Date = new Date("2018-12-31");

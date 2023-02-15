@@ -1,4 +1,4 @@
-import { environment } from './../../environments/environment';
+import { environment } from "./../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
@@ -25,5 +25,14 @@ export class UserService {
         headers,
       })
       .pipe(map(({ data }) => data.valid));
+  }
+
+  updateUser(user: any): Observable<any> {
+    const token = localStorage.getItem("token");
+    let headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+      .set("authorization", `bearer ${token}`);
+
+    return this.http.put<any>(`${this.url}/user`, user, { headers });
   }
 }

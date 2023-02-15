@@ -6,6 +6,7 @@ import { MisDatosComponent } from './pages/mis-datos/mis-datos.component';
 import { MisComprasComponent } from './pages/mis-compras/mis-compras.component';
 import { CuentaLayoutComponent } from './cuenta-layout.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
   ],
   imports: [
     CommonModule,
-    CuentaRoutingModule
+    CuentaRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class CuentaModule { }

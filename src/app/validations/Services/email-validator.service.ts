@@ -1,3 +1,6 @@
+import { AuthService } from "./../../services/auth.service";
+import { UserService } from "./../../services/user.service";
+import { environment } from "./../../../environments/environment";
 import { Injectable } from "@angular/core";
 import {
   AbstractControl,
@@ -7,8 +10,6 @@ import {
 
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { UserService } from "src/app/services/user.service";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -16,13 +17,22 @@ import { environment } from "src/environments/environment";
 export class EmailValidatorService implements AsyncValidator {
   public url = environment.url;
 
-  constructor(private userService: UserService) {}
+  get authUser() {
+    return this.authService.getAuthUser;
+  }
+
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
-    const email = control.value;
+    const email: string = control.value;
     return this.userService.getUserByEmail(email).pipe(
       map((valid) => {
         if (valid) return null;
+
+        if (email.trim() === this.authUser?.email.trim()) return null;
 
         return { exists_email: true };
       })

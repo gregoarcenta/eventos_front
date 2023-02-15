@@ -74,6 +74,48 @@ export class FormService {
     return "";
   }
 
+  getMsgErrorAge(formGroup: FormGroup) {
+    const controlAge = formGroup.controls["age"];
+    if (controlAge.getError("required")) {
+      return "La edad es requerida";
+    }
+    if (controlAge.getError("pattern")) {
+      return "La edad ingresada no es valida";
+    }
+    if (controlAge.getError("not_valid_age")) {
+      return "La edad ingresada no puede ser menor a 18";
+    }
+    return "";
+  }
+
+  getMsgErrorPhone(formGroup: FormGroup) {
+    const controlPhone = formGroup.controls["phone"];
+    if (controlPhone.getError("required")) {
+      return "El telefono es requerido";
+    }
+    if (controlPhone.getError("pattern")) {
+      return "El numero de telefono ingresado no es valido";
+    }
+    return "";
+  }
+
+  getMsgErrorNumDocument(formGroup: FormGroup){
+    const controlNumDocument = formGroup.controls["num_document"];
+    if (controlNumDocument.getError("required"))
+    return "El documento es requerido";
+
+  if (controlNumDocument.getError("error_cedula"))
+    return "La cedula ingresada no es valida";
+
+  if (controlNumDocument.getError("error_ruc"))
+    return "El RUC ingresado no es valido";
+
+  if (controlNumDocument.getError("exists_document"))
+    return "El documento ya existe";
+
+  return "";
+  }
+
   getMsgErrorPass(formGroup: FormGroup) {
     const controlPass = formGroup.controls["password"];
     if (controlPass.getError("required")) {

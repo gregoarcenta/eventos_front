@@ -6,8 +6,6 @@ import {
   ValidationErrors,
 } from "@angular/forms";
 import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
