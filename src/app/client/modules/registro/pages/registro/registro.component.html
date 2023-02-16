@@ -10,7 +10,9 @@
       </div>
 
       <div class="col-12 col-sm-8 col-md-6 h-100 p-4">
-        <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+        <div
+          class="h-100 d-flex flex-column justify-content-center align-items-center"
+        >
           <ng-container *ngIf="!register; else msgTemplate">
             <!--logo mobile-->
             <div class="logo text-center">
@@ -151,6 +153,10 @@
                     >términos y condiciones</a
                   >
                 </label>
+                <div
+                  class="form-text text-danger"
+                  *ngIf="formService.validInput(registerForm, 'terminos')"
+                  >Tiene que aceptar los terminos y condiciones</div>
               </div>
               <!--boton submit-->
               <div class="text-center my-2">
