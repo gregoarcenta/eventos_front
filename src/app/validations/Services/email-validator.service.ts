@@ -1,6 +1,5 @@
 import { AuthService } from "./../../services/auth.service";
 import { UserService } from "./../../services/user.service";
-import { environment } from "./../../../environments/environment";
 import { Injectable } from "@angular/core";
 import {
   AbstractControl,
@@ -15,8 +14,6 @@ import { map } from "rxjs/operators";
   providedIn: "root",
 })
 export class EmailValidatorService implements AsyncValidator {
-  public url = environment.url;
-
   get authUser() {
     return this.authService.getAuthUser;
   }

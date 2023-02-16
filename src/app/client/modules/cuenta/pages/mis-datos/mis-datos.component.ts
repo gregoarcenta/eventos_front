@@ -1,7 +1,7 @@
+import { DocumentValidatorService } from './../../../../../validations/Services/document-validator.service';
 import { environment } from "./../../../../../../environments/environment";
 import { Document } from "./../../../../../interfaces/document";
 import { DataService } from "./../../../../../services/data.service";
-import { User } from "./../../../../../interfaces/user";
 import { UserService } from "./../../../../../services/user.service";
 import { CustomValidators } from "./../../../../../validations/validations-forms";
 import { SpinnerService } from "./../../../../../services/spinner.service";
@@ -69,7 +69,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     ],
     phone: ["", [Validators.required, Validators.pattern(_patternCell)]],
     document_id: [1, [Validators.required]],
-    num_document: ["", [Validators.required]],
+    num_document: ["", [Validators.required], [this.dvs]],
   });
 
   get authUser() {
@@ -78,6 +78,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
 
   constructor(
     private uvs: UsernameValidatorService,
+    private dvs: DocumentValidatorService,
     private evs: EmailValidatorService,
     private authService: AuthService,
     private dataService: DataService,
@@ -108,7 +109,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     });
   }
 
-  validaNumeros(tecla:any): boolean {
+  validaNumeros(tecla: any): boolean {
     const charCode = tecla.which ? tecla.which : tecla.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -124,7 +125,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
       (value) => {
         if (!this.authUser?.document_id) {
           documentControl.enable();
-          documentControl.setValue("");
+          documentControl.setValue("" as any);
         }
         if (value == 1) {
           documentControl.addValidators([CustomValidators.validCedula]);
@@ -152,14 +153,14 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     if (this.userForm.invalid) return this.userForm.markAllAsTouched();
 
     this.spinner.setActive(true);
-    const document_id = this.userForm.get("document_id")!.value
-    const num_document = this.userForm.get("num_document")!.value
+    const document_id = this.userForm.get("document_id")!.value;
+    const num_document = this.userForm.get("num_document")!.value;
     this.userService
       .updateUser({ ...this.userForm.value, document_id, num_document })
       .subscribe({
         next: (response) => {
-          Swal.fire("¡Listo!", response.message, "success")
-          this.authService.setAuthUser = response.data
+          Swal.fire("¡Listo!", response.message, "success");
+          this.authService.setAuthUser = response.data;
           this.userForm.patchValue(this.authUser as any);
           this.userForm.disable();
           this.spinner.setActive(false);

@@ -27,6 +27,15 @@ export class UserService {
       .pipe(map(({ data }) => data.valid));
   }
 
+  getUserByDocument(num_document: string): Observable<boolean> {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http
+      .get<any>(`${this.url}/user/find-by-document/${num_document}`, {
+        headers,
+      })
+      .pipe(map(({ data }) => data.valid));
+  }
+
   updateUser(user: any): Observable<any> {
     const token = localStorage.getItem("token");
     let headers = new HttpHeaders()
