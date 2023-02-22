@@ -3,7 +3,7 @@
     <h2 class="fw-bold m-0">
       Hola, {{authUser.name}} {{authUser.surname}}
     </h2>
-    <button class="btn btn-primary btn-sm" (click)="enabledForm()">Editar información</button>
+    <button class="btn btn-primary btn-sm" *ngIf="userForm.get('name')!.disabled" (click)="enabledForm()">Editar información</button>
   </div>
 
   <div class="row justify-content-center">
