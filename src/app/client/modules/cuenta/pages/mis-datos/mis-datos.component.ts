@@ -1,4 +1,4 @@
-import { DocumentValidatorService } from './../../../../../validations/Services/document-validator.service';
+import { DocumentValidatorService } from "./../../../../../validations/Services/document-validator.service";
 import { environment } from "./../../../../../../environments/environment";
 import { Document } from "./../../../../../interfaces/document";
 import { DataService } from "./../../../../../services/data.service";
@@ -70,6 +70,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     phone: ["", [Validators.required, Validators.pattern(_patternCell)]],
     document_id: [1, [Validators.required]],
     num_document: ["", [Validators.required], [this.dvs]],
+    business_name: [null],
   });
 
   get authUser() {
@@ -120,6 +121,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
   changeTypeDocument() {
     const typeDocument = this.userForm.controls["document_id"];
     let documentControl = this.userForm.controls["num_document"];
+    let businessNameControl = this.userForm.controls["business_name"];
 
     this.typeDocumentSubscription = typeDocument.valueChanges.subscribe(
       (value) => {
@@ -130,10 +132,14 @@ export class MisDatosComponent implements OnInit, OnDestroy {
         if (value == 1) {
           documentControl.addValidators([CustomValidators.validCedula]);
           documentControl.removeValidators([CustomValidators.validRuc]);
+          businessNameControl.clearValidators();
+          businessNameControl.updateValueAndValidity();
         }
         if (value == 2) {
           documentControl.addValidators([CustomValidators.validRuc]);
           documentControl.removeValidators([CustomValidators.validCedula]);
+          businessNameControl.addValidators([Validators.required]);
+          businessNameControl.updateValueAndValidity();
         }
       }
     );

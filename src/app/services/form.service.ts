@@ -1,13 +1,10 @@
 import { Injectable } from "@angular/core";
-import {
-  FormGroup,
-} from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
   providedIn: "root",
 })
 export class FormService {
-  constructor() {}
 
   validInput(formGroup: FormGroup, name: string) {
     return formGroup.get(name)?.invalid && formGroup.get(name)?.touched;
@@ -94,21 +91,29 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorNumDocument(formGroup: FormGroup){
+  getMsgErrorNumDocument(formGroup: FormGroup) {
     const controlNumDocument = formGroup.controls["num_document"];
     if (controlNumDocument.getError("required"))
-    return "El documento es requerido";
+      return "El documento es requerido";
 
-  if (controlNumDocument.getError("error_cedula"))
-    return "La cedula ingresada no es valida";
+    if (controlNumDocument.getError("error_cedula"))
+      return "La cedula ingresada no es valida";
 
-  if (controlNumDocument.getError("error_ruc"))
-    return "El RUC ingresado no es valido";
+    if (controlNumDocument.getError("error_ruc"))
+      return "El RUC ingresado no es valido";
 
-  if (controlNumDocument.getError("exists_document"))
-    return "El documento ya existe";
+    if (controlNumDocument.getError("exists_document"))
+      return "El documento ya existe";
 
-  return "";
+    return "";
+  }
+
+  getMsgErrorBusinessName(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["business_name"];
+    if (controlEmail.getError("required")) {
+      return "La razón social es requerida";
+    }
+    return "";
   }
 
   getMsgErrorPass(formGroup: FormGroup) {
