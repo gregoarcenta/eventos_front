@@ -47,7 +47,7 @@ export class VerifyRegisterComponent implements OnInit {
         } else if (error.message === "jwt expired") {
           Swal.fire({
             title: "Lo sentimos!",
-            text: "El token ha exiprado, intentelo nuevamente",
+            text: environment.msgErrorSession,
             icon: "error",
           });
         } else {

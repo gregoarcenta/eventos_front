@@ -13,3 +13,14 @@
 .enlace:hover {
   text-decoration-line: underline;
 }
+
+.input-with-icon{
+  position: relative;
+}
+
+.input-with-icon i {
+  position: absolute;
+  top: 32.5px;
+  right: 1%;
+  cursor: pointer;
+}

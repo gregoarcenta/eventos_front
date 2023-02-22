@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 export class RestoreAccountComponent implements OnInit {
   public token!: string;
   public user!: User;
+  public showPassword: boolean = false;
   public password = new FormControl("", [
     Validators.required,
     Validators.pattern(_patternPassword),
@@ -82,7 +83,7 @@ export class RestoreAccountComponent implements OnInit {
           } else if (error.message === "jwt expired") {
             Swal.fire({
               title: "Lo sentimos!",
-              text: "El token ha exiprado, intentelo nuevamente",
+              text: environment.msgErrorSession,
               icon: "error",
             });
           } else {
@@ -123,7 +124,7 @@ export class RestoreAccountComponent implements OnInit {
           if (error.message === "jwt expired") {
             Swal.fire({
               title: "Lo sentimos!",
-              text: "El token ha exiprado, intentelo nuevamente",
+              text: environment.msgErrorSession,
               icon: "error",
             });
           } else if (error.status === 401) {

@@ -4,15 +4,25 @@
       <h4 class="my-3">
         Hola, <span class="fw-bold">{{user.name}} {{user.surname}}</span>
       </h4>
-      <div class="mb-3">
+      <div class="mb-3 input-with-icon">
         <label for="email" class="fw-bold">Ingresa tu nueva contraseña</label>
         <input
-          type="password"
+          [type]="showPassword?'text':'password'"
           placeholder="*********"
           class="form-control"
           [formControl]="password"
           id="email"
         />
+        <i
+          class="bi bi-eye-fill"
+          *ngIf="!showPassword"
+          (click)="showPassword = !showPassword"
+        ></i>
+        <i
+          class="bi bi-eye-slash-fill"
+          *ngIf="showPassword"
+          (click)="showPassword = !showPassword"
+        ></i>
         <small
           *ngIf="validInput()"
           class="form-text text-danger"
