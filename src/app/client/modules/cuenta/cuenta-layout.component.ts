@@ -13,6 +13,6 @@ export class CuentaLayoutComponent implements OnInit {
   ngOnInit(): void {}
 
   logout() {
-    this.authService.logout();
+    this.authService.onLogout();
   }
 }

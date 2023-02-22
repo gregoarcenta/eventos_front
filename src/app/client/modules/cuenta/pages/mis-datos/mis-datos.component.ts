@@ -141,6 +141,13 @@ export class MisDatosComponent implements OnInit, OnDestroy {
           businessNameControl.addValidators([Validators.required]);
           businessNameControl.updateValueAndValidity();
         }
+        if (value == 3) {
+          businessNameControl.clearValidators();
+          documentControl.clearValidators();
+          documentControl.addValidators([Validators.required]);
+          businessNameControl.updateValueAndValidity();
+          documentControl.updateValueAndValidity();
+        }
       }
     );
   }

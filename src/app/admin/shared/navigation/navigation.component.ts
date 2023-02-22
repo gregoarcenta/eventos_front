@@ -145,6 +145,6 @@ export class NavigationComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
 
   logout() {
-    this.authService.logout();
+    this.authService.onLogout();
   }
 }
