@@ -79,13 +79,26 @@ export class AuthService {
       );
   }
 
-  logout() {
-    localStorage.removeItem("token");
-    this.authUser = undefined;
-    if (environment.domain === "eventosec.com") {
-      this.router.navigate(["/login"]);
-    } else {
-      this.router.navigate(["/administrador/login"]);
+  async logout() {
+    const response = await Swal.fire({
+      title: "¿Estas seguro que deseas cerrar sesión?",
+      icon: "warning",
+      confirmButtonText: "Si, cerrar sesión",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+      showCloseButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#7460ee",
+    });
+    if (response.isConfirmed) {
+      localStorage.removeItem("token");
+      this.authUser = undefined;
+      if (environment.domain === "eventosec.com") {
+        this.router.navigate(["/login"]);
+      } else {
+        this.router.navigate(["/administrador/login"]);
+      }
     }
+
   }
 }

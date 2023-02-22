@@ -1,8 +1,3 @@
-import {
-  _patterName,
-  _patternMail,
-  _patterUsername,
-} from "./../utils/regularPatterns";
 import { Injectable } from "@angular/core";
 import {
   FormGroup,
