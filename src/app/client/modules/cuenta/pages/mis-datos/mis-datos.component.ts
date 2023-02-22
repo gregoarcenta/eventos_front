@@ -77,6 +77,20 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     return this.authService.getAuthUser;
   }
 
+  get nameTypeDocument() {
+    const type: number = Number(this.userForm.controls["document_id"].value);
+    switch (type) {
+      case 1:
+        return "cédula";
+      case 2:
+        return "RUC";
+      case 3:
+        return "pasaporte";
+      default:
+        return "documento";
+    }
+  }
+
   constructor(
     private uvs: UsernameValidatorService,
     private dvs: DocumentValidatorService,

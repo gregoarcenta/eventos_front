@@ -3,7 +3,13 @@
     <h2 class="fw-bold m-0">
       Hola, {{authUser.name}} {{authUser.surname}}
     </h2>
-    <button class="btn btn-primary btn-sm" *ngIf="userForm.get('name')!.disabled" (click)="enabledForm()">Editar información</button>
+    <button
+      class="btn btn-primary btn-sm"
+      *ngIf="userForm.get('name')!.disabled"
+      (click)="enabledForm()"
+    >
+      Editar información
+    </button>
   </div>
 
   <div class="row">
@@ -139,7 +145,7 @@
     <!--num document-->
     <div class="col-lg-6">
       <div class="mb-3">
-        <label for="num_document">N° de documento</label>
+        <label for="num_document">N° de {{ nameTypeDocument }} </label>
         <input
           type="text"
           placeholder="ingrese su numero de documento"
@@ -155,8 +161,8 @@
         >
       </div>
     </div>
-     <!--business name-->
-     <div class="col-lg-8" *ngIf="userForm.controls['document_id'].value == 2">
+    <!--business name-->
+    <div class="col-lg-8" *ngIf="userForm.controls['document_id'].value == 2">
       <div class="mb-3">
         <label for="business_name">Razón social</label>
         <input
