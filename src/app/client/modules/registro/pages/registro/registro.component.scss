@@ -1,5 +1,4 @@
-
-.container-float .bg{
+.container-float .bg {
   border-bottom-left-radius: 1rem;
   border-top-left-radius: 1rem;
   background-image: url("/assets/images/imgevent1.jpg");
@@ -8,9 +7,13 @@
   background-repeat: no-repeat;
 }
 
-.container-float .bg .button{
+.container-float .bg .button {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
   right: 1rem;
+}
+
+.container-float .row.rounded-4 {
+  min-height: 100% !important;
 }
