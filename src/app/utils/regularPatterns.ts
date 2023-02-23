@@ -9,5 +9,4 @@ export const _patternPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.
 
 export const _patterName = "^[a-zA-Z]{3,20}( ([a-zA-Z]{1,20})?)*$";
 
-export const _patterUsername =
-  "^[a-zA-Z0-9](_(?!(.|_))|.(?!(_|.))|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$";
+export const _patterUsername = "^[a-zA-Z0-9_-]{4,16}$";
