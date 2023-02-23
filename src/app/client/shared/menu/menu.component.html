@@ -1,0 +1,81 @@
+<div class="menu">
+  <div class="header p-2 d-flex justify-content-between align-items-center">
+    <img src="assets/logos/logoletrasblack200.png" alt="logo" />
+    <i class="bi bi-x-lg text-dark" (click)="hideMenu()"></i>
+  </div>
+  <div class="list-content px-3 mt-4">
+    <ul class="list-group list-unstyled">
+      <li class="mb-2">
+        <button
+          class="btn btn-lg btn-outline-primary w-100"
+          (click)="navigateByUrl('/')"
+        >
+          Inicio
+        </button>
+      </li>
+      <li class="mb-2">
+        <button
+          class="btn btn-lg btn-outline-primary w-100"
+          (click)="navigateByUrl('/eventos')"
+        >
+          Eventos
+        </button>
+      </li>
+      <li class="mb-2">
+        <button
+          class="btn btn-lg btn-outline-primary w-100"
+          (click)="navigateByUrl('/contactanos')"
+        >
+          Contactanos
+        </button>
+      </li>
+    </ul>
+    <hr />
+    <ul class="list-group list-unstyled" *ngIf="authUser">
+      <li class="mb-2">
+        <button
+          class="btn btn-lg btn-outline-primary w-100"
+          (click)="navigateByUrl('/cuenta/mis-datos')"
+        >
+          Mi cuenta
+        </button>
+      </li>
+      <li class="mb-2">
+        <button
+          class="btn btn-lg btn-outline-primary w-100"
+          (click)="navigateByUrl('/cuenta/mis-compras')"
+        >
+          Mis compras
+        </button>
+      </li>
+      <li class="mb-2">
+        <button
+          class="btn btn-lg btn-outline-primary w-100"
+          (click)="navigateByUrl('/cuenta/cambiar-contrasenia')"
+        >
+          Cambiar contraseña
+        </button>
+      </li>
+      <li class="mb-2">
+        <button class="btn btn-lg btn-primary w-100" (click)="logout()">
+          Cerrar sesión
+        </button>
+      </li>
+    </ul>
+    <ul class="list-group list-unstyled" *ngIf="!authUser">
+      <li class="mb-2">
+        <button class="btn btn-lg btn-primary w-100" routerLink="/login">
+          Iniciar sesión
+        </button>
+      </li>
+      <li>
+        <button
+          class="btn btn-lg btn-outline-primary w-100"
+          routerLink="/registro"
+        >
+          Regístro
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

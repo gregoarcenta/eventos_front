@@ -6,6 +6,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { MenuComponent } from './shared/menu/menu.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
     LayoutComponent,
     HeaderComponent,
     FooterComponent,
+    MenuComponent,
   ],
   imports: [
     CommonModule,

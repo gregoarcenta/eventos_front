@@ -3,39 +3,31 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"],
+  selector: "app-menu",
+  templateUrl: "./menu.component.html",
+  styleUrls: ["./menu.component.scss"],
 })
-export class HeaderComponent implements OnInit {
-  public isCollapsed = true;
-
+export class MenuComponent implements OnInit {
   get authUser() {
     return this.authService.getAuthUser;
-  }
-
-  get getImgUser() {
-    if (this.authUser?.img) return this.authUser?.img;
-
-    return "assets/images/default-image-profile.png";
   }
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  showMenu(){
-    const menu = document.querySelector(".menu")
-
-    menu?.classList.add("show")
-  }
-
   navigateByUrl(url: string) {
-    this.isCollapsed = true;
+    this.hideMenu();
     this.router.navigate([url]);
   }
 
+  hideMenu() {
+    const menu = document.querySelector(".menu");
+    menu?.classList.remove("show");
+  }
+
   logout() {
+    this.hideMenu();
     this.authService.onLogout();
   }
 }

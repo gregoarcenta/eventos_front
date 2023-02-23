@@ -1,5 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-md bg-light">
   <div class="container-fluid">
+
     <!--logo-->
     <a class="navbar-brand" routerLink="/">
       <img
@@ -8,18 +9,16 @@
         class="img-fluid"
       />
     </a>
+
     <!--button responsive-->
     <button
       class="navbar-toggler"
       type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
+      (click)=" showMenu()"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <!--items-->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!--list items-->
@@ -55,11 +54,18 @@
 
       <!--buttons login-->
       <button
-        class="btn btn-primary"
+        class="btn btn-primary me-2"
         [routerLink]="['/login']"
         *ngIf="!authUser"
       >
         Iniciar sesión
+      </button>
+      <button
+        class="btn btn-outline-primary"
+        [routerLink]="['/registro']"
+        *ngIf="!authUser"
+      >
+        Registrarse
       </button>
 
       <!--menu desplegable-->

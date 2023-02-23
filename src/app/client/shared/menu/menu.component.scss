@@ -1,0 +1,19 @@
+.menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(255, 255, 255);
+  z-index: 1999;
+  transition: transform .2s linear;
+  transform: translateX(-100%);
+}
+
+.menu.show {
+  transform: translateX(0px);
+}
+
+.menu .header i {
+  font-size: 3rem;
+}
