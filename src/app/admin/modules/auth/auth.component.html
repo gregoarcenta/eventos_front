@@ -4,7 +4,7 @@
   <div class="w-100 row justify-content-center">
     <div class="col-sm-8 col-md-6 col-lg-4 col-xl-3">
       <form
-        [formGroup]="authForm"
+        [formGroup]="loginForm"
         class="card shadow rounded-3 p-4"
         (ngSubmit)="login()"
       >
@@ -13,7 +13,9 @@
         <hr />
         <!--user-->
         <div class="mb-3">
-          <label for="user" class="form-label">Usuario o correo electrónico</label>
+          <label for="user" class="form-label"
+            >Usuario o correo electrónico</label
+          >
           <input
             type="text"
             class="form-control"
@@ -21,21 +23,27 @@
             placeholder="ingrese su usuario o email"
             formControlName="username"
           />
-          <small *ngIf="validInput('username')" class="form-text text-danger">Usuario o email requerido</small>
+          <small
+            *ngIf="formService.validInput(loginForm, 'username')"
+            class="form-text text-danger"
+            >Usuario o email requerido</small
+          >
         </div>
         <!--password-->
         <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label"
-            >Contraseña</label
-          >
+          <label for="password" class="form-label">Contraseña</label>
           <input
             type="password"
             class="form-control"
-            id="exampleFormControlInput1"
+            id="password"
             placeholder="ingrese su contraseña"
             formControlName="password"
           />
-          <small *ngIf="validInput('password')" class="form-text text-danger">La contraseña es requerida</small>
+          <small
+            *ngIf="formService.validInput(loginForm,'password')"
+            class="form-text text-danger"
+            >La contraseña es requerida</small
+          >
         </div>
         <!--btn submit-->
         <button type="submit" class="btn btn-primary">Iniciar Sesión</button>

@@ -31,25 +31,19 @@ export class AuthService {
   isAuthenticate(): Observable<boolean> {
     const token: string = localStorage.getItem("token") || "";
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
     if (token && this.authUser) return of(true);
 
     if (token) {
       this.spinner.setActive(true);
-      headers = headers.set("authorization", `bearer ${token}`);
-      return this.http
-        .get<ResponseUser>(`${this.url}/login/renew`, {
-          headers,
-        })
-        .pipe(
-          map(({ data }) => {
-            localStorage.setItem("token", data.jwt);
-            this.authUser = data.user;
-            this.spinner.setActive(false);
-            return true;
-          }),
-          catchError((_) => of(false))
-        );
+      return this.http.get<ResponseUser>(`${this.url}/login/renew`).pipe(
+        map(({ data }) => {
+          localStorage.setItem("token", data.jwt);
+          this.authUser = data.user;
+          this.spinner.setActive(false);
+          return true;
+        }),
+        catchError((_) => of(false))
+      );
     }
     return of(false);
   }
