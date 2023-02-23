@@ -1,3 +1,14 @@
+.container-float {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-float .row.rounded-4 {
+  flex-grow: 1;
+}
+
 .container-float .bg {
   border-bottom-left-radius: 1rem;
   border-top-left-radius: 1rem;
@@ -14,6 +25,11 @@
   right: 1rem;
 }
 
-.container-float .row.rounded-4 {
-  min-height: 100% !important;
+@media (min-width: 768px) {
+
+  .container-float .row.rounded-4 {
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important
+  }
+
+
 }

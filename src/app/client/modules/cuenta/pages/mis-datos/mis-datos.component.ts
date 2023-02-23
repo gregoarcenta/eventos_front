@@ -1,5 +1,4 @@
 import { DocumentValidatorService } from "./../../../../../validations/Services/document-validator.service";
-import { environment } from "./../../../../../../environments/environment";
 import { Document } from "./../../../../../interfaces/document";
 import { DataService } from "./../../../../../services/data.service";
 import { UserService } from "./../../../../../services/user.service";
@@ -116,11 +115,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
         this.userForm.disable();
         this.changeTypeDocument();
       },
-      error: ({ error }) => {
-        console.error(error);
-        Swal.fire("¡Lo sentimos!", environment.msgErrorDefault, "error");
-        this.router.navigateByUrl("/");
-      },
+      error: (_) => this.router.navigateByUrl("/"),
     });
   }
 
@@ -192,14 +187,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
           this.userForm.disable();
           this.spinner.setActive(false);
         },
-        error: ({ error }) => {
-          this.spinner.setActive(false);
-          if (error.status === 400) {
-            Swal.fire("¡Lo sentimos!", error.message, "error");
-          } else {
-            Swal.fire("¡Lo sentimos!", environment.msgErrorDefault, "error");
-          }
-        },
+        error: (_) => {},
       });
   }
 }

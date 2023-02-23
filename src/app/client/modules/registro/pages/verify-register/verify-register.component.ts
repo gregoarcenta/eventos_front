@@ -1,5 +1,4 @@
-import { environment } from './../../../../../../environments/environment';
-import { RegisterService } from './../../../../../services/register.service';
+import { RegisterService } from "./../../../../../services/register.service";
 import { SpinnerService } from "./../../../../../services/spinner.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -36,29 +35,7 @@ export class VerifyRegisterComponent implements OnInit {
         localStorage.setItem("token", response.data.token);
         this.router.navigateByUrl("eventos");
       },
-      error: ({ error }) => {
-        this.spinner.setActive(false);
-        if (error.status === 412) {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: "La cuenta ya ha sido verificada",
-            icon: "error",
-          });
-        } else if (error.message === "jwt expired") {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: environment.msgErrorSession,
-            icon: "error",
-          });
-        } else {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: environment.msgErrorDefault,
-            icon: "error",
-          });
-        }
-        this.router.navigateByUrl("/");
-      },
+      error: (_) => this.router.navigateByUrl("/")
     });
   }
 }

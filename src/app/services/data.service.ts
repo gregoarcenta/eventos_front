@@ -13,10 +13,6 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   documents(): Observable<ResponseDocuments> {
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-
-    return this.http.get<ResponseDocuments>(`${this.url}/documents`, {
-      headers,
-    });
+    return this.http.get<ResponseDocuments>(`${this.url}/documents`);
   }
 }

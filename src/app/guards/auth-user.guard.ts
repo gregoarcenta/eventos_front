@@ -5,7 +5,7 @@ import {
   CanActivate,
   RouterStateSnapshot,
 } from "@angular/router";
-import { map, Observable, of, tap } from "rxjs";
+import { map, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

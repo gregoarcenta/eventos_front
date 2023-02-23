@@ -1,5 +1,4 @@
 import { FormService } from "./../../../../../services/form.service";
-import { environment } from "./../../../../../../environments/environment";
 import { SpinnerService } from "./../../../../../services/spinner.service";
 import { UsernameValidatorService } from "./../../../../../validations/Services/username-validator.service";
 import { EmailValidatorService } from "./../../../../../validations/Services/email-validator.service";
@@ -97,23 +96,7 @@ export class RegistroComponent implements OnInit {
           this.router.navigateByUrl("login");
         }, 15000);
       },
-      error: ({ error }) => {
-        this.spinner.setActive(false);
-        if (error.status === 400) {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: error.message,
-            icon: "error",
-          });
-        } else {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: environment.msgErrorDefault,
-            icon: "error",
-          });
-        }
-      },
+      error: (_) => {},
     });
   }
-
 }

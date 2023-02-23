@@ -1,5 +1,4 @@
 import { User } from "./../../../../../interfaces/user";
-import { environment } from "./../../../../../../environments/environment";
 import { SpinnerService } from "./../../../../../services/spinner.service";
 import { RestoreAccountService } from "./../../../../../services/restore-account.service";
 import { _patternPassword } from "./../../../../../utils/regularPatterns";
@@ -72,29 +71,7 @@ export class RestoreAccountComponent implements OnInit {
         next: (response) => {
           this.user = response.data;
         },
-        error: ({ error }) => {
-          console.error(error);
-          if (error.status === 404) {
-            Swal.fire({
-              title: "Lo sentimos!",
-              text: error.message,
-              icon: "error",
-            });
-          } else if (error.message === "jwt expired") {
-            Swal.fire({
-              title: "Lo sentimos!",
-              text: environment.msgErrorSession,
-              icon: "error",
-            });
-          } else {
-            Swal.fire({
-              title: "Lo sentimos!",
-              text: environment.msgErrorDefault,
-              icon: "error",
-            });
-          }
-          this.router.navigateByUrl("/");
-        },
+        error: (_) => this.router.navigateByUrl("/"),
       });
   }
 
@@ -119,29 +96,7 @@ export class RestoreAccountComponent implements OnInit {
           localStorage.setItem("token", response.data.token);
           location.reload();
         },
-        error: ({ error }) => {
-          this.spinner.setActive(false);
-          if (error.message === "jwt expired") {
-            Swal.fire({
-              title: "Lo sentimos!",
-              text: environment.msgErrorSession,
-              icon: "error",
-            });
-          } else if (error.status === 401) {
-            Swal.fire({
-              title: "Lo sentimos!",
-              text: error.message,
-              icon: "error",
-            });
-          } else {
-            Swal.fire({
-              title: "Lo sentimos!",
-              text: environment.msgErrorDefault,
-              icon: "error",
-            });
-          }
-          this.router.navigateByUrl("/");
-        },
+        error: (_) => this.router.navigateByUrl("/"),
       });
   }
 }

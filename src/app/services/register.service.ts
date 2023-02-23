@@ -12,10 +12,7 @@ export class RegisterService {
   constructor(private http: HttpClient) {}
 
   register(data: any): Observable<any> {
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post<any>(`${this.url}/register`, data, {
-      headers,
-    });
+    return this.http.post<any>(`${this.url}/register`, data);
   }
 
   verifyRegister(token: string): Observable<any> {

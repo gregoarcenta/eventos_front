@@ -48,35 +48,19 @@ export class AuthService {
             this.spinner.setActive(false);
             return true;
           }),
-          catchError(({ error }) => {
-            if (error.message === "jwt expired") {
-              Swal.fire({
-                title: "Sesión expirada",
-                text: "Tu sesión expiró, inicia sesión nuevamente",
-                icon: "info",
-              });
-            }
-            this.spinner.setActive(false);
-            this.logout();
-            return of(false);
-          })
+          catchError((_) => of(false))
         );
     }
     return of(false);
   }
 
   login(data: any): Observable<ResponseUser> {
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http
-      .post<ResponseUser>(`${this.url}/login`, data, {
-        headers,
+    return this.http.post<ResponseUser>(`${this.url}/login`, data).pipe(
+      tap(({ data }) => {
+        this.authUser = data.user;
+        localStorage.setItem("token", data.jwt);
       })
-      .pipe(
-        tap(({ data }) => {
-          this.authUser = data.user;
-          localStorage.setItem("token", data.jwt);
-        })
-      );
+    );
   }
 
   async onLogout() {
@@ -95,7 +79,7 @@ export class AuthService {
     }
   }
 
-  private logout() {
+  logout() {
     localStorage.removeItem("token");
     this.authUser = undefined;
     if (environment.domain === "eventosec.com") {

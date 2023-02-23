@@ -12,8 +12,7 @@ export class RestoreAccountService {
   constructor(private http: HttpClient) {}
 
   sendMailRestoreAccount(email: string): Observable<any> {
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(`${this.url}/recover`, { email }, { headers });
+    return this.http.post(`${this.url}/recover`, { email });
   }
 
   isValidTokenRestoreAccount(token: string):Observable<any>  {

@@ -1,4 +1,3 @@
-import { environment } from "./../../../../environments/environment";
 import { SpinnerService } from "./../../../services/spinner.service";
 import { AuthService } from "./../../../services/auth.service";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -41,35 +40,7 @@ export class AuthComponent implements OnInit {
         this.router.navigateByUrl("/");
         this.spinner.setActive(false);
       },
-      error: ({ error }) => {
-        this.spinner.setActive(false);
-        if (error.message === "Cuenta aun no verificada") {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text:
-              "Tienes que confirmar tu cuenta con el enlace que te hemos enviado a tu correo electrónico",
-            icon: "error",
-          });
-        } else if (error.status === 422 || error.status === 401) {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: "Usuario o contraseña incorrectos",
-            icon: "error",
-          });
-        } else if (error.status === 403) {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: error.message,
-            icon: "error",
-          });
-        } else {
-          Swal.fire({
-            title: "Lo sentimos!",
-            text: environment.msgErrorDefault,
-            icon: "error",
-          });
-        }
-      },
+      error: (_) => {},
     });
   }
 }

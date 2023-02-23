@@ -12,36 +12,24 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserByEmail(email: string): Observable<boolean> {
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http
-      .get<any>(`${this.url}/user/find-by-email/${email}`, { headers })
+      .get<any>(`${this.url}/user/find-by-email/${email}`)
       .pipe(map(({ data }) => data.valid));
   }
 
   getUserByUsername(username: string): Observable<boolean> {
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http
-      .get<any>(`${this.url}/user/find-by-username/${username}`, {
-        headers,
-      })
+      .get<any>(`${this.url}/user/find-by-username/${username}`)
       .pipe(map(({ data }) => data.valid));
   }
 
   getUserByDocument(num_document: string): Observable<boolean> {
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http
-      .get<any>(`${this.url}/user/find-by-document/${num_document}`, {
-        headers,
-      })
+      .get<any>(`${this.url}/user/find-by-document/${num_document}`)
       .pipe(map(({ data }) => data.valid));
   }
 
   updateUser(user: any): Observable<any> {
-    const token = localStorage.getItem("token");
-    let headers = new HttpHeaders()
-      .set("Content-Type", "application/json")
-      .set("authorization", `bearer ${token}`);
-
-    return this.http.put<any>(`${this.url}/user`, user, { headers });
+    return this.http.put<any>(`${this.url}/user`, user);
   }
 }
