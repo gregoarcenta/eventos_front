@@ -7,11 +7,13 @@
   background-color: #eee;
   background-position: center;
   background-size: cover;
+  background-attachment: fixed;
   animation: image 8s infinite alternate;
+  background-image: url('/assets/images/concert1.jpg');
+  background-image: url('/assets/images/concert2.jpg');
 }
 
 @keyframes image {
-
   0%,
   45% {
     background-image: url('/assets/images/concert1.jpg');
@@ -23,7 +25,7 @@
   }
 }
 
-.content-slide{
+.content-slide {
   position: absolute;
   bottom: 65px;
   left: 20px;
