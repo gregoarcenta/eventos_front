@@ -1,0 +1,35 @@
+.slides {
+  height: calc(100vh - 68px) !important;
+}
+
+.slide {
+  position: relative;
+  background-color: #eee;
+  background-position: center;
+  background-size: cover;
+  animation: image 8s infinite alternate;
+}
+
+@keyframes image {
+
+  0%,
+  45% {
+    background-image: url('/assets/images/concert/concert1.jpg');
+  }
+
+  55%,
+  100% {
+    background-image: url('/assets/images/concert/concert2.jpg');
+  }
+}
+
+.content-slide{
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.content-slide h1 {
+  font-size: 4rem;
+  text-shadow: rgba(0, 0, 0, 0.548) 5px 5px 5px
+}
