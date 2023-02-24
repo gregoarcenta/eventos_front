@@ -1,1 +1,48 @@
-<footer class="text-center bg-light">Copyright ©️ 2023 Eventosec</footer>
+<footer class="text-center bg-light mt-4 pt-3 ps-3 pe-3">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="row justify-content-around">
+        <div class="col-6 col-md-3 text-start">
+          <h4>Quinenes somos</h4>
+          <ul>
+            <li routerLink="/">Nosotros</li>
+            <li routerLink="/politicas">politicas de privacidad</li>
+            <li routerLink="/terminos">Terminos y condiciones</li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-3 text-start">
+          <h4>Accede a</h4>
+          <ul>
+            <li routerLink="/eventos">Eventos</li>
+            <ng-container *ngIf="authUser">
+              <li routerLink="/cuenta">Mi cuenta</li>
+              <li routerLink="/cuenta/mis-compras">Mis compras</li>
+              <li routerLink="/cuenta/cambiar-contrasenia">
+                Cambiar contraseña
+              </li>
+            </ng-container>
+            <ng-container *ngIf="!authUser">
+              <li routerLink="/login">Iniciar sesión</li>
+              <li routerLink="/registro">Regístro</li>
+            </ng-container>
+          </ul>
+        </div>
+
+        <div class="col-md-3 text-start">
+          <h4>Contato</h4>
+          <ul>
+            <li routerLink="/contactanos">contact@eventosec.com</li>
+          </ul>
+          <div class="text-center text-md-start">
+            <h4>Nuestras redes</h4>
+            <i class="bi bi-instagram me-3"></i>
+            <i class="bi bi-facebook me-3"></i>
+            <i class="bi bi-tiktok me-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<footer class="copy text-center">Copyright ©️ 2023 Eventosec</footer>

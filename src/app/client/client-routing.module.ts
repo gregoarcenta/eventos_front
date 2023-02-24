@@ -53,6 +53,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: "politicas",
+        loadChildren: () =>
+          import("./modules/politicas/politicas.module").then(
+            (m) => m.PoliticasModule
+          ),
+      },
+      {
         path: "cuenta",
         loadChildren: () =>
           import("./modules/cuenta/cuenta.module").then((m) => m.CuentaModule),

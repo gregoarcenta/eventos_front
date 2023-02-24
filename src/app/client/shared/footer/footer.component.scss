@@ -1,0 +1,21 @@
+footer h4{
+  font-weight: 700;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer li:hover{
+text-decoration: underline;
+}
+
+footer li, footer i{
+  cursor: pointer;
+  line-height: 2rem;
+}
+
+.copy{
+  background-color: #d8d8d8;
+}

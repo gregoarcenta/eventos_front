@@ -3,6 +3,9 @@
     <img src="assets/logos/logoletrasblack200.png" alt="logo" />
     <i class="bi bi-x-lg text-dark" (click)="hideMenu()"></i>
   </div>
+  <div *ngIf="authUser">
+    <h2 class="px-3 fw-bold my-3">Bienvenido, {{authUser.name}} {{authUser.surname}}</h2>
+  </div>
   <div class="list-content px-3 mt-4">
     <ul class="list-group list-unstyled">
       <li class="mb-2">
