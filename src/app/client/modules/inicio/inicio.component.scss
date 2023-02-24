@@ -14,6 +14,7 @@
 }
 
 @keyframes image {
+
   0%,
   45% {
     background-image: url('/assets/images/concert1.jpg');
@@ -34,4 +35,20 @@
 .content-slide h1 {
   font-size: 4rem;
   text-shadow: rgba(0, 0, 0, 0.548) 5px 5px 5px
+}
+
+.cards .card h2 {
+  font-weight: 700;
+}
+
+.cards .card h2,
+.cards .card p,
+.cards .card i {
+  text-align: center;
+}
+
+.cards .card i {
+  font-size: 5rem;
+  line-height: .3rem;
+  margin-bottom: .5rem;
 }
