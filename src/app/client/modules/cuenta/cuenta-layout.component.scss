@@ -7,11 +7,54 @@
   color: white !important;
 }
 
-.sticky-top{
+.sticky-top {
   top: 92px !important;
 }
 
-.sticky-top .list-group{
+.sticky-top .list-group {
   border-bottom-left-radius: 2rem !important;
   border-bottom-right-radius: 2rem !important;
+}
+
+.container-image {
+  position: relative;
+}
+
+.container-image {
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.container-image img {
+  border-radius: 50%;
+}
+
+.container-image button{
+  position: absolute;
+  top: 45%;
+  left: 20%;
+  display: none;
+}
+
+.container-image:hover::before {
+  opacity: .3;
+}
+
+.container-image:hover button {
+  display: block;
+}
+
+
+.container-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  border-radius: 50%;
+  opacity: 0;
+  // display: none;
 }

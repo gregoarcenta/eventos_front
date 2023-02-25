@@ -4,13 +4,23 @@
       <div class="row">
         <div class="d-none d-md-block col-md-4 col-lg-3 col-xl-2">
           <div class="sticky-top bg-light rounded-4 shadow">
-            <div class="mb-2 p-4">
-              <img
-                src="assets/images/default-image-profile.png"
-                alt="sdfad"
-                class="img-fluid"
-              />
+            <!--image-->
+            <div class="p-4">
+              <div class="container-image">
+                <img
+                  src="assets/images/default-image-profile.png"
+                  alt="sdfad"
+                  class="img-fluid"
+                />
+                <button class="btn btn-sm btn-light" (click)="compressFile()">
+                  Cambiar imagen
+                </button>
+              </div>
+              <!--  <div class="text-center mt-2" *ngIf="!authUser?.img">
+                <button class="btn btn-sm btn-info">Subir imagen</button>
+              </div> -->
             </div>
+            <!--menu list-->
             <ul class="list-group">
               <li
                 class="list-group-item border-0 bg-light text-dark"
