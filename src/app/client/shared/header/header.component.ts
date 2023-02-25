@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   }
 
   get getImgUser() {
-    if (this.authUser?.img) return this.authUser?.img;
+    if (this.authUser?.img) return this.authUser.img;
 
     return "assets/images/default-image-profile.png";
   }

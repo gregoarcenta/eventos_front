@@ -167,11 +167,13 @@ $body-color: #54667a !default;
 $font-size-base: 1rem;
 $font-family-sans-serif: "Rubik", sans-serif !default;
 
+$font-weight-base: 300 !default;
 $font-weight-light: 300 !default;
 $font-weight-normal: 400 !default;
 $font-weight-medium: 400 !default;
-$font-weight-bold: 500 !default;
-$font-weight-base: 300 !default;
+$font-weight-semibold: 500 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: 900 !default;
 
 $h1-font-size: 36px !default;
 $h2-font-size: 24px !default;

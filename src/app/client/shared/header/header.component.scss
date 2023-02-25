@@ -28,21 +28,35 @@
   transition-delay: .3s;
 }
 
+/**imagen, nombre de perfil y menu desplegable ***/
+
 .container-name-profile {
   display: inline-flex;
   align-items: center;
+  align-self: stretch;
+  cursor: pointer;
 }
 
-.bi-triangle-fill {
-  font-size: .4rem;
-  margin-left: .2rem;
+.container-name-profile:hover .bi-caret-down-fill{
   transform: rotate(180deg);
+  transform-origin: center center;
+}
+
+.bi-caret-down-fill {
+  transition: transform .2s ease-in;
+  font-size: .6rem;
+  line-height: 0;
+}
+
+.container-name-profile:hover .menus-collapse{
+  display: block;
 }
 
 .menus-collapse {
   position: absolute;
   top: 100%;
   right: 7px;
+  display: none;
 }
 
 .menus-collapse .nav-item a {

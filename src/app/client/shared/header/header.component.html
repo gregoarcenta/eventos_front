@@ -1,6 +1,5 @@
-<nav class="navbar fixed-top navbar-expand-md bg-light">
-  <div class="container-fluid">
-
+<nav class="navbar fixed-top navbar-expand-md bg-light p-0">
+  <div class="container-fluid align-items-lg-stretch">
     <!--logo-->
     <a class="navbar-brand" routerLink="/">
       <img
@@ -11,18 +10,14 @@
     </a>
 
     <!--button responsive-->
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)=" showMenu()"
-    >
+    <button class="navbar-toggler" type="button" (click)=" showMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!--items-->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="d-flex flex-grow-1">
       <!--list items-->
-      <ul class="navbar-nav nav-items mx-auto">
+      <ul class="navbar-nav nav-items mx-auto py-2">
         <li class="nav-item px-2">
           <a
             class="nav-link position-relative"
@@ -53,42 +48,36 @@
       </ul>
 
       <!--buttons login-->
-      <button
-        class="btn btn-primary me-2"
-        [routerLink]="['/login']"
-        *ngIf="!authUser"
-      >
-        Iniciar sesión
-      </button>
-      <button
-        class="btn btn-outline-primary"
-        [routerLink]="['/registro']"
-        *ngIf="!authUser"
-      >
-        Registrarse
-      </button>
+      <div class="py-2">
+        <button
+          class="btn btn-primary me-2"
+          [routerLink]="['/login']"
+          *ngIf="!authUser"
+        >
+          Iniciar sesión
+        </button>
+        <button
+          class="btn btn-outline-primary"
+          [routerLink]="['/registro']"
+          *ngIf="!authUser"
+        >
+          Registrarse
+        </button>
+      </div>
 
       <!--menu desplegable-->
-      <ng-container *ngIf="authUser">
-        <div
-          class="container-name-profile"
-          [attr.aria-expanded]="!isCollapsed"
-          (click)="collapse.toggle()"
-        >
-          <img
-            class="img-fluid"
-            type="button"
-            [src]="getImgUser"
-            [alt]="getImgUser"
-            style="width: 25px; height: 25px;"
-          />
-          <i class="bi bi-triangle-fill"></i>
-        </div>
-        <div
-          #collapse="ngbCollapse"
-          [(ngbCollapse)]="isCollapsed"
-          class="menus-collapse bg-secondary rounded-3"
-        >
+
+      <div class="container-name-profile py-2" *ngIf="authUser">
+        <img
+          class="img-fluid"
+          type="button"
+          [src]="getImgUser"
+          alt="imagen perfil"
+          style="width: 25px; height: 25px;"
+        />
+        <span class="mx-2">{{authUser.name}} {{authUser.surname}}</span>
+        <i class="bi bi-caret-down-fill"></i>
+        <div class="menus-collapse bg-secondary rounded-3">
           <ul class="navbar-nav flex-column text-white rounded-3">
             <li
               class="nav-item rounded-3 pointer px-3"
@@ -113,7 +102,7 @@
             </li>
           </ul>
         </div>
-      </ng-container>
+      </div>
     </div>
   </div>
 </nav>
