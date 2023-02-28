@@ -1,16 +1,16 @@
-import { RestoreAccountService } from "./../../../../../services/restore-account.service";
-import { SpinnerService } from "./../../../../../services/spinner.service";
+import { RestoreAccountService } from "../../../../../services/restore-account.service";
+import { SpinnerService } from "../../../../../services/spinner.service";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "app-send-mailrestore-account",
-  templateUrl: "./send-mailrestore-account.component.html",
-  styleUrls: ["./send-mailrestore-account.component.scss"],
+  selector: "app-send-mail-restore-account",
+  templateUrl: "./send-mail-restore-account.component.html",
+  styleUrls: ["./send-mail-restore-account.component.scss"],
 })
-export class SendMailrestoreAccountComponent implements OnInit {
+export class SendMailRestoreAccountComponent implements OnInit {
   public sendEmail: boolean = false;
   public email = new FormControl("", [Validators.email, Validators.required]);
 
