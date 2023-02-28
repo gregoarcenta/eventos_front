@@ -83,10 +83,10 @@ export class FormService {
   getMsgErrorPhone(formGroup: FormGroup) {
     const controlPhone = formGroup.controls["phone"];
     if (controlPhone.getError("required")) {
-      return "El telefono es requerido";
+      return "El numero de teléfono es requerido";
     }
     if (controlPhone.getError("pattern")) {
-      return "El numero de telefono ingresado no es valido";
+      return "El numero de teléfono ingresado no es valido";
     }
     return "";
   }

@@ -59,7 +59,7 @@ export class AuthService {
 
   async onLogout() {
     const response = await Swal.fire({
-      title: "¿Estas seguro que deseas cerrar sesión?",
+      title: "¿Estás seguro que deseas cerrar sesión?",
       icon: "warning",
       confirmButtonText: "Si, cerrar sesión",
       cancelButtonText: "Cancelar",
