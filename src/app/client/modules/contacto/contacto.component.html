@@ -1,1 +1,190 @@
-<p>contacto works!</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div
+        class="h-100 d-flex flex-column justify-content-center align-items-center text-center p-4"
+      >
+        <h1 class="fw-lighter my-2">
+          ¿Quieres crear y gestionar eventos de forma fácil y rapida?
+        </h1>
+        <h1 class="fw-bold my-2">¡Contáctate con nosotros!</h1>
+      </div>
+
+      <!-- <ul class="list-unstyled">
+        <li>Crea y asigna asientos para reservar</li>
+        <li>Gestiona la venta tus boletos</li>
+        <li></li>
+      </ul> -->
+    </div>
+    <div class="col-md-6">
+      <div class="p-3 shadow">
+        <h6>
+          Completa el siguiente formulario y nos pondremos en contacto contigo
+        </h6>
+        <form [formGroup]="contactForm">
+          <div class="row">
+            <!--name-->
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label for="name">Nombre</label>
+                <input
+                  type="text"
+                  placeholder="ingrese su nombre"
+                  formControlName="name"
+                  class="form-control"
+                  id="name"
+                />
+                <small
+                  *ngIf="formService.validInput(contactForm, 'name')"
+                  class="form-text text-danger"
+                  >{{formService.getMsgErrorName(contactForm)}}</small
+                >
+              </div>
+            </div>
+            <!--surname-->
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label for="surname">Apellido</label>
+                <input
+                  type="text"
+                  placeholder="ingrese su apellido"
+                  formControlName="surname"
+                  class="form-control"
+                  id="surname"
+                />
+                <small
+                  *ngIf="formService.validInput(contactForm, 'surname')"
+                  class="form-text text-danger"
+                  >{{formService.getMsgErrorSurname(contactForm)}}</small
+                >
+              </div>
+            </div>
+            <!--email-->
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label for="email">Correo electrónico</label>
+                <input
+                  type="email"
+                  placeholder="ingrese su correo"
+                  formControlName="email"
+                  class="form-control"
+                  id="email"
+                />
+                <small
+                  *ngIf="formService.validInput(contactForm, 'email')"
+                  class="form-text text-danger"
+                  >{{formService.getMsgErrorEmail(contactForm)}}</small
+                >
+              </div>
+            </div>
+            <!--phone-->
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label for="phone">Teléfono</label>
+                <input
+                  type="text"
+                  placeholder="ingrese un numero de teléfono"
+                  formControlName="phone"
+                  class="form-control"
+                  id="phone"
+                  (keypress)="validaNumeros($event)"
+                />
+                <small
+                  *ngIf="formService.validInput(contactForm, 'phone')"
+                  class="form-text text-danger"
+                  >{{formService.getMsgErrorPhone(contactForm)}}</small
+                >
+              </div>
+            </div>
+            <!--provincia-->
+            <div class="col-lg-6">
+              <div class="mb-3 position-relative">
+                <select class="form-select" formControlName="province">
+                  <option value="0" disabled>Selecciona una provincia</option>
+                  <option
+                    [value]="province.id"
+                    *ngFor="let province of provinces"
+                    >{{province.name}}</option
+                  >
+                </select>
+                <div
+                  class="spinner-border text-primary"
+                  role="status"
+                  *ngIf="provinces.length === 0"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <small
+                  *ngIf="formService.validInput(contactForm, 'province')"
+                  class="form-text text-danger"
+                >
+                  {{formService.getMsgErrorSelect(contactForm, 'province')}}
+                </small>
+              </div>
+            </div>
+            <!--ciudad-->
+            <div class="col-lg-6">
+              <div class="mb-3 position-relative">
+                <select class="form-select" formControlName="city">
+                  <option value="0" disabled>Selecciona una cuidad</option>
+                  <option [value]="city.id" *ngFor="let city of cities"
+                    >{{city.name}}</option
+                  >
+                </select>
+                <div
+                  class="spinner-border text-primary"
+                  role="status"
+                  *ngIf="cities.length === 0 && contactForm.value.province !== 0"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <small
+                  *ngIf="formService.validInput(contactForm, 'city')"
+                  class="form-text text-danger"
+                >
+                  {{formService.getMsgErrorSelect(contactForm, 'city')}}
+                </small>
+              </div>
+            </div>
+            <h6>¡En que servicios estas interesado?</h6>
+            <!--servicio-->
+            <div class="col">
+              <div class="mb-3 position-relative">
+                <select class="form-select" formControlName="service">
+                  <option value="0" disabled>Selecciona una opción</option>
+                  <option [value]="service.id" *ngFor="let service of services"
+                    >{{service.name}}</option
+                  >
+                </select>
+                <div
+                  class="spinner-border text-primary"
+                  role="status"
+                  *ngIf="services.length === 0"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <small
+                  *ngIf="formService.validInput(contactForm, 'service')"
+                  class="form-text text-danger"
+                >
+                  {{formService.getMsgErrorSelect(contactForm, 'service')}}
+                </small>
+              </div>
+            </div>
+          </div>
+          <span>colocar un captcha</span>
+          <!--boton submit-->
+          <div class="text-center my-2">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="submitForm()"
+            >
+              Enviar formulario
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

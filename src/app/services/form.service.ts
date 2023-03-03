@@ -5,7 +5,6 @@ import { FormGroup } from "@angular/forms";
   providedIn: "root",
 })
 export class FormService {
-
   validInput(formGroup: FormGroup, name: string) {
     return formGroup.get(name)?.invalid && formGroup.get(name)?.touched;
   }
@@ -156,5 +155,20 @@ export class FormService {
       return "Las contraseñas deben ser iguales";
     }
     return "";
+  }
+
+  getMsgErrorSelect(formGroup: FormGroup, validate: string) {
+    const controlConfirm = formGroup.controls[validate];
+    if (!controlConfirm.getError("error_zero")) return "";
+    switch (validate) {
+      case "service":
+        return "Tiene que seleccionar un servicio";
+      case "province":
+        return "Tiene que seleccionar una provincia";
+      case "city":
+        return "Tiene que seleccionar una ciudad";
+      default:
+        return "";
+    }
   }
 }

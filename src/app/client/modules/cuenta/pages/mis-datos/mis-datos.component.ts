@@ -1,5 +1,5 @@
 import { DocumentValidatorService } from "./../../../../../validations/Services/document-validator.service";
-import { Document } from "./../../../../../interfaces/document";
+import { DataCatalog } from "../../../../../interfaces/catalogs";
 import { DataService } from "./../../../../../services/data.service";
 import { UserService } from "./../../../../../services/user.service";
 import { CustomValidators } from "./../../../../../validations/validations-forms";
@@ -28,7 +28,7 @@ import { Subscription } from "rxjs";
   styleUrls: ["./mis-datos.component.scss"],
 })
 export class MisDatosComponent implements OnInit, OnDestroy {
-  public documents: Document[] = [];
+  public documents: DataCatalog[] = [];
   public typeDocumentSubscription?: Subscription;
   public userForm = this.fb.group({
     name: [
@@ -108,7 +108,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataService.documents().subscribe({
+    this.dataService.getAllDocuments().subscribe({
       next: (response) => {
         this.documents = response.data;
         this.userForm.patchValue(this.authUser as any);

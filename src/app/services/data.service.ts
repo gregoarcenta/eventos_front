@@ -1,7 +1,7 @@
-import { ResponseDocuments } from "./../interfaces/document";
+import { ResponseCatalog } from "../interfaces/catalogs";
 import { environment } from "./../../environments/environment";
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -12,7 +12,19 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  documents(): Observable<ResponseDocuments> {
-    return this.http.get<ResponseDocuments>(`${this.url}/documents`);
+  getAllDocuments(): Observable<ResponseCatalog> {
+    return this.http.get<ResponseCatalog>(`${this.url}/documents`);
+  }
+
+  getAllServices(): Observable<ResponseCatalog> {
+    return this.http.get<ResponseCatalog>(`${this.url}/services`);
+  }
+
+  getAllprovinces(): Observable<ResponseCatalog> {
+    return this.http.get<ResponseCatalog>(`${this.url}/provinces`);
+  }
+
+  getCitiesByProvinceId(provinceId: number): Observable<ResponseCatalog> {
+    return this.http.get<ResponseCatalog>(`${this.url}/cities/${provinceId}`);
   }
 }
