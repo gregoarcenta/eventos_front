@@ -1,3 +1,4 @@
+import { environment } from "./../../../../environments/environment";
 import { SpinnerService } from "./../../../services/spinner.service";
 import { ContactService } from "./../../../services/contact.service";
 import { CustomValidators } from "./../../../validations/validations-forms";
@@ -9,17 +10,19 @@ import {
   _patternCell,
   _patternMail,
 } from "./../../../utils/regularPatterns";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import Swal from "sweetalert2";
+
+declare const grecaptcha: any;
 
 @Component({
   selector: "app-contacto",
   templateUrl: "./contacto.component.html",
   styleUrls: ["./contacto.component.scss"],
 })
-export class ContactoComponent implements OnInit, OnDestroy {
+export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
   public contactForm = this.fb.group({
     name: [
       "",
@@ -60,6 +63,17 @@ export class ContactoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.provinceSubscription?.unsubscribe();
+    const captcha = document.querySelector(
+      ".grecaptcha-badge"
+    ) as HTMLInputElement;
+    captcha.style.opacity = "0";
+  }
+
+  ngAfterViewInit(): void {
+    const captcha = document.querySelector(
+      ".grecaptcha-badge"
+    ) as HTMLInputElement;
+    captcha.style.opacity = "1";
   }
 
   ngOnInit(): void {
@@ -91,11 +105,24 @@ export class ContactoComponent implements OnInit, OnDestroy {
   submitForm() {
     if (this.contactForm.invalid) return this.contactForm.markAllAsTouched();
     this.spinner.setActive(true);
+    grecaptcha.ready(() => {
+      grecaptcha
+        .execute(environment.captchaClientKey, {
+          action: "submit",
+        })
+        .then((token: any) => {
+          this.submitContactForm(token);
+        });
+    });
+  }
+
+  submitContactForm(token: string) {
     this.contactService
       .submitContact({
         ...this.contactForm.value,
         city_id: this.contactForm.value.city,
         service_id: this.contactForm.value.service,
+        captcha_token: token,
       })
       .subscribe({
         next: (response) => {
