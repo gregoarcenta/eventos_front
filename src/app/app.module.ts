@@ -39,6 +39,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ComponentsModule,
     RouterModule.forRoot(Approutes, {
       useHash: false,
+      scrollPositionRestoration:"enabled",
       relativeLinkResolution: "legacy",
     }),
     PerfectScrollbarModule,
