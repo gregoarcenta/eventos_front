@@ -1,48 +1,50 @@
-<footer class="text-center bg-light mt-4 py-4 ps-3 pe-3">
-  <div class="row justify-content-center">
-    <div class="col-md-10 col-lg-8">
-      <div class="row justify-content-around">
-        <div class="col-6 col-md-3 text-start">
-          <h4>Quienes somos</h4>
-          <ul>
-            <li routerLink="/">Nosotros</li>
-            <li routerLink="/politicas">políticas de privacidad</li>
-            <li routerLink="/terminos">Términos y condiciones</li>
-          </ul>
-        </div>
+<footer class="main-footer">
+  <div class="text-center bg-light py-4 px-3">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <div class="row justify-content-around">
+          <div class="col-6 col-md-3 text-start">
+            <h4>Quienes somos</h4>
+            <ul>
+              <li routerLink="/">Nosotros</li>
+              <li routerLink="/politicas">políticas de privacidad</li>
+              <li routerLink="/terminos">Términos y condiciones</li>
+            </ul>
+          </div>
 
-        <div class="col-6 col-md-3 text-start">
-          <h4>Accede a</h4>
-          <ul>
-            <li routerLink="/eventos">Eventos</li>
-            <ng-container *ngIf="authUser">
-              <li routerLink="/cuenta">Mi cuenta</li>
-              <li routerLink="/cuenta/mis-compras">Mis compras</li>
-              <li routerLink="/cuenta/cambiar-contrasenia">
-                Cambiar contraseña
-              </li>
-            </ng-container>
-            <ng-container *ngIf="!authUser">
-              <li routerLink="/login">Iniciar sesión</li>
-              <li routerLink="/registro">Registro</li>
-            </ng-container>
-          </ul>
-        </div>
+          <div class="col-6 col-md-3 text-start">
+            <h4>Accede a</h4>
+            <ul>
+              <li routerLink="/eventos">Eventos</li>
+              <ng-container *ngIf="authUser">
+                <li routerLink="/cuenta">Mi cuenta</li>
+                <li routerLink="/cuenta/mis-compras">Mis compras</li>
+                <li routerLink="/cuenta/cambiar-contrasenia">
+                  Cambiar contraseña
+                </li>
+              </ng-container>
+              <ng-container *ngIf="!authUser">
+                <li routerLink="/login">Iniciar sesión</li>
+                <li routerLink="/registro">Registro</li>
+              </ng-container>
+            </ul>
+          </div>
 
-        <div class="col-md-3 text-start">
-          <h4>Contacto</h4>
-          <ul>
-            <li routerLink="/contactanos">contact@eventosec.com</li>
-          </ul>
-          <div class="text-center text-md-start">
-            <h4>Nuestras redes</h4>
-            <i class="bi bi-instagram me-3"></i>
-            <i class="bi bi-facebook me-3"></i>
-            <i class="bi bi-tiktok me-3"></i>
+          <div class="col-md-3 text-start">
+            <h4>Contacto</h4>
+            <ul>
+              <li routerLink="/contactanos">contact@eventosec.com</li>
+            </ul>
+            <div class="text-center text-md-start">
+              <h4>Nuestras redes</h4>
+              <i class="bi bi-instagram me-3"></i>
+              <i class="bi bi-facebook me-3"></i>
+              <i class="bi bi-tiktok me-3"></i>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="copy text-center">Copyright ©️ 2023 Eventosec</div>
 </footer>
-<footer class="copy text-center">Copyright ©️ 2023 Eventosec</footer>

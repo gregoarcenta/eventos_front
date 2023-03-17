@@ -70,10 +70,30 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    //Para hacer aparecer el captcha
     const captcha = document.querySelector(
       ".grecaptcha-badge"
     ) as HTMLInputElement;
     captcha.style.opacity = "1";
+
+    //Para hacer que el height este en 100% de su alto
+    let headerHeight = document.querySelector(".main-header .navbar")
+      ?.clientHeight;
+    const buttonHeaderHeight = document.querySelector(
+      ".main-header .navbar-toggler"
+    )?.clientHeight;
+    const footerHeight = document.querySelector(".main-footer")?.clientHeight;
+    const mainContact = document.querySelector(".main-contact") as HTMLElement;
+
+    if (buttonHeaderHeight && buttonHeaderHeight > 0 ) {
+      headerHeight = buttonHeaderHeight
+    }
+
+    if (headerHeight && footerHeight) {
+      mainContact.style.minHeight = `calc(100vh - ${
+        headerHeight + footerHeight
+      }px)`;
+    }
   }
 
   ngOnInit(): void {

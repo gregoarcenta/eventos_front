@@ -1,15 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from "@angular/core";
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  selector: "app-layout",
+  templateUrl: "./layout.component.html",
+  styleUrls: ["./layout.component.scss"],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements AfterViewInit {
+  constructor() {}
 
-  constructor() { }
+  ngAfterViewInit(): void {
+    const headerHeight = document.querySelector(".main-header .navbar")
+      ?.clientHeight;
 
-  ngOnInit(): void {
+    const buttonHeaderHeight = document.querySelector(
+      ".main-header .navbar-toggler"
+    )?.clientHeight;
+
+    const mainContent = document.querySelector(".main-content") as HTMLElement;
+
+    if (buttonHeaderHeight && buttonHeaderHeight > 0 ) {
+      mainContent.style.marginTop = `52px`;
+    }else{
+      mainContent.style.marginTop = `${headerHeight}px`;
+    }
+
   }
-
 }
