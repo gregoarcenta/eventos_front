@@ -32,7 +32,7 @@
   border-radius: 50%;
 }
 
-.container-image .button{
+.container-image .button {
   position: absolute;
   top: 0;
   right: 0;
@@ -63,4 +63,24 @@
   border-radius: 50%;
   opacity: 0;
   // display: none;
+}
+
+#recortImageModal {
+  position: absolute;
+  transform: translateX(-1000000px);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.container-image-cropper {
+  height: 60vh;
+}
+
+::ng-deep .ngx-ic-source-image{
+  border: solid 1px black;
+}
+
+.container-image-cropper .container-image-cropper-preview{
+  width: 100%;
+  height: auto;
 }

@@ -7,6 +7,7 @@ import { MisComprasComponent } from './pages/mis-compras/mis-compras.component';
 import { CuentaLayoutComponent } from './cuenta-layout.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     CuentaRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ImageCropperModule
   ]
 })
 export class CuentaModule { }

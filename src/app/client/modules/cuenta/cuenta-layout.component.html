@@ -1,4 +1,4 @@
-<div class="container-fluid mt-4">
+<div class="container-fluid my-4">
   <div class="row justify-content-center">
     <div class="col-md-11 col-lg-10 col-xl-9">
       <div class="row">
@@ -13,7 +13,7 @@
                   class="img-fluid"
                 />
                 <div class="button">
-                  <button class="btn btn-sm btn-light" (click)="compressFile()">
+                  <button class="btn btn-sm btn-light" (click)="getImageFile()">
                     Cambiar imagen
                   </button>
                 </div>
@@ -54,6 +54,75 @@
         <div class="col-md-8 col-lg-9 col-xl-10">
           <router-outlet></router-outlet>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<button
+  id="recortImageModal"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+></button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Recortar imagen</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          (click)="cleanData()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-image-cropper">
+          <img
+            class="container-image-cropper-preview"
+            [src]="croppedImage"
+            *ngIf="hiddenImageCropper"
+          />
+          <image-cropper
+            [imageBase64]="imageBase64"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3"
+            [cropperMinHeight]="200"
+            [cropperMinWidth]="200"
+            [hidden]="hiddenImageCropper"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+          ></image-cropper>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center mb-3">
+        <button
+          type="button"
+          class="btn btn-danger me-1"
+          (click)="hiddenImageCropper = false"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="hiddenImageCropper = true"
+        >
+          confirmar
+        </button>
       </div>
     </div>
   </div>

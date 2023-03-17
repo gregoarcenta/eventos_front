@@ -2,16 +2,22 @@ import { getMimeFile, urlToFile } from "./../../../utils/convertImage";
 import { SpinnerService } from "./../../../services/spinner.service";
 import { UserService } from "./../../../services/user.service";
 import { AuthService } from "./../../../services/auth.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgxImageCompressService } from "ngx-image-compress";
 import Swal from "sweetalert2";
+import { ImageCroppedEvent, LoadedImage } from "ngx-image-cropper";
 
 @Component({
   selector: "app-cuenta-layout",
   templateUrl: "./cuenta-layout.component.html",
   styleUrls: ["./cuenta-layout.component.scss"],
 })
-export class CuentaLayoutComponent implements OnInit {
+export class CuentaLayoutComponent implements OnInit, OnDestroy {
+  public imageBase64?: string;
+  public hiddenImageCropper: boolean = false;
+  public croppedImage?: any;
+  public croppedOrientation?: any;
+
   get authUser() {
     return this.authService.getAuthUser;
   }
@@ -27,25 +33,42 @@ export class CuentaLayoutComponent implements OnInit {
     private userService: UserService
   ) {}
 
+  ngOnDestroy(): void {
+    this.cleanData();
+  }
+
   ngOnInit(): void {}
 
-  compressFile() {
+  getImageFile() {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {
-      this.imageCompress
-        .compressFile(image, orientation, 50, 50, 200, 200)
-        .then(this.isValidPixelsImage)
-        .then((result) => {
-          if (result.valid) {
-            this.uploadImageProfile(result.compressedImage);
-          } else {
-            Swal.fire(
-              "¡Lo sentimos!",
-              "El tamaño de la imagen no es el correcto, trata de que la imagen sea cuadrada",
-              "info"
-            );
-          }
-        });
+      this.imageBase64 = image;
+      this.croppedOrientation = orientation;
+      document.getElementById("recortImageModal")?.click();
     });
+  }
+
+  compressFile() {
+    this.imageCompress
+      .compressFile(
+        this.croppedImage,
+        this.croppedOrientation,
+        50,
+        50,
+        200,
+        200
+      )
+      .then(this.isValidPixelsImage)
+      .then((result) => {
+        if (result.valid) {
+          this.uploadImageProfile(result.compressedImage);
+        } else {
+          Swal.fire(
+            "¡Lo sentimos!",
+            "El tamaño de la imagen no es el correcto, trata de que la imagen sea cuadrada",
+            "info"
+          );
+        }
+      });
   }
 
   isValidPixelsImage(compressedImage: string) {
@@ -77,6 +100,24 @@ export class CuentaLayoutComponent implements OnInit {
       },
       error: (_) => {},
     });
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
+  }
+
+  cleanData() {
+    this.croppedImage = undefined;
+    this.croppedOrientation = undefined;
+    this.imageBase64 = undefined;
+    this.hiddenImageCropper = false;
   }
 
   logout() {
