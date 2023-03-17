@@ -32,4 +32,8 @@ export class UserService {
   updateUser(user: any): Observable<any> {
     return this.http.put<any>(`${this.url}/user`, user);
   }
+
+  updateImgProfileUser(img: string): Observable<any> {
+    return this.http.put<any>(`${this.url}/user/update-img-profile`, {img});
+  }
 }
