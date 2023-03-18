@@ -24,8 +24,9 @@ export class HeaderComponent implements OnInit {
 
   showMenu() {
     const menu = document.querySelector(".menu");
-
     menu?.classList.add("show");
+
+    document.querySelector("body")!.style.overflow = 'hidden'
   }
 
   navigateByUrl(url: string) {

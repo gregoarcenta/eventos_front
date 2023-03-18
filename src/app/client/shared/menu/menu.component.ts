@@ -24,6 +24,7 @@ export class MenuComponent implements OnInit {
   hideMenu() {
     const menu = document.querySelector(".menu");
     menu?.classList.remove("show");
+    document.querySelector("body")!.style.overflow = 'unset'
   }
 
   logout() {
