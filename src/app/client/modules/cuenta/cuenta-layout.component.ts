@@ -56,7 +56,8 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
         200,
         200
       )
-      .then(this.isValidPixelsImage)
+      .then((img) => this.uploadImageProfile(img));
+    /* .then(this.isValidPixelsImage)
       .then((result) => {
         if (result.valid) {
           this.uploadImageProfile(result.compressedImage);
@@ -67,7 +68,7 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
             "info"
           );
         }
-      });
+      }); */
   }
 
   isValidPixelsImage(compressedImage: string) {
