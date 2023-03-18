@@ -76,6 +76,10 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     return this.authService.getAuthUser;
   }
 
+  get getImgUser() {
+    return this.authUser?.img || "assets/images/default-image-profile.png";
+  }
+
   get nameTypeDocument() {
     const type: number = Number(this.userForm.controls["document_id"].value);
     switch (type) {
