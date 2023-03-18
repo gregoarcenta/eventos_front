@@ -15,19 +15,17 @@ export class HeaderComponent implements OnInit {
   }
 
   get getImgUser() {
-    if (this.authUser?.img) return this.authUser.img;
-
-    return "assets/images/default-image-profile.png";
+    return this.authUser?.img || "assets/images/default-image-profile.png";
   }
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  showMenu(){
-    const menu = document.querySelector(".menu")
+  showMenu() {
+    const menu = document.querySelector(".menu");
 
-    menu?.classList.add("show")
+    menu?.classList.add("show");
   }
 
   navigateByUrl(url: string) {

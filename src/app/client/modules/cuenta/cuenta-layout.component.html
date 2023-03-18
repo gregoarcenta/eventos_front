@@ -77,29 +77,16 @@
 >
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Recortar imagen</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          (click)="cleanData()"
-        ></button>
-      </div>
       <div class="modal-body">
         <div class="container-image-cropper">
-          <img
-            class="container-image-cropper-preview"
-            [src]="croppedImage"
-            *ngIf="hiddenImageCropper"
-          />
           <image-cropper
             [imageBase64]="imageBase64"
             [maintainAspectRatio]="true"
-            [aspectRatio]="4 / 3"
+            [aspectRatio]="1 / 1"
             [cropperMinHeight]="200"
             [cropperMinWidth]="200"
-            [hidden]="hiddenImageCropper"
+            [cropperMaxHeight]="800"
+            [cropperMaxWidth]="800"
             format="png"
             (imageCropped)="imageCropped($event)"
             (cropperReady)="cropperReady()"
@@ -107,21 +94,22 @@
           ></image-cropper>
         </div>
       </div>
-
       <div class="d-flex justify-content-center mb-3">
         <button
           type="button"
+          id="cancelButton"
           class="btn btn-danger me-1"
-          (click)="hiddenImageCropper = false"
+          data-bs-dismiss="modal"
+          (click)="cleanData()"
         >
           Cancelar
         </button>
         <button
           type="button"
           class="btn btn-primary"
-          (click)="hiddenImageCropper = true"
+          (click)="compressFile()"
         >
-          confirmar
+          Subir imagen
         </button>
       </div>
     </div>

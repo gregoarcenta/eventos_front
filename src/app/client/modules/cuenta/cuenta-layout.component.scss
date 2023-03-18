@@ -73,11 +73,13 @@
 }
 
 .container-image-cropper {
-  height: 60vh;
+  max-height: 60vh;
 }
 
 ::ng-deep .ngx-ic-source-image{
   border: solid 1px black;
+  max-height: 40vh !important;
+  width: auto !important;
 }
 
 .container-image-cropper .container-image-cropper-preview{

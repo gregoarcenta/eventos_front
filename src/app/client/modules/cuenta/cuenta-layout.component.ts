@@ -14,7 +14,6 @@ import { ImageCroppedEvent, LoadedImage } from "ngx-image-cropper";
 })
 export class CuentaLayoutComponent implements OnInit, OnDestroy {
   public imageBase64?: string;
-  public hiddenImageCropper: boolean = false;
   public croppedImage?: any;
   public croppedOrientation?: any;
 
@@ -52,8 +51,8 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
       .compressFile(
         this.croppedImage,
         this.croppedOrientation,
-        50,
-        50,
+        100,
+        100,
         200,
         200
       )
@@ -81,6 +80,9 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
         img.onload = function () {
           var width = img.width;
           var height = img.height;
+          console.log("W: ", width);
+          console.log("H: ", height);
+
           if (Number(width) >= 200 && Number(height) >= 200) {
             resolve({ compressedImage, valid: true });
           } else {
@@ -96,6 +98,7 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
     this.userService.updateImgProfileUser(compressedImage).subscribe({
       next: (response) => {
         this.spinner.setActive(false);
+        document.getElementById("cancelButton")?.click();
         this.authService.setAuthUser = response.data;
       },
       error: (_) => {},
@@ -109,6 +112,7 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
   cropperReady() {
     // cropper ready
   }
+
   loadImageFailed() {
     // show message
   }
@@ -117,7 +121,6 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
     this.croppedImage = undefined;
     this.croppedOrientation = undefined;
     this.imageBase64 = undefined;
-    this.hiddenImageCropper = false;
   }
 
   logout() {
