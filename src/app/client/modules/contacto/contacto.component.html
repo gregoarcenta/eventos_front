@@ -21,7 +21,7 @@
         <div
           class="h-100 d-flex flex-column justify-content-center align-items-center text-center"
         >
-          <div class="p-3 shadow mb-3 mb-lg-0">
+          <div class="p-3 shadow mb-3 mb-lg-0 text-start">
             <h6>
               Completa el siguiente formulario y nos pondremos en contacto contigo
             </h6>
@@ -29,7 +29,7 @@
               <div class="row">
                 <!--name-->
                 <div class="col-lg-6">
-                  <div class="mb-3">
+                  <div class="mb-3 text-start">
                     <label for="name">Nombre</label>
                     <input
                       type="text"
@@ -47,7 +47,7 @@
                 </div>
                 <!--surname-->
                 <div class="col-lg-6">
-                  <div class="mb-3">
+                  <div class="mb-3 text-start">
                     <label for="surname">Apellido</label>
                     <input
                       type="text"
@@ -65,7 +65,7 @@
                 </div>
                 <!--email-->
                 <div class="col-lg-6">
-                  <div class="mb-3">
+                  <div class="mb-3 text-start">
                     <label for="email">Correo electrónico</label>
                     <input
                       type="email"
@@ -83,7 +83,7 @@
                 </div>
                 <!--phone-->
                 <div class="col-lg-6">
-                  <div class="mb-3">
+                  <div class="mb-3 text-start">
                     <label for="phone">Teléfono</label>
                     <input
                       type="text"
@@ -102,7 +102,7 @@
                 </div>
                 <!--provincia-->
                 <div class="col-lg-6">
-                  <div class="mb-3 position-relative">
+                  <div class="mb-3 text-start position-relative">
                     <select class="form-select" formControlName="province">
                       <option value="0" disabled>Selecciona una provincia</option>
                       <option
@@ -128,7 +128,7 @@
                 </div>
                 <!--ciudad-->
                 <div class="col-lg-6">
-                  <div class="mb-3 position-relative">
+                  <div class="mb-3 text-start position-relative">
                     <select class="form-select" formControlName="city">
                       <option value="0" disabled>Selecciona una cuidad</option>
                       <option [value]="city.id" *ngFor="let city of cities"
@@ -150,7 +150,7 @@
                     </small>
                   </div>
                 </div>
-                <h6>¡En que servicios estas interesado?</h6>
+                <h6 class="text-start">¡En que servicios estas interesado?</h6>
                 <!--servicio-->
                 <div class="col">
                   <div class="mb-3 position-relative">
