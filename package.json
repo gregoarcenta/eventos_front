@@ -40,6 +40,7 @@
     "ngx-image-compress": "^13.1.16",
     "ngx-image-cropper": "^6.3.2",
     "ngx-perfect-scrollbar": "^10.1.1",
+    "ngx-skeleton-loader": "^7.0.0",
     "rxjs": "^7.5.5",
     "rxjs-compat": "^6.6.7",
     "sass": "^1.52.3",
