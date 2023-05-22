@@ -1,14 +1,23 @@
-import { ResponseCatalog } from "../interfaces/catalogs";
+import { DataCatalog, ResponseCatalog } from "../interfaces/catalogs";
 import { environment } from "./../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, map, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class DataService {
   private url: string = environment.url;
+  private documents: DataCatalog[] = [];
+
+  get getDocuments() {
+    return this.documents;
+  }
+
+  set setDocuments(documents: DataCatalog[]) {
+    this.documents = documents;
+  }
 
   constructor(private http: HttpClient) {}
 

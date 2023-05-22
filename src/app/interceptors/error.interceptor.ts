@@ -24,7 +24,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token: string = localStorage.getItem("token") || "";
     return next.handle(request).pipe(
       catchError(({ error }) => {
         this.spinner.setActive(false);

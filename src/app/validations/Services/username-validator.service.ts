@@ -7,7 +7,7 @@ import {
   ValidationErrors,
 } from "@angular/forms";
 
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 
 @Injectable({
@@ -25,14 +25,11 @@ export class UsernameValidatorService implements AsyncValidator {
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     const username: string = control.value;
-    return this.userService.getUserByUsername(username).pipe(
-      map((valid) => {
-        if (valid) return null;
 
-        if (username.trim() === this.authUser?.username.trim()) return null;
+    if (username.trim() === this.authUser?.username.trim()) return of(null);
 
-        return { exists_username: true };
-      })
-    );
+    return this.userService
+      .getUserByUsername(username)
+      .pipe(map((valid) => (valid ? null : { exists_username: true })));
   }
 }

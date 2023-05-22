@@ -28,7 +28,6 @@ import { Subscription } from "rxjs";
   styleUrls: ["./mis-datos.component.scss"],
 })
 export class MisDatosComponent implements OnInit, OnDestroy {
-  public documents: DataCatalog[] = [];
   public typeDocumentSubscription?: Subscription;
   public userForm = this.fb.group({
     name: [
@@ -76,6 +75,10 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     return this.authService.getAuthUser;
   }
 
+  get documents() {
+    return this.dataService.getDocuments;
+  }
+
   get getImgUser() {
     return this.authUser?.img || "assets/images/default-image-profile.png";
   }
@@ -112,15 +115,16 @@ export class MisDatosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataService.getAllDocuments().subscribe({
-      next: (response) => {
-        this.documents = response.data;
-        this.userForm.patchValue(this.authUser as any);
-        this.userForm.disable();
-        this.changeTypeDocument();
-      },
-      error: (_) => this.router.navigateByUrl("/"),
-    });
+    this.userForm.patchValue(this.authUser as any);
+    this.userForm.disable();
+    this.changeTypeDocument();
+
+    if (this.dataService.getDocuments.length === 0) {
+      this.dataService.getAllDocuments().subscribe({
+        next: (response) => (this.dataService.setDocuments = response.data),
+        error: (_) => this.router.navigateByUrl("/"),
+      });
+    }
   }
 
   validaNumeros(tecla: any): boolean {

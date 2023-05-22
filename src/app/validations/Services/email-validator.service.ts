@@ -7,7 +7,7 @@ import {
   ValidationErrors,
 } from "@angular/forms";
 
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 
 @Injectable({
@@ -25,14 +25,11 @@ export class EmailValidatorService implements AsyncValidator {
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     const email: string = control.value;
-    return this.userService.getUserByEmail(email).pipe(
-      map((valid) => {
-        if (valid) return null;
 
-        if (email.trim() === this.authUser?.email.trim()) return null;
+    if (email.trim() === this.authUser?.email.trim()) return of(null);
 
-        return { exists_email: true };
-      })
-    );
+    return this.userService
+      .getUserByEmail(email)
+      .pipe(map((valid) => (valid ? null : { exists_email: true })));
   }
 }
