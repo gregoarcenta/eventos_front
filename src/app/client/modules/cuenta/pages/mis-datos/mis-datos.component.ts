@@ -186,7 +186,12 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     const document_id = this.userForm.get("document_id")!.value;
     const num_document = this.userForm.get("num_document")!.value;
     this.userService
-      .updateUser({ ...this.userForm.value, document_id, num_document })
+      .updateUser({
+        ...this.userForm.value,
+        img: this.authUser?.img,
+        document_id,
+        num_document,
+      })
       .subscribe({
         next: (response) => {
           Swal.fire("¡Listo!", response.message, "success");
