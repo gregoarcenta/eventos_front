@@ -192,15 +192,13 @@ export class MisDatosComponent implements OnInit, OnDestroy {
         document_id,
         num_document,
       })
-      .subscribe({
-        next: (response) => {
-          Swal.fire("¡Listo!", response.message, "success");
-          this.authService.setAuthUser = response.data;
-          this.userForm.patchValue(this.authUser as any);
-          this.userForm.disable();
-          this.spinner.setActive(false);
-        },
-        error: (_) => {},
+      .subscribe((response) => {
+        Swal.fire("¡Listo!", response.message, "success");
+        this.authService.setAuthUser = response.data;
+        this.userForm.patchValue(this.authUser as any);
+        this.userForm.disable();
+        this.userForm.updateValueAndValidity();
+        this.spinner.setActive(false);
       });
   }
 }
