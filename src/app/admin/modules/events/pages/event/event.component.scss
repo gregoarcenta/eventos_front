@@ -62,3 +62,18 @@ form {
   font-size: 1.5rem;
   font-weight: 900;
 }
+
+::ng-deep .step2CustomClass mat-step-header{
+  cursor: pointer !important;
+}
+
+::ng-deep .step2CustomClass:hover mat-step-header{
+  background-color: rgb(233 237 238);
+}
+::ng-deep .step2CustomClass .mat-step-label {
+  color: black
+}
+::ng-deep .step2CustomClass .mat-step-icon {
+  background-color: #7c4dff;
+}
+

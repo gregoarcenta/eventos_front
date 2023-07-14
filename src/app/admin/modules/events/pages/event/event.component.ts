@@ -7,7 +7,10 @@ import { environment } from "./../../../../../../environments/environment";
 import Swal from "sweetalert2";
 import { Event } from "./../../../../../interfaces/event";
 import { CustomValidators } from "./../../../../../validations/validations-forms";
-import { _patterDescription, _patterName } from "./../../../../../utils/regularPatterns";
+import {
+  _patterDescription,
+  _patterName,
+} from "./../../../../../utils/regularPatterns";
 import { FormService } from "./../../../../../services/form.service";
 import { DataService } from "./../../../../../services/data.service";
 import { EventService } from "./../../../../../services/events.service";
@@ -15,7 +18,6 @@ import {
   AbstractControlOptions,
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -354,6 +356,25 @@ export class EventComponent implements OnInit {
   }
 
   validateChangeStepper(e: any) {
+    const steps = document.querySelectorAll(".mat-step");
+    const iconTemplate = `
+      <mat-icon role="img" aria-hidden="true" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color ng-star-inserted" data-mat-icon-type="font">
+      create
+      </mat-icon>
+    `;
+
+    const numTemplate = `<span aria-hidden="true" class="ng-star-inserted">2</span>`;
+
+    const editIconContainer = steps[1].querySelector(".mat-step-icon :first-child");
+
+    if (e.selectedIndex == 2 || e.selectedIndex == 0) {
+      editIconContainer!.innerHTML = iconTemplate;
+      steps[1].classList.add("step2CustomClass");
+    } else {
+      editIconContainer!.innerHTML = numTemplate;
+      steps[1].classList.remove("step2CustomClass");
+    }
+
     // Paso del step 2 formulario de ubicacion
     if (e.selectedIndex == 2 && !this.place) {
       const lng =
@@ -533,14 +554,11 @@ export class EventComponent implements OnInit {
       ...this.eventForm.value,
       place_id: this.placeForm.value.place_id,
       place: this.placeForm.value,
-      place_localities: this.localitiesArray.value
+      place_localities: this.localitiesArray.value,
     };
-
-    console.log("Evento creado: ", newEvent);
 
     this.spinner.setActive(true);
     this.eventService.createEvent(newEvent).subscribe((response) => {
-      console.log(response);
       this.spinner.setActive(false);
       Swal.fire("¡Listo!", response.message, "success").then((_) => {
         this.router.navigate(["/administrador/eventos"]);
