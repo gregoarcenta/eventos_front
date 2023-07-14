@@ -19,6 +19,7 @@ import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
+import { MapComponent } from "./componetes/map/map.component";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -28,7 +29,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MapComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -39,7 +40,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ComponentsModule,
     RouterModule.forRoot(Approutes, {
       useHash: false,
-      scrollPositionRestoration:"enabled",
+      scrollPositionRestoration: "enabled",
       relativeLinkResolution: "legacy",
     }),
     PerfectScrollbarModule,
@@ -62,7 +63,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true,
-    }
+    },
   ],
   bootstrap: [AppComponent],
 })

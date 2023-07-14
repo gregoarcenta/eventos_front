@@ -10,6 +10,10 @@ import { Observable, map, tap } from "rxjs";
 export class DataService {
   private url: string = environment.url;
   private documents: DataCatalog[] = [];
+  private services: DataCatalog[] = [];
+  private localities: DataCatalog[] = [];
+  private provinces: DataCatalog[] = [];
+  private cities: DataCatalog[] = [];
 
   get getDocuments() {
     return this.documents;
@@ -17,6 +21,38 @@ export class DataService {
 
   set setDocuments(documents: DataCatalog[]) {
     this.documents = documents;
+  }
+
+  get getServices() {
+    return this.services;
+  }
+
+  set setServices(services: DataCatalog[]) {
+    this.services = services;
+  }
+
+  get getLocalities() {
+    return this.localities;
+  }
+
+  set setLocalities(localities: DataCatalog[]) {
+    this.localities = localities;
+  }
+
+  get getProvinces() {
+    return this.provinces;
+  }
+
+  set setProvinces(provinces: DataCatalog[]) {
+    this.provinces = provinces;
+  }
+
+  get getCities() {
+    return this.cities;
+  }
+
+  set setCities(cities: DataCatalog[]) {
+    this.cities = cities;
   }
 
   constructor(private http: HttpClient) {}
@@ -27,6 +63,10 @@ export class DataService {
 
   getAllServices(): Observable<ResponseCatalog> {
     return this.http.get<ResponseCatalog>(`${this.url}/services`);
+  }
+
+  getAllLocalities(): Observable<ResponseCatalog> {
+    return this.http.get<ResponseCatalog>(`${this.url}/localities`);
   }
 
   getAllprovinces(): Observable<ResponseCatalog> {

@@ -47,9 +47,17 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
     city: [0, [Validators.required, CustomValidators.validNotZero]],
   });
 
-  public services: DataCatalog[] = [];
-  public provinces: DataCatalog[] = [];
-  public cities: any[] = [];
+  get services() {
+    return this.dataService.getServices;
+  }
+
+  get provinces() {
+    return this.dataService.getProvinces;
+  }
+
+  get cities() {
+    return this.dataService.getCities;
+  }
 
   private provinceSubscription?: Subscription;
 
@@ -85,8 +93,8 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
     const footerHeight = document.querySelector(".main-footer")?.clientHeight;
     const mainContact = document.querySelector(".main-contact") as HTMLElement;
 
-    if (buttonHeaderHeight && buttonHeaderHeight > 0 ) {
-      headerHeight = buttonHeaderHeight
+    if (buttonHeaderHeight && buttonHeaderHeight > 0) {
+      headerHeight = buttonHeaderHeight;
     }
 
     if (headerHeight && footerHeight) {
@@ -98,27 +106,29 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     //Obtiene lista de servicios
-    this.dataService.getAllServices().subscribe({
-      next: (response) => (this.services = response.data),
-      error: (_) => {},
-    });
+    if (this.dataService.getServices.length === 0) {
+      this.dataService
+        .getAllServices()
+        .subscribe(
+          (response) => (this.dataService.setServices = response.data)
+        );
+    }
 
     //Obtiene lista de provincias
-    this.dataService.getAllprovinces().subscribe({
-      next: (response) => (this.provinces = response.data),
-      error: (_) => {},
-    });
+    if (this.dataService.getProvinces.length === 0) {
+      this.dataService
+        .getAllprovinces()
+        .subscribe(
+          (response) => (this.dataService.setProvinces = response.data)
+        );
+    }
 
     //detecta cuando se cambia el select de provincia
-    this.provinceSubscription = this.contactForm.controls[
-      "province"
-    ].valueChanges.subscribe((value) => {
-      this.cities = [];
+    this.provinceSubscription = this.contactForm.get("place.province_id")!.valueChanges.subscribe((value) => {
       //Obtiene lista de ciudades por id de provincia
-      this.dataService.getCitiesByProvinceId(Number(value)).subscribe({
-        next: (response) => (this.cities = response.data),
-        error: (_) => {},
-      });
+      this.dataService
+        .getCitiesByProvinceId(Number(value))
+        .subscribe((response) => (this.dataService.setCities = response.data));
     });
   }
 

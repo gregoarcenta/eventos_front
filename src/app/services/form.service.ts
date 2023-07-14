@@ -160,15 +160,105 @@ export class FormService {
   getMsgErrorSelect(formGroup: FormGroup, validate: string) {
     const controlConfirm = formGroup.controls[validate];
     if (!controlConfirm.getError("error_zero")) return "";
-    switch (validate) {
-      case "service":
-        return "Tiene que seleccionar un servicio";
-      case "province":
-        return "Tiene que seleccionar una provincia";
-      case "city":
-        return "Tiene que seleccionar una ciudad";
-      default:
-        return "";
+
+    if(validate === "service" || validate === "service_id"){
+      return "Tiene que seleccionar un servicio";
     }
+    if(validate === "province" || validate === "province_id"){
+      return "Tiene que seleccionar una provincia";
+    }
+    if(validate === "city" || validate === "city_id"){
+      return "Tiene que seleccionar una ciudad";
+    }
+    return "";
+  }
+
+  // Para el registro del evento
+  getMsgErrorDescription(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["description"];
+    if (controlEmail.getError("required")) {
+      return "La descripción es requerida";
+    }
+    if (controlEmail.getError("minlength")) {
+      return "La descripción debe tener 3 o mas caracteres";
+    }
+    if (controlEmail.getError("pattern")) {
+      return "La descripción solo puede contener letras";
+    }
+    return "";
+  }
+  // Para el registro del evento
+  getMsgErrorReference(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["reference"];
+    if (controlEmail.getError("required")) {
+      return "La referencia es requerida";
+    }
+    if (controlEmail.getError("minlength")) {
+      return "La referencia debe tener 3 o mas caracteres";
+    }
+    return "";
+  }
+
+  getMsgErrorArtist(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["artist"];
+    if (controlEmail.getError("required")) {
+      return "El nombre del artista es requerido";
+    }
+    if (controlEmail.getError("minlength")) {
+      return "El nombre del artista debe tener 3 o mas caracteres";
+    }
+    if (controlEmail.getError("pattern")) {
+      return "El nombre del artista solo puede contener letras";
+    }
+    return "";
+  }
+
+  getMsgErrorOrganizer(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["organizer"];
+    if (controlEmail.getError("required")) {
+      return "El nombre del organizador es requerido";
+    }
+    if (controlEmail.getError("pattern")) {
+      return "El nombre del organizador solo puede contener letras";
+    }
+    return "";
+  }
+
+  getMsgErrorFechaInicio(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["start_date"];
+    if (controlEmail.getError("required")) {
+      return "La fecha de inicio es requerida";
+    }
+    return "";
+  }
+
+  getMsgErrorHoraInicio(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["start_time"];
+    if (controlEmail.getError("required")) {
+      return "La hora de inicio es requerida";
+    }
+    return "";
+  }
+
+  getMsgErrorFechaFin(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["end_date"];
+    if (controlEmail.getError("required")) {
+      return "La fecha de finalización es requerida";
+    }
+    return "";
+  }
+
+  getMsgErrorHoraFin(formGroup: FormGroup) {
+    const controlEmail = formGroup.controls["end_time"];
+    if (controlEmail.getError("required")) {
+      return "La hora de finalización es requerida";
+    }
+    return "";
+  }
+
+  getMsgErrorSelectService(formGroup: FormGroup) {
+    const controlConfirm = formGroup.controls["service_id"];
+    if (!controlConfirm.getError("error_zero")) return "";
+    return "Tiene que seleccionar un tipo de evento";
   }
 }

@@ -1,4 +1,4 @@
-import { FormService } from './../../../services/form.service';
+import { FormService } from "./../../../services/form.service";
 import { SpinnerService } from "./../../../services/spinner.service";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private spinner: SpinnerService,
-    public formService:FormService,
+    public formService: FormService,
     private fb: FormBuilder,
     private router: Router
   ) {}
@@ -29,12 +29,9 @@ export class AuthComponent implements OnInit {
     if (this.loginForm.invalid) return this.loginForm.markAllAsTouched();
 
     this.spinner.setActive(true);
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (_) => {
-        this.router.navigate(["/administrador/dashboard"]);
-        this.spinner.setActive(false);
-      },
-      error: (_) => {},
+    this.authService.login(this.loginForm.value).subscribe((_) => {
+      this.router.navigate(["/administrador/dashboard"]);
+      this.spinner.setActive(false);
     });
   }
 }

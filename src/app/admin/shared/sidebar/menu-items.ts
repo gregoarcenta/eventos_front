@@ -11,14 +11,22 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: '/administrador/eventos',
+    title: 'Eventos',
+    icon: 'bi bi-calendar2-event',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: '/administrador/boletos',
     title: 'Boletos',
     icon: 'bi bi-ticket-perforated',
     class: '',
     extralink: false,
     submenu: []
-  },
-  {
+  }
+ /*  {
     path: '/administrador/component/alert',
     title: 'Alert',
     icon: 'bi bi-bell',
@@ -81,5 +89,5 @@ export const ROUTES: RouteInfo[] = [
     class: '',
     extralink: false,
     submenu: []
-  }
+  } */
 ];

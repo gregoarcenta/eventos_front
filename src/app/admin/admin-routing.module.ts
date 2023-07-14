@@ -16,6 +16,7 @@ const routes: Routes = [
     path: "",
     component: LayoutComponent,
     children: [
+      // Dashboard rute
       {
         path: "dashboard",
         loadChildren: () =>
@@ -27,6 +28,7 @@ const routes: Routes = [
           title: "Dashboard",
         },
       },
+      // Ajustes rute
       {
         path: "ajustes",
         loadChildren: () =>
@@ -38,6 +40,20 @@ const routes: Routes = [
           title: "Ajustes",
         },
       },
+      // Eventos rute
+      {
+        path: "eventos",
+        loadChildren: () =>
+          import("./modules/events/events.module").then(
+            (m) => m.EventsModule
+          ),
+        canLoad: [AuthGuard],
+
+        data: {
+          title: "Eventos",
+        },
+      },
+      // Boletos rute
       {
         path: "boletos",
         loadChildren: () =>
@@ -50,14 +66,14 @@ const routes: Routes = [
           title: "Boletos",
         },
       },
-      {
+      /* {
         path: "component",
         loadChildren: () =>
           import("./component/component.module").then(
             (m) => m.ComponentsModule
           ),
         canLoad: [AuthGuard],
-      },
+      }, */
       { path: "**", redirectTo: "dashboard" },
     ],
   },

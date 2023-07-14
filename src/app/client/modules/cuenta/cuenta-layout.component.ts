@@ -96,14 +96,13 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
 
   uploadImageProfile(compressedImage: string) {
     this.spinner.setActive(true);
-    this.userService.updateImgProfileUser(compressedImage).subscribe({
-      next: (response) => {
+    this.userService
+      .updateImgProfileUser(compressedImage)
+      .subscribe((response) => {
         this.spinner.setActive(false);
         document.getElementById("cancelButton")?.click();
         this.authService.setAuthUser = response.data;
-      },
-      error: (_) => {},
-    });
+      });
   }
 
   imageCropped(event: ImageCroppedEvent) {

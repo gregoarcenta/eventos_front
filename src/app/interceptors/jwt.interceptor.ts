@@ -19,10 +19,18 @@ export class JwtInterceptor implements HttpInterceptor {
     const token: string = localStorage.getItem("token") || "";
 
     if (token) {
+      const contentType =
+        request.headers.get("Content-Type") === "multipart/form-data"
+          ? null
+          : "application/json";
+
+      let objRequest: any = { Authorization: `Bearer ${token}` };
+
+      if (contentType)
+        objRequest = { ...objRequest, "Content-Type": contentType };
+
       request = request.clone({
-        headers: new HttpHeaders()
-          .set("Authorization", `Bearer ${token}`)
-          .set("Content-Type", "application/json"),
+        headers: new HttpHeaders(objRequest),
       });
     }
     return next.handle(request);

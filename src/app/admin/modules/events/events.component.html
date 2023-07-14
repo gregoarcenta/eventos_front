@@ -1,0 +1,47 @@
+<div class="row mb-3 justify-content-between">
+  <div class="col-md-4">
+    <input
+      type="search"
+      placeholder="Buscar eventos..."
+      class="form-control"
+      (input)="searchEvents($event)"
+    />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-primary" [routerLink]="['./agregar']">
+      Agregar nuevo evento
+    </button>
+  </div>
+</div>
+
+<hr />
+
+<!-- Row -->
+<div class="row">
+  <!-- column -->
+  <ng-container *ngIf="events.length > 0; else notData">
+    <div class="col-lg-3 col-md-6" *ngFor="let event of events">
+      <!-- Card -->
+      <!------------- start Card title ---------------->
+      <div class="card">
+        <img
+          class="card-img-top img-responsive"
+          src="{{url}}/{{event.img}}"
+          alt="imagen - {{event.name}}"
+        />
+        <div class="card-body">
+          <h4 class="card-title">{{event.name}}</h4>
+          <p class="card-text line-clamp-2">{{event.description}}</p>
+          <a class="btn btn-primary" routerLink="./{{event.id}}">Ver evento</a>
+        </div>
+      </div>
+      <!------------- end Card title ------------------>
+      <!-- Card -->
+    </div>
+  </ng-container>
+</div>
+<!-- Row -->
+
+<ng-template #notData>
+  No existen eventos disponibles con ese nombre
+</ng-template>

@@ -2,6 +2,23 @@
 
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800');
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -26,3 +43,8 @@
 }
 
 .grecaptcha-badge {opacity:0}
+
+.input-adm{
+  background-color: white;
+  border-width: 2px;
+}

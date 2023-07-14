@@ -1,0 +1,32 @@
+<div
+  class="h-100 d-flex flex-column justify-content-center align-items-center"
+  *ngIf="isGeolocationDenied && editMode"
+>
+  <i class="bi bi-map-fill"></i>
+  <div class="d-flex flex-column justify-content-center align-items-start mt-3">
+    <p>Los permisos de ubicación están desactivados</p>
+    <p>
+      Por favor, sigue los pasos a continuación para configurar los permisos de
+      ubicación en tu navegador:
+    </p>
+    <ul>
+      <li>Abre la configuración de tu navegador</li>
+      <li>
+        Navega hasta la sección de configuración de privacidad o seguridad
+      </li>
+      <li>Busca la configuración de permisos de ubicación</li>
+      <li>Habilita los permisos de ubicación para este sitio web</li>
+    </ul>
+  </div>
+</div>
+
+<div
+  class="h-100 d-flex flex-column justify-content-center align-items-center"
+  *ngIf="!isUserLocationReady && !isPlaceLocationReady; else mapReady"
+>
+  <map-spinner></map-spinner>
+</div>
+
+<ng-template #mapReady>
+  <app-map-view></app-map-view>
+</ng-template>
