@@ -124,12 +124,16 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     //detecta cuando se cambia el select de provincia
-    this.provinceSubscription = this.contactForm.get("place.province_id")!.valueChanges.subscribe((value) => {
-      //Obtiene lista de ciudades por id de provincia
-      this.dataService
-        .getCitiesByProvinceId(Number(value))
-        .subscribe((response) => (this.dataService.setCities = response.data));
-    });
+    this.provinceSubscription = this.contactForm
+      .get("province")!
+      .valueChanges.subscribe((value) => {
+        //Obtiene lista de ciudades por id de provincia
+        this.dataService
+          .getCitiesByProvinceId(Number(value))
+          .subscribe(
+            (response) => (this.dataService.setCities = response.data)
+          );
+      });
   }
 
   submitForm() {
@@ -154,22 +158,19 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
         service_id: this.contactForm.value.service,
         captcha_token: token,
       })
-      .subscribe({
-        next: (response) => {
-          Swal.fire("Formulario enviado!", response.message, "success");
-          this.contactForm.patchValue({
-            name: "",
-            surname: "",
-            email: "",
-            phone: "",
-            service: 0,
-            province: 0,
-            city: 0,
-          });
-          this.contactForm.markAsUntouched();
-          this.spinner.setActive(false);
-        },
-        error: (_) => {},
+      .subscribe((response) => {
+        Swal.fire("Formulario enviado!", response.message, "success");
+        this.contactForm.patchValue({
+          name: "",
+          surname: "",
+          email: "",
+          phone: "",
+          service: 0,
+          province: 0,
+          city: 0,
+        });
+        this.contactForm.markAsUntouched();
+        this.spinner.setActive(false);
       });
   }
 
