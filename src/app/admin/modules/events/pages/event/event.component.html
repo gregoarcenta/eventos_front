@@ -435,7 +435,7 @@
 
       <div formArrayName="localities" class="row">
         <div
-          class="col-md-4 mt-2"
+          class="col-sm-6 col-md-4 mt-2"
           *ngFor="let localityForm of localitiesArray.controls; let i = index"
         >
           <div [formGroup]="localityForm" class="container-locality">
@@ -459,10 +459,10 @@
             <div class="mb-2 row justify-content-start align-items-center">
               <label
                 for="limit_tickets"
-                class="col-sm-9 col-md-8 col-form-label"
+                class="col-xl-8 col-form-label"
                 >Limite de boletos a vender</label
               >
-              <div class="col-sm-3 col-md-4">
+              <div class="col-xl-4">
                 <input
                   type="text"
                   placeholder="10000"
@@ -477,10 +477,10 @@
             </div>
             <!-- precio de boletos-->
             <div class="mb-2 row justify-content-start align-items-center">
-              <label for="price" class="col-sm-9 col-md-8 col-form-label"
+              <label for="price" class="col-xl-8 col-form-label"
                 >Costo del boletos de esta localidad</label
               >
-              <div class="col-sm-3 col-md-4">
+              <div class="col-xl-4">
                 <input
                   #price
                   type="text"
@@ -516,7 +516,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mt-2">
+        <div class="col-sm-6 col-md-4 mt-2">
           <div class="container-locality agg-locality">
             <button class="btn btn-sm btn-warning" (click)="addLocality()">
               <i class="bi bi-plus-square-dotted"></i> Agregar localidad
