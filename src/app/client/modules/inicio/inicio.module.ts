@@ -4,13 +4,18 @@ import { CommonModule } from '@angular/common';
 import { InicioRoutingModule } from './inicio-routing.module';
 import { InicioComponent } from './inicio.component';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CardFeaturesUpcomingComponent } from './components/card-features-upcoming/card-features-upcoming.component'
+
 @NgModule({
   declarations: [
-    InicioComponent
+    InicioComponent,
+    CardFeaturesUpcomingComponent
   ],
   imports: [
     CommonModule,
     InicioRoutingModule
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class InicioModule { }

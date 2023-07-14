@@ -57,7 +57,7 @@ export class EventComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern(_patterName),
+          Validators.pattern(_patterDescription),
         ],
       ],
       description: [

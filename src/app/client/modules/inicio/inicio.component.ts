@@ -1,3 +1,5 @@
+import { environment } from "./../../../../environments/environment";
+import { EventService } from "./../../../services/events.service";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 
 @Component({
@@ -6,9 +8,27 @@ import { AfterViewInit, Component, OnInit } from "@angular/core";
   styleUrls: ["./inicio.component.scss"],
 })
 export class InicioComponent implements OnInit, AfterViewInit {
-  constructor() {}
+  get featuredEvents() {
+    return this.eventService.getFeatured;
+  }
 
-  ngOnInit(): void {}
+  get upcomingEvents() {
+    return this.eventService.getUpcoming;
+  }
+
+  constructor(private eventService: EventService) {}
+
+  ngOnInit(): void {
+    //Obtiene los eventos destacados
+    if (this.featuredEvents.length === 0) {
+      this.getFeaturedEvents();
+    }
+
+    //Obtiene los proximos eventos
+    if (this.upcomingEvents.length === 0) {
+      this.getUpcomingEvents();
+    }
+  }
 
   ngAfterViewInit(): void {
     const headerHeight = document.querySelector(".main-header .navbar")
@@ -20,11 +40,22 @@ export class InicioComponent implements OnInit, AfterViewInit {
 
     const slides = document.querySelector(".slides") as HTMLElement;
 
-    if (buttonHeaderHeight && buttonHeaderHeight > 0 ) {
+    if (buttonHeaderHeight && buttonHeaderHeight > 0) {
       slides.style.height = `calc(100vh - 52px)`;
-    }else{
+    } else {
       slides.style.height = `calc(100vh - ${headerHeight}px)`;
     }
+  }
 
+  getFeaturedEvents() {
+    this.eventService.getFeaturedEvents().subscribe((response) => {
+      this.eventService.setFeatured = response.data;
+    });
+  }
+
+  getUpcomingEvents() {
+    this.eventService.getUpcomingEvents().subscribe((response) => {
+      this.eventService.setUpcoming = response.data;
+    });
   }
 }

@@ -1,0 +1,27 @@
+<swiper-container
+  slides-per-view="4"
+  space-between="20"
+  pagination="true"
+  pagination-dynamic-bullets="true"
+  pagination-clickable="true"
+  autoplay-delay="4000"
+  autoplay-disable-on-interaction="false"
+>
+  <swiper-slide *ngFor="let featured of dataEvents">
+    <div class="card card-custom">
+      <img
+        class="card-img-top img-responsive"
+        src="{{url}}/{{featured.img}}"
+        alt="imagen - {{featured.name}}"
+      />
+      <div class="card-body">
+        <h4 class="card-title">{{featured.name}}</h4>
+        <div class="d-flex justify-content-center">
+          <a class="btn btn-primary" routerLink="./eventos/{{featured.id}}"
+            >Ver evento</a
+          >
+        </div>
+      </div>
+    </div>
+  </swiper-slide>
+</swiper-container>

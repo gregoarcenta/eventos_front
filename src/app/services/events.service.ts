@@ -11,6 +11,8 @@ export class EventService {
   private url: string = environment.url;
 
   private events: Event[] = [];
+  private featured: Event[] = [];
+  private upcoming: Event[] = [];
 
   get getEvents() {
     return this.events;
@@ -20,10 +22,34 @@ export class EventService {
     this.events = events;
   }
 
+  get getFeatured() {
+    return this.featured;
+  }
+
+  set setFeatured(featured: Event[]) {
+    this.featured = featured;
+  }
+
+  get getUpcoming() {
+    return this.upcoming;
+  }
+
+  set setUpcoming(upcoming: Event[]) {
+    this.upcoming = upcoming;
+  }
+
   constructor(private http: HttpClient) { }
 
   getAllEvents(): Observable<ResponseEvents> {
     return this.http.get<any>(`${this.url}/events`)
+  }
+
+  getFeaturedEvents(): Observable<ResponseEvents> {
+    return this.http.get<any>(`${this.url}/events/featured`)
+  }
+
+  getUpcomingEvents(): Observable<ResponseEvents> {
+    return this.http.get<any>(`${this.url}/events/upcoming`)
   }
 
   getEventsById(id:number): Observable<ResponseEvent> {
