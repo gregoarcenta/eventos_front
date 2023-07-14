@@ -1,6 +1,7 @@
 <div class="row mb-3 justify-content-between">
   <div class="col-md-4">
     <input
+      #iSearch
       type="search"
       placeholder="Buscar eventos..."
       class="form-control"
@@ -43,5 +44,11 @@
 <!-- Row -->
 
 <ng-template #notData>
-  No existen eventos disponibles con ese nombre
+  <h5 class="ms-4" *ngIf="iSearch.value.length >= 3;else notDataEvents">
+    No existen eventos disponibles con ese nombre
+  </h5>
+</ng-template>
+
+<ng-template #notDataEvents>
+  <h5 class="ms-4">No hay eventos agregados</h5>
 </ng-template>

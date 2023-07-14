@@ -35,7 +35,7 @@ export class EventsComponent implements OnInit {
 
   searchEvents(event: any) {
     const term = event.target.value;
-    if (term && term.length > 3) return this.searchTerm$.next(term);
+    if (term && term.length >= 3) return this.searchTerm$.next(term);
 
     this.getAllEvent();
   }
