@@ -1,1 +1,10 @@
-<p>terminos works!</p>
+<div class="container mt-3">
+  <ol>
+    <ng-container *ngFor="let item of content">
+      <h2 class="mt-3"><li>{{item.title}}</li></h2>
+      <ul *ngFor="let description of item.description">
+        <h5 class="fw-light"><li>{{description}}</li></h5>
+      </ul>
+    </ng-container>
+  </ol>
+</div>
