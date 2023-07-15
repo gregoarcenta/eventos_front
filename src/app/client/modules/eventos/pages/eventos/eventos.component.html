@@ -1,1 +1,42 @@
-<p>eventos works!</p>
+<header class="container-grid">
+  <div class="imageGrid1">
+    <div
+      id="carouselControls"
+      class="carousel slide h-100"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner h-100">
+        <div class="h-100 carousel-item" *ngFor="let image of mainImagesUrl; let i = index" [ngClass]="{'active': i === 0}">
+          <div
+            class="containImage"
+            [style.backgroundImage]="'url(' + image + ')'"
+          ></div>
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselControls"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselControls"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <div class="imageGrid2">
+    <img src="assets/images/16-8.png" alt="imagen promo" class="img-fluid" />
+  </div>
+  <div class="imageGrid3">
+    <img src="assets/images/16-8.png" alt="imagen promo" class="img-fluid" />
+  </div>
+</header>

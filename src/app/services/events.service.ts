@@ -44,6 +44,10 @@ export class EventService {
     return this.http.get<any>(`${this.url}/events`)
   }
 
+  getAllEventsPublish(): Observable<ResponseEvents> {
+    return this.http.get<any>(`${this.url}/events/publish`)
+  }
+
   getFeaturedEvents(): Observable<ResponseEvents> {
     return this.http.get<any>(`${this.url}/events/featured`)
   }
