@@ -37,6 +37,11 @@ header img {
   grid-row: 2; /* Ocupa la segunda fila */
 }
 
+.carousel, ::ng-deep .carousel-inner, ::ng-deep .carousel-item {
+  height: 100% !important;
+}
+
+
 @media (max-width: 576px) {
   .container-grid {
     grid-template-columns: 1fr; /* Una columna que ocupe todo el ancho */
