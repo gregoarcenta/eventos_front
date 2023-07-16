@@ -22,7 +22,8 @@ import Swal from "sweetalert2";
 })
 export class RegistroComponent implements OnInit {
   public register: boolean = false;
-
+  public showPassword: boolean = false;
+  public showPassword2: boolean = false;
   public registerForm = this.fb.group(
     {
       name: [

@@ -60,15 +60,25 @@
                 </div>
 
                 <!--password-->
-                <div class="mb-2">
+                <div class="mb-2 input-with-icon">
                   <label for="password">Contraseña</label>
                   <input
-                    type="password"
+                  [type]="showPassword?'text':'password'"
                     placeholder="**********"
                     formControlName="password"
                     class="form-control"
                     id="password"
                   />
+                  <i
+                      class="bi bi-eye-fill"
+                      *ngIf="!showPassword && loginForm.value.password!.length > 0"
+                      (click)="showPassword = !showPassword"
+                    ></i>
+                    <i
+                      class="bi bi-eye-slash-fill"
+                      *ngIf="showPassword && loginForm.value.password!.length > 0"
+                      (click)="showPassword = !showPassword"
+                    ></i>
                   <small
                     *ngIf="validInput('password')"
                     class="form-text text-danger"

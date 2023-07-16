@@ -11,7 +11,10 @@
       </div>
 
       <div class="col-12 d-md-none">
-        <button class="w-100 mt-2 btn btn-sm btn-outline-primary" routerLink="/">
+        <button
+          class="w-100 mt-2 btn btn-sm btn-outline-primary"
+          routerLink="/"
+        >
           Volver a eventos
         </button>
       </div>
@@ -109,15 +112,25 @@
                 </div>
                 <!--password-->
                 <div class="col-lg-6">
-                  <div class="mb-3">
+                  <div class="mb-3 input-with-icon">
                     <label for="password">Contraseña</label>
                     <input
-                      type="password"
+                      [type]="showPassword?'text':'password'"
                       placeholder="**********"
                       formControlName="password"
                       class="form-control"
                       id="password"
                     />
+                    <i
+                      class="bi bi-eye-fill"
+                      *ngIf="!showPassword && registerForm.value.password.length > 0"
+                      (click)="showPassword = !showPassword"
+                    ></i>
+                    <i
+                      class="bi bi-eye-slash-fill"
+                      *ngIf="showPassword && registerForm.value.password.length > 0"
+                      (click)="showPassword = !showPassword"
+                    ></i>
                     <small
                       *ngIf="formService.validInput(registerForm, 'password')"
                       class="form-text text-danger"
@@ -127,15 +140,25 @@
                 </div>
                 <!--password2-->
                 <div class="col-lg-6">
-                  <div class="mb-3">
+                  <div class="mb-3 input-with-icon">
                     <label for="password2">Confirmar contraseña</label>
                     <input
-                      type="password"
+                      [type]="showPassword2?'text':'password'"
                       placeholder="**********"
                       formControlName="password2"
                       class="form-control"
                       id="password2"
                     />
+                    <i
+                      class="bi bi-eye-fill"
+                      *ngIf="!showPassword2 && registerForm.value.password2.length > 0"
+                      (click)="showPassword2 = !showPassword2"
+                    ></i>
+                    <i
+                      class="bi bi-eye-slash-fill"
+                      *ngIf="showPassword2 && registerForm.value.password2.length > 0"
+                      (click)="showPassword2 = !showPassword2"
+                    ></i>
                     <small
                       *ngIf="formService.validInput(registerForm, 'password2')"
                       class="form-text text-danger"
@@ -186,7 +209,10 @@
                 >
               </p>
               <div class="d-none d-md-block d-lg-none">
-                <button class="w-100 mt-3 btn btn-sm btn-outline-primary" routerLink="/">
+                <button
+                  class="w-100 mt-3 btn btn-sm btn-outline-primary"
+                  routerLink="/"
+                >
                   Volver a eventos
                 </button>
               </div>

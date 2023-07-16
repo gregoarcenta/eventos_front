@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
   styleUrls: ["./auth.component.scss"],
 })
 export class AuthComponent implements OnInit {
+  public showPassword: boolean = false;
   public loginForm = this.fb.group({
     username: ["", [Validators.required]],
     password: ["", [Validators.required]],
@@ -35,12 +36,9 @@ export class AuthComponent implements OnInit {
     if (this.loginForm.invalid) return this.loginForm.markAllAsTouched();
 
     this.spinner.setActive(true);
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (response) => {
-        this.router.navigateByUrl("/");
-        this.spinner.setActive(false);
-      },
-      error: (_) => {},
+    this.authService.login(this.loginForm.value).subscribe((_) => {
+      this.router.navigateByUrl("/");
+      this.spinner.setActive(false);
     });
   }
 }
