@@ -19,7 +19,6 @@ import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
-import { MapComponent } from "./componetes/map/map.component";
 
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
@@ -34,7 +33,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  declarations: [AppComponent, MapComponent],
+  declarations: [AppComponent],
   imports: [
     CommonModule,
     BrowserModule,

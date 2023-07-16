@@ -4,7 +4,9 @@
     <i class="bi bi-x-lg text-dark pointer" (click)="hideMenu()"></i>
   </div>
   <div *ngIf="authUser">
-    <h2 class="px-3 fw-bold my-3">Bienvenido, {{authUser.name}} {{authUser.surname}}</h2>
+    <h2 class="px-3 fw-bold my-3">
+      Bienvenido, {{authUser.name}} {{authUser.surname}}
+    </h2>
   </div>
   <div class="list-content px-3 mt-4">
     <ul class="list-group list-unstyled">
@@ -67,14 +69,17 @@
     </ul>
     <ul class="list-group list-unstyled" *ngIf="!authUser">
       <li class="mb-2">
-        <button class="btn btn-lg btn-primary w-100" routerLink="/login">
+        <button
+          class="btn btn-lg btn-primary w-100"
+          (click)="navigateByUrl('/login')"
+        >
           Iniciar sesión
         </button>
       </li>
       <li>
         <button
           class="btn btn-lg btn-outline-primary w-100"
-          routerLink="/registro"
+          (click)="navigateByUrl('/registro')"
         >
           Regístro
         </button>
