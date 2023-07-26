@@ -26,6 +26,7 @@
     "@angular/router": "^14.0.2",
     "@devoxs/ati-doc-validator": "^2.1.0",
     "@ng-bootstrap/ng-bootstrap": "12.1.2",
+    "@ng-select/ng-select": "^9.1.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.5",

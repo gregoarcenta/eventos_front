@@ -1,0 +1,583 @@
+<!-- <pre>{{event | json}}</pre> -->
+<!-- [linear]="false" -->
+<mat-vertical-stepper
+  linear
+  #stepper
+  (selectionChange)="validateChangeStepper($event)"
+>
+  <mat-step [stepControl]="eventForm">
+    <form [formGroup]="eventForm">
+      <ng-template matStepLabel>Descripción general del evento</ng-template>
+
+      <div class="row">
+        <!--image event-->
+        <div class="col-md-6">
+          <div
+            class="img-container-banner"
+            (dragover)="onDragOver($event)"
+            (dragenter)="onDragEnter($event)"
+            (drop)="onDragOver($event)"
+            (click)="onClickImageBanner()"
+          >
+            <div
+              class="content d-flex flex-column justify-content-center align-items-center"
+              *ngIf="!imageSelected"
+            >
+              <i class="bi bi-image-fill"></i>
+              <h5>Subir imagen referencia del evento</h5>
+            </div>
+            <img
+              *ngIf="imageSelected"
+              class="content img-fluid"
+              [src]="imageURL"
+              alt="Imagen seleccionada"
+            />
+          </div>
+          <div class="alert alert-info text-center mb-3 p-1">
+            <i class="bi bi-info-circle"></i> La imagen deberá de tener un
+            aspecto de 16:10
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!--name-->
+          <div class="mb-3">
+            <label for="name">Nombre del Evento</label>
+            <input
+              type="text"
+              placeholder="Ingrese su nombre"
+              formControlName="name"
+              class="form-control input-adm"
+              id="name"
+            />
+            <small
+              *ngIf="formService.validInput(eventForm, 'name')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorName(eventForm)}}</small
+            >
+          </div>
+          <!--description-->
+          <div class="mb-3">
+            <label for="description">Descripción</label>
+            <textarea
+              rows="5"
+              placeholder="Ingrese una descripción"
+              formControlName="description"
+              class="form-control input-adm"
+              id="description"
+            ></textarea>
+            <small
+              *ngIf="formService.validInput(eventForm, 'description')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorDescription(eventForm)}}</small
+            >
+          </div>
+          <!--Evento destacado-->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input pointer"
+              type="checkbox"
+              id="checkDestacado"
+              formControlName="outstanding"
+            />
+            <label class="form-check-label pointer" for="checkDestacado">
+              Evento destacado
+            </label>
+          </div>
+          <!--Publicar Evento-->
+          <div class="form-check">
+            <input
+              class="form-check-input pointer"
+              type="checkbox"
+              id="checkPublicado"
+              formControlName="publish"
+            />
+            <label class="form-check-label pointer" for="checkPublicado">
+              Publicar evento
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!--artist-->
+        <div class="col-md-4">
+          <!--Check Artist-->
+          <div class="form-check">
+            <input
+              class="form-check-input pointer"
+              type="checkbox"
+              id="checkArtista"
+              formControlName="existsArtist"
+            />
+            <label class="form-check-label pointer" for="checkArtista">
+              ¿Hay Artista invitado o cantante principal?
+            </label>
+          </div>
+          <!--artist-->
+          <div class="mb-3" *ngIf="eventForm.value.existsArtist">
+            <!-- <label for="artist">Artista</label> -->
+            <input
+              type="text"
+              placeholder="Ingrese nombre del artista"
+              formControlName="artist"
+              class="form-control input-adm"
+              id="artist"
+            />
+            <small
+              *ngIf="formService.validInput(eventForm, 'artist')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorArtist(eventForm)}}</small
+            >
+          </div>
+        </div>
+
+        <!--servicios-->
+        <div class="col-md-4">
+          <label class="form-check-label pointer">
+            Elige el tipo de evento a realizar
+          </label>
+          <div class="mb-3 position-relative">
+            <select class="form-select input-adm" formControlName="service_id">
+              <option value="0" disabled>Selecciona una opción</option>
+              <option [value]="service.id" *ngFor="let service of services"
+                >{{service.name}}</option
+              >
+            </select>
+            <small
+              *ngIf="formService.validInput(eventForm, 'service_id')"
+              class="form-text text-danger"
+            >
+              {{formService.getMsgErrorSelectService(eventForm)}}
+            </small>
+          </div>
+        </div>
+
+        <!--Organizador-->
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="organizer">Organizador</label>
+            <ng-select
+              [items]="organizers$ | async"
+              bindLabel="username"
+              bindValue="username"
+              [addTag]="false"
+              [placeholder]="placeHolderOrganizer"
+              [multiple]="false"
+              [hideSelected]="false"
+              [minTermLength]="3"
+              [loading]="organizerLoading"
+              typeToSearchText="Por favor ingrese 3 o mas caracteres"
+              notFoundText="No se han encontrado usuarios"
+              [typeahead]="organizerTerm$"
+              class="custom"
+              formControlName="organizer"
+            >
+              <ng-template
+                ng-option-tmp
+                let-item="item"
+                let-index="index"
+                let-search="searchTerm"
+              >
+                <div class="d-flex align-items-center">
+                  <img
+                    style="border-radius: 50%;"
+                    height="25"
+                    width="25"
+                    [src]="getImageProfile(item.img)"
+                  />
+                  <div class="ms-2">
+                    <h5 class="m-0">
+                      {{item.name | titlecase}} {{item.surname |titlecase}}
+                    </h5>
+                    <h6 class="m-0 text-muted">{{item.username}}</h6>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-select>
+            <small
+              *ngIf="formService.validInput(eventForm, 'organizer')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorOrganizer(eventForm)}}</small
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!--Fecha de inicio-->
+        <div class="col-md-3">
+          <div class="mb-3">
+            <label for="start_date">Fecha de inicio</label>
+            <input
+              type="date"
+              placeholder="Ingrese fecha de inicio del evento"
+              formControlName="start_date"
+              class="form-control input-adm"
+              id="start_date"
+            />
+            <small
+              *ngIf="formService.validInput(eventForm, 'start_date')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorFechaInicio(eventForm)}}</small
+            >
+            <small
+              *ngIf="eventForm.hasError('fechaInicioInvalida')"
+              class="form-text text-danger"
+            >
+              La fecha y hora de inicio no pueden ser anteriores a la actual.
+            </small>
+          </div>
+        </div>
+        <!--Hora de inicio-->
+        <div class="col-md-3">
+          <div class="mb-3">
+            <label for="start_time">Hora de inicio</label>
+            <input
+              type="time"
+              placeholder="Ingrese hora de inicio del evento"
+              formControlName="start_time"
+              class="form-control input-adm"
+              id="start_time"
+            />
+            <small
+              *ngIf="formService.validInput(eventForm, 'start_time')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorHoraInicio(eventForm)}}</small
+            >
+          </div>
+        </div>
+        <!--Fecha de fin-->
+        <div class="col-md-3">
+          <div class="mb-3">
+            <label for="end_date">Fecha de finalización</label>
+            <input
+              type="date"
+              placeholder="Ingrese fecha de finalización del evento"
+              formControlName="end_date"
+              class="form-control input-adm"
+              id="end_date"
+            />
+            <small
+              *ngIf="formService.validInput(eventForm, 'end_date')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorFechaFin(eventForm)}}</small
+            >
+
+            <small
+              *ngIf="eventForm.hasError('fechaFinInvalida')"
+              class="form-text text-danger"
+            >
+              La fecha y hora de finalización no pueden ser anteriores a la
+              fecha y hora de inicio.
+            </small>
+          </div>
+        </div>
+        <!--Hora de fin-->
+        <div class="col-md-3">
+          <div class="mb-3">
+            <label for="end_time">Hora de finalización</label>
+            <input
+              type="time"
+              placeholder="Ingrese hora de finalización del evento"
+              formControlName="end_time"
+              class="form-control input-adm"
+              id="end_time"
+            />
+            <small
+              *ngIf="formService.validInput(eventForm, 'end_time')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorHoraFin(eventForm)}}</small
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="text-end">
+        <button class="btn btn-primary" (click)="validateEventForm()">
+          Siguiente
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="placeForm">
+    <form [formGroup]="placeForm">
+      <ng-template matStepLabel>Ubicación del evento</ng-template>
+
+      <!--mensaje-->
+      <ng-container>
+        <p class="text-center mb-1 fw-bold">
+          Busque y seleccione el lugar donde se creará el evento
+        </p>
+        <p class="text-center mb-1 fw-bold">
+          Ejemplo: <span class=""> Teatro Sanchez Aguilar</span>
+        </p>
+      </ng-container>
+
+      <!--Para crear una ubicacion-->
+      <p class="text-center mb-1 fw-bold">
+        ¿No encuentras el lugar de tu evento?
+        <span class="text-primary pointer enlace" (click)="addPlace()"
+          >Da click aquí para crear una ubicación para tu evento</span
+        >
+      </p>
+
+      <!--search-->
+      <div class="row justify-content-center">
+        <div class="col-md-5">
+          <!--search-->
+          <div class="mb-3">
+            <input
+              #placeSearch
+              type="search"
+              class="form-control input-adm"
+              placeholder="Buscar lugar del evento..."
+              (input)="searchPlaces($event)"
+            />
+            <div
+              class="alert alert-info py-1 mt-2 text-center"
+              *ngIf="notFoundPlace"
+            >
+              No se encuentra la ubicación especificada
+            </div>
+            <div class="autocompletado">
+              <ul class="list-group">
+                <li
+                  *ngFor="let place of places"
+                  class="list-group-item list-group-item-action pointer"
+                  (click)="getPlace(place.id); placeSearch.value = ''"
+                >
+                  {{ place.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="place || editMode">
+        <div
+          class="col-md-6 bg-light justify-content-center g-0 position-relative"
+        >
+          <map [editMode]="editMode"></map>
+          <div class="map-overlay" *ngIf="!editMode"></div>
+        </div>
+        <div class="col-md-6">
+          <!--name-->
+          <div class="mb-3">
+            <label for="placeName">Nombre</label>
+            <input
+              type="text"
+              placeholder="Ingrese su nombre"
+              formControlName="name"
+              class="form-control input-adm"
+              id="placeName"
+            />
+            <small
+              *ngIf="formService.validInput(placeForm, 'name')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorName(placeForm)}}</small
+            >
+          </div>
+          <!--description-->
+          <div class="mb-3">
+            <label for="placeDescription">Descripción</label>
+            <textarea
+              rows="5"
+              placeholder="Ingrese una descripción"
+              formControlName="description"
+              class="form-control input-adm"
+              id="placeDescription"
+            ></textarea>
+            <small
+              *ngIf="formService.validInput(placeForm, 'description')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorDescription(placeForm)}}</small
+            >
+          </div>
+          <!--reference-->
+          <div class="mb-3">
+            <label for="placeReference">Referencia</label>
+            <input
+              type="text"
+              placeholder="Ingrese una referencia"
+              formControlName="reference"
+              class="form-control input-adm"
+              id="placeReference"
+            />
+            <small
+              *ngIf="formService.validInput(placeForm, 'reference')"
+              class="form-text text-danger"
+              >{{formService.getMsgErrorReference(placeForm)}}</small
+            >
+          </div>
+
+          <div class="row">
+            <!--provincias-->
+            <div class="col-md-6">
+              <label class="form-check-label pointer">
+                Elige una provincia
+              </label>
+              <div class="mb-3 position-relative">
+                <select
+                  class="form-select input-adm"
+                  formControlName="province_id"
+                >
+                  <option value="0" disabled>Selecciona una opción</option>
+                  <option
+                    [value]="province.id"
+                    *ngFor="let province of provinces"
+                    >{{province.name}}</option
+                  >
+                </select>
+                <small
+                  *ngIf="formService.validInput(placeForm, 'province_id')"
+                  class="form-text text-danger"
+                >
+                  {{formService.getMsgErrorSelect(placeForm, 'province_id')}}
+                </small>
+              </div>
+            </div>
+            <!--ciudades-->
+            <div class="col-md-6">
+              <label class="form-check-label pointer">
+                Elige una ciudad
+              </label>
+              <div class="mb-3 position-relative">
+                <select class="form-select input-adm" formControlName="city_id">
+                  <option value="0" disabled>Selecciona una opción</option>
+                  <option [value]="city.id" *ngFor="let city of cities"
+                    >{{city.name}}</option
+                  >
+                </select>
+                <small
+                  *ngIf="formService.validInput(placeForm, 'city_id')"
+                  class="form-text text-danger"
+                >
+                  {{formService.getMsgErrorSelect(placeForm, 'city_id')}}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-end">
+        <button matStepperPrevious class="btn btn-secondary me-2">Atras</button>
+        <button class="btn btn-primary" (click)="validatePlaceForm()">
+          Siguiente
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="localitiesForm">
+    <form [formGroup]="localitiesForm">
+      <ng-template matStepLabel>Esquema y localidades del evento</ng-template>
+
+      <div formArrayName="localities" class="row">
+        <div
+          class="col-sm-6 col-md-4 mt-2"
+          *ngFor="let localityForm of localitiesArray.controls; let i = index"
+        >
+          <div [formGroup]="localityForm" class="container-locality">
+            <!--Localidades catalogo-->
+            <div class="mb-2 position-relative">
+              <select
+                class="form-select input-adm"
+                formControlName="locality_id"
+              >
+                <option value="0" disabled
+                  >Selecciona el nombre de tu localidad</option
+                >
+                <option
+                  [value]="locality.id"
+                  *ngFor="let locality of localities"
+                  >{{locality.name}}</option
+                >
+              </select>
+            </div>
+            <!-- Limte de boletos-->
+            <div class="mb-2 row justify-content-start align-items-center">
+              <label for="limit_tickets" class="col-xl-8 col-form-label"
+                >Limite de boletos a vender</label
+              >
+              <div class="col-xl-4">
+                <input
+                  type="text"
+                  placeholder="10000"
+                  formControlName="limit_tickets"
+                  class="form-control input-adm"
+                  id="limit_tickets"
+                  mask="separator.0"
+                  thousandSeparator="."
+                  suffix=" 🎟️"
+                />
+              </div>
+            </div>
+            <!-- precio de boletos-->
+            <div class="mb-2 row justify-content-start align-items-center">
+              <label for="price" class="col-xl-8 col-form-label"
+                >Costo del boletos de esta localidad</label
+              >
+              <div class="col-xl-4">
+                <input
+                  #price
+                  type="text"
+                  class="form-control input-adm"
+                  placeholder="5.00 $"
+                  id="price"
+                  formControlName="price"
+                  mask="separator.2"
+                  thousandSeparator=","
+                  decimalSeparator="."
+                  suffix=" $"
+                />
+              </div>
+            </div>
+            <!--Solo se podra activar la numeracion de ascientos si se tiene el esquema de lugar con sus localidades-->
+            <!--Adicional aniadir la habilitacion y desabilidacion de localidades predefinidas de un esquema-->
+            <!--Check numeration-->
+            <!-- <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input pointer"
+                id="checkNumeration"
+                formControlName="numeration"
+              />
+              <label class="form-check-label pointer" for="checkNumeration">
+                Asientos enumerados
+              </label>
+            </div> -->
+            <div class="d-grid d-md-block text-center mt-2">
+              <button class="btn btn-danger btn-sm" (click)="removeLocality(i)">
+                <i class="bi bi-trash3-fill"></i> Remover localidad
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 mt-2">
+          <div class="container-locality agg-locality">
+            <button class="btn btn-sm btn-warning" (click)="addLocality()">
+              <i class="bi bi-plus-square-dotted"></i> Agregar localidad
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-end mt-2">
+        <button matStepperPrevious class="btn btn-secondary me-2">Atras</button>
+        <button class="btn btn-primary" type="submit" (click)="onSubmit()">
+          <i class="bi bi-calendar2-plus"></i> {{eventId?'Actualizar
+          evento':'Crear evento'}}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>
+
+<!-- <pre>{{eventForm.get("artist")!.errors | json }}</pre> -->
+
+<!-- <pre>placeForm: {{eventForm.value | json}}</pre> -->
+<!-- <pre>placeForm: {{localitiesArray.value | json}}</pre> -->

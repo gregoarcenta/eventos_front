@@ -1,21 +1,5 @@
 <swiper-container #swiper init="false">
   <swiper-slide *ngFor="let featured of dataEvents">
-    <div class="card card-custom">
-      <img
-        class="card-img-top img-responsive"
-        src="{{url}}/{{featured.img}}"
-        alt="imagen - {{featured.name}}"
-      />
-      <div class="card-body">
-        <h4 class="card-title line-clamp-2">{{featured.name}}</h4>
-        <div class="d-grid">
-          <a
-            class="btn btn-outline-primary"
-            routerLink="./eventos/{{featured.id}}"
-            >Ver evento</a
-          >
-        </div>
-      </div>
-    </div>
+    <event-card [event]="featured" [marginB]="true"></event-card>
   </swiper-slide>
 </swiper-container>

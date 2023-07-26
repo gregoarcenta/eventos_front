@@ -1,5 +1,6 @@
+import { User } from "./../interfaces/user";
 import { environment } from "./../../environments/environment";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 
@@ -11,15 +12,17 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  updateUser(user: any): Observable<any> {
+    return this.http.put<any>(`${this.url}/user`, user);
+  }
+
+  updateImgProfileUser(img: string): Observable<any> {
+    return this.http.put<any>(`${this.url}/user/update-img-profile`, { img });
+  }
+
   getUserByEmail(email: string): Observable<boolean> {
     return this.http
       .get<any>(`${this.url}/user/find-by-email/${email}`)
-      .pipe(map(({ data }) => data.valid));
-  }
-
-  getUserByUsername(username: string): Observable<boolean> {
-    return this.http
-      .get<any>(`${this.url}/user/find-by-username/${username}`)
       .pipe(map(({ data }) => data.valid));
   }
 
@@ -29,11 +32,15 @@ export class UserService {
       .pipe(map(({ data }) => data.valid));
   }
 
-  updateUser(user: any): Observable<any> {
-    return this.http.put<any>(`${this.url}/user`, user);
+  getUserByUsername(username: string): Observable<boolean> {
+    return this.http
+      .get<any>(`${this.url}/user/find-by-username/${username}`)
+      .pipe(map(({ data }) => data.valid));
   }
 
-  updateImgProfileUser(img: string): Observable<any> {
-    return this.http.put<any>(`${this.url}/user/update-img-profile`, {img});
+  getUsersByUsernameOrName(term: string): Observable<User[]> {
+    return this.http
+      .post<any>(`${this.url}/user`, { term })
+      .pipe(map(({ data }) => data));
   }
 }

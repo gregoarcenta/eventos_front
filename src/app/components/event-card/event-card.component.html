@@ -1,0 +1,17 @@
+<div class="card card-custom" [ngClass]="{'marginB': marginB}" *ngIf="event">
+  <img
+    class="card-img-top img-responsive"
+    src="{{url}}/{{event.img}}"
+    alt="imagen - {{event.name}}"
+  />
+  <div class="card-body">
+    <h4 class="card-title line-clamp-2">{{event.name}}</h4>
+    <div class="d-grid">
+      <a
+        class="btn btn-outline-primary"
+        routerLink="/eventos/{{event.id}}"
+        >Ver evento</a
+      >
+    </div>
+  </div>
+</div>

@@ -65,7 +65,7 @@ export class PlaceService {
     this.mapService.createMarker(this.placeLocation);
   }
 
-  getEventsById(id: number): Observable<ResponsePlace> {
+  getPlaceById(id: number): Observable<ResponsePlace> {
     return this.http.get<any>(`${this.url}/places/${id}`);
   }
 

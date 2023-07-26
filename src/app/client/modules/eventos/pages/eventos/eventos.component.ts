@@ -1,7 +1,11 @@
+import { SpinnerService } from "./../../../../../services/spinner.service";
+import { Event } from "./../../../../../interfaces/event";
 import { UploadImageEventService } from "./../../../../../services/upload-image-event.service";
 import { environment } from "./../../../../../../environments/environment";
 import { EventService } from "./../../../../../services/events.service";
 import { Component, OnInit } from "@angular/core";
+import { Subject, pairwise, startWith } from "rxjs";
+import { FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-eventos",
@@ -10,6 +14,14 @@ import { Component, OnInit } from "@angular/core";
 })
 export class EventosComponent implements OnInit {
   private url = `${environment.url}/upload/eventos`;
+  private eventTerm$ = new Subject<string>();
+  public termNotFound: string | null = null;
+  public eventsFiltered: Event[] = [];
+
+  public inputSearchControl = new FormControl("", [
+    Validators.required,
+    Validators.minLength(3),
+  ]);
 
   get events() {
     return this.eventService.getEvents;
@@ -28,6 +40,7 @@ export class EventosComponent implements OnInit {
   }
 
   constructor(
+    private spinner: SpinnerService,
     private eventService: EventService,
     private uploadImageEventService: UploadImageEventService
   ) {}
@@ -43,10 +56,30 @@ export class EventosComponent implements OnInit {
       this.getMainImages();
     }
 
-    //Obtiene las imagenes secundariasdel header
+    //Obtiene las imagenes secundarias del header
     if (this.secondariesImagesUrl.length === 0) {
       this.getSecondariesImages();
     }
+
+    // Para buscar los eventos
+    this.eventTerm$
+      .pipe(startWith(""), pairwise())
+      .subscribe(([oldValue, newValue]) => {
+        if (oldValue !== newValue) {
+          this.spinner.setActive(true);
+          this.eventService
+            .searchEventsPublish(newValue)
+            .subscribe((response) => {
+              this.eventsFiltered = response.data;
+              this.spinner.setActive(false);
+              if (response.data.length === 0) {
+                this.termNotFound = newValue
+              } else {
+                this.termNotFound = null
+              }
+            });
+        }
+      });
   }
 
   getEvents() {
@@ -74,5 +107,18 @@ export class EventosComponent implements OnInit {
       "green.jpg",
       "16-8.jpg",
     ];
+  }
+
+  searchEvents() {
+    const term = this.inputSearchControl.value;
+    if (term && term.length >= 3 && this.events.length > 0) {
+      this.eventTerm$.next(term);
+    }
+  }
+
+  cleanFilters() {
+    this.eventsFiltered = [];
+    this.termNotFound = null
+    this.inputSearchControl.setValue("");
   }
 }

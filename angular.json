@@ -30,6 +30,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/sweetalert2/src/sweetalert2.scss",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "src/assets/scss/style.scss",
               "src/styles.scss",
               "src/theme.scss"

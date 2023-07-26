@@ -1,4 +1,5 @@
 import { DataCatalog } from "./catalogs";
+import { User } from "./user";
 
 export interface ResponseUploadImage {
   status:  number;
@@ -19,26 +20,29 @@ export interface ResponseEvent {
 }
 
 export interface Event {
-  id:          number;
-  status:      boolean;
+  id:           number;
+  status:       boolean;
   name:         string;
   description:  string;
   img:          string;
   outstanding:  boolean;
-  assistants:  number;
+  publish:      boolean;
+  assistants:   number;
   organizer:    string;
   artist:       string;
   start_date:   Date;
   start_time:   string;
   end_date:     Date;
   end_time:     string;
-  created_at:  Date;
-  updated_at:  Date;
+  created_at:   Date;
+  updated_at:   Date;
+  user_id:      number;
   place_id:     number;
   service_id:   number;
-  place:       Place;
+  place:        Place;
+  user:         User;
+  service:      DataCatalog;
   place_localities: PlaceLocality[];
-  service:     DataCatalog;
 }
 
 export interface Place {

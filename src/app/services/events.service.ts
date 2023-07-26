@@ -1,11 +1,11 @@
-import { Event, ResponseEvent, ResponseEvents } from './../interfaces/event';
-import { environment } from './../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Event, ResponseEvent, ResponseEvents } from "./../interfaces/event";
+import { environment } from "./../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class EventService {
   private url: string = environment.url;
@@ -38,41 +38,51 @@ export class EventService {
     this.upcoming = upcoming;
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllEvents(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events`)
+    return this.http.get<any>(`${this.url}/events`);
   }
 
   getAllEventsPublish(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events/publish`)
+    return this.http.get<any>(`${this.url}/events/publish`);
   }
 
   getFeaturedEvents(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events/featured`)
+    return this.http.get<any>(`${this.url}/events/featured`);
   }
 
   getUpcomingEvents(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events/upcoming`)
+    return this.http.get<any>(`${this.url}/events/upcoming`);
   }
 
-  getEventsById(id:number): Observable<ResponseEvent> {
-    return this.http.get<any>(`${this.url}/events/${id}`)
+  getEventById(id: number): Observable<ResponseEvent> {
+    return this.http.get<any>(`${this.url}/events/get-event/${id}`);
+  }
+
+  getEventPublishById(id: number): Observable<ResponseEvent> {
+    return this.http.get<any>(`${this.url}/events/${id}`);
+  }
+
+  searchEvents(term: string): Observable<ResponseEvents> {
+    return this.http.post<any>(`${this.url}/events/search`, { term });
+  }
+
+  searchEventsPublish(conditions: string): Observable<ResponseEvents> {
+    return this.http.post<any>(`${this.url}/events/search/publish`, {
+      conditions,
+    });
   }
 
   createEvent(event: any): Observable<any> {
-    return this.http.post<any>(`${this.url}/events`, event)
+    return this.http.post<any>(`${this.url}/events`, event);
   }
 
-  searchEvent(term: string): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events/search/${term}`)
+  updateEvent(event: any, eventId: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/events`, { event, eventId });
   }
 
-  /* updateEvent(data: any): Observable<any> {
-    return this.http.put<any>(`${this.url}/events`, data)
-  }
-
-  deteleEvent(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.url}/events`, data)
-  } */
+  // deteleEvent(id: number): Observable<any> {
+  //   return this.http.delete<any>(`${this.url}/events`, data)
+  // }
 }

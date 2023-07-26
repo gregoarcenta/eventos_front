@@ -15,18 +15,12 @@ import { Swiper } from "swiper";
   templateUrl: "./card-features-upcoming.component.html",
   styleUrls: ["./card-features-upcoming.component.scss"],
 })
-export class CardFeaturesUpcomingComponent implements OnInit, AfterViewInit {
+export class CardFeaturesUpcomingComponent implements AfterViewInit {
   @Input() dataEvents: Event[] = [];
   @ViewChild("swiper") swiperRef:
     | ElementRef<HTMLElement & { swiper?: Swiper } & { initialize: () => void }>
     | undefined;
   private swiper?: Swiper;
-
-  public url = `${environment.url}/upload/eventos`;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     const swiperEl = Object.assign(this.swiperRef!.nativeElement, {

@@ -41,9 +41,7 @@ export class EventsComponent implements OnInit {
   }
 
   realizarBusqueda(term: string): void {
-    this.eventService.searchEvent(term).subscribe((response) => {
-      console.log(response);
-
+    this.eventService.searchEvents(term).subscribe((response) => {
       this.eventService.setEvents = response.data;
     });
   }

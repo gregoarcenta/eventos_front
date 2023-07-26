@@ -1,18 +1,18 @@
 <header class="main-header">
-  <nav class="navbar fixed-top navbar-expand-md bg-light p-0">
+  <nav class="navbar fixed-top navbar-expand-md bg-primary p-0">
     <div class="container-fluid align-items-lg-stretch">
       <!--logo-->
       <a class="navbar-brand" routerLink="/">
         <img
-          src="/assets/logos/logoletrasblack200.png"
+          src="/assets/logos/logoletraswhite200.png"
           alt="Logo Eventosec"
           class="img-fluid"
         />
       </a>
 
       <!--button responsive-->
-      <button class="navbar-toggler" type="button" (click)=" showMenu()">
-        <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler border-light" type="button" (click)=" showMenu()">
+        <i class="bi bi-list text-white fw-bold"></i>
       </button>
 
       <!--items-->
@@ -51,14 +51,14 @@
         <!--buttons login-->
         <div class="py-2">
           <button
-            class="btn btn-primary me-2"
+            class="btn btn-light me-2"
             [routerLink]="['/login']"
             *ngIf="!authUser"
           >
             Iniciar sesión
           </button>
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-light"
             [routerLink]="['/registro']"
             *ngIf="!authUser"
           >
@@ -67,7 +67,6 @@
         </div>
 
         <!--menu desplegable-->
-
         <div class="container-name-profile py-2" *ngIf="authUser">
           <img
             class="img-fluid rounded-circle"
@@ -76,9 +75,9 @@
             alt="imagen perfil"
             style="width: 25px; height: 25px;"
           />
-          <span class="mx-2">{{authUser.name}} {{authUser.surname}}</span>
+          <span class="mx-2 text-white">{{authUser.name}} {{authUser.surname}}</span>
           <i class="bi bi-caret-down-fill"></i>
-          <div class="menus-collapse bg-secondary rounded-3">
+          <div class="menus-collapse bg-light rounded-3">
             <ul class="navbar-nav flex-column text-white rounded-3">
               <li
                 class="nav-item rounded-3 pointer px-3"

@@ -176,6 +176,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     } else {
       this.userForm.controls["document_id"].disable();
       this.userForm.controls["num_document"].disable();
+      this.userForm.controls["business_name"].disable();
     }
   }
 
@@ -185,12 +186,14 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     this.spinner.setActive(true);
     const document_id = this.userForm.get("document_id")!.value;
     const num_document = this.userForm.get("num_document")!.value;
+    const business_name = this.userForm.get("business_name")!.value;
     this.userService
       .updateUser({
         ...this.userForm.value,
         img: this.authUser?.img,
         document_id,
         num_document,
+        business_name
       })
       .subscribe((response) => {
         Swal.fire("¡Listo!", response.message, "success");
