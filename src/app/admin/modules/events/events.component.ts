@@ -17,9 +17,7 @@ export class EventsComponent implements OnInit {
     return this.eventService.getEvents;
   }
 
-  constructor(
-    private eventService: EventService
-  ) {}
+  constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
     if (this.eventService.getEvents.length === 0) {
@@ -47,8 +45,6 @@ export class EventsComponent implements OnInit {
   }
 
   getAllEvent() {
-    this.eventService.getAllEvents().subscribe((response) => {
-      this.eventService.setEvents = response.data;
-    });
+    this.eventService.getAllEvents().subscribe((_) => {});
   }
 }

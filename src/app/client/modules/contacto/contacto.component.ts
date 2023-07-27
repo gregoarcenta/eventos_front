@@ -107,20 +107,12 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     //Obtiene lista de servicios
     if (this.dataService.getServices.length === 0) {
-      this.dataService
-        .getAllServices()
-        .subscribe(
-          (response) => (this.dataService.setServices = response.data)
-        );
+      this.dataService.getAllServices().subscribe((_) => {});
     }
 
     //Obtiene lista de provincias
     if (this.dataService.getProvinces.length === 0) {
-      this.dataService
-        .getAllprovinces()
-        .subscribe(
-          (response) => (this.dataService.setProvinces = response.data)
-        );
+      this.dataService.getAllprovinces().subscribe((_) => {});
     }
 
     //detecta cuando se cambia el select de provincia

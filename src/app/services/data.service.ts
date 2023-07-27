@@ -58,19 +58,27 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   getAllDocuments(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/documents`);
+    return this.http
+      .get<ResponseCatalog>(`${this.url}/documents`)
+      .pipe(tap((response) => (this.setDocuments = response.data)));
   }
 
   getAllServices(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/services`);
+    return this.http
+      .get<ResponseCatalog>(`${this.url}/services`)
+      .pipe(tap((response) => (this.setServices = response.data)));
   }
 
   getAllLocalities(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/localities`);
+    return this.http
+      .get<ResponseCatalog>(`${this.url}/localities`)
+      .pipe(tap((response) => (this.setLocalities = response.data)));
   }
 
   getAllprovinces(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/provinces`);
+    return this.http
+      .get<ResponseCatalog>(`${this.url}/provinces`)
+      .pipe(tap((response) => (this.setProvinces = response.data)));
   }
 
   getCitiesByProvinceId(provinceId: number): Observable<ResponseCatalog> {

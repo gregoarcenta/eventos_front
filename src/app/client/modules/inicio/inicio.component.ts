@@ -48,14 +48,10 @@ export class InicioComponent implements OnInit, AfterViewInit {
   }
 
   getFeaturedEvents() {
-    this.eventService.getFeaturedEvents().subscribe((response) => {
-      this.eventService.setFeatured = response.data;
-    });
+    this.eventService.getFeaturedEvents().subscribe((_) => {});
   }
 
   getUpcomingEvents() {
-    this.eventService.getUpcomingEvents().subscribe((response) => {
-      this.eventService.setUpcoming = response.data;
-    });
+    this.eventService.getUpcomingEvents().subscribe((_) => {});
   }
 }

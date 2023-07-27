@@ -72,9 +72,9 @@
         <label class="me-2">Ubicación</label>
         <select class="form-select input-adm">
           <option value="0">No seleccionado</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option [value]="city.id" *ngFor="let city of cities"
+            >{{ city.name }}</option
+          >
         </select>
         <button
           class="btn btn-warning ms-2"
@@ -140,25 +140,85 @@
   </div>
 </main>
 
-
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <h5 class="offcanvas-title fw-bold">Filtrar por</h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
   </div>
   <div class="offcanvas-body">
-    <div>
-      Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-    </div>
-    <div class="dropdown mt-3">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-        Dropdown button
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-      </ul>
-    </div>
+    <form [formGroup]="filters">
+      <!-- filtro por tipo -->
+      <div class="">
+        <label class="fw-bold">Tipo</label>
+        <div class="form-check" *ngFor="let service of services">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="type"
+            [id]="'checkservice'+service.id"
+            [name]="'type'"
+            [value]="service.id"
+          />
+          <label class="form-check-label" [for]="'checkservice'+service.id">
+            {{service.name | titlecase}}
+          </label>
+        </div>
+      </div>
+      <hr />
+
+      <!-- filtro por fecha -->
+      <div>
+        <label for="" class="fw-bold">Fecha</label>
+        <!--Fecha de inicio-->
+        <div class="mb-3">
+          <label for="start_date">Fecha de inicio</label>
+          <input
+            type="date"
+            placeholder="Ingrese fecha de inicio del evento"
+            class="form-control input-adm"
+            id="start_date"
+          />
+        </div>
+
+        <!--Fecha de fin-->
+        <div class="mb-3">
+          <label for="end_date">Fecha de finalización</label>
+          <input
+            type="date"
+            placeholder="Ingrese fecha de finalización del evento"
+            class="form-control input-adm"
+            id="end_date"
+          />
+        </div>
+      </div>
+      <hr />
+
+      <!-- filtro por destacados -->
+      <div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Solo eventos destacados
+          </label>
+        </div>
+      </div>
+
+      <!-- boton submit -->
+      <div class="mt-2 text-end">
+        <button class="btn btn-primary">Mostrar resultados</button>
+      </div>
+    </form>
+
+    <pre>{{filters.value | json}}</pre>
   </div>
 </div>

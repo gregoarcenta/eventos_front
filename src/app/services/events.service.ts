@@ -1,8 +1,13 @@
-import { Event, ResponseEvent, ResponseEvents } from "./../interfaces/event";
+import { DataCatalog, ResponseCatalog } from "./../interfaces/catalogs";
+import {
+  Event,
+  ResponseEvent,
+  ResponseEvents,
+} from "./../interfaces/event";
 import { environment } from "./../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -11,6 +16,7 @@ export class EventService {
   private url: string = environment.url;
 
   private events: Event[] = [];
+  private cities: DataCatalog[] = [];
   private featured: Event[] = [];
   private upcoming: Event[] = [];
 
@@ -20,6 +26,14 @@ export class EventService {
 
   set setEvents(events: Event[]) {
     this.events = events;
+  }
+
+  get getCities() {
+    return this.cities;
+  }
+
+  set setCities(cities: DataCatalog[]) {
+    this.cities = cities;
   }
 
   get getFeatured() {
@@ -41,19 +55,27 @@ export class EventService {
   constructor(private http: HttpClient) {}
 
   getAllEvents(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events`);
+    return this.http
+      .get<any>(`${this.url}/events`)
+      .pipe(tap((response) => (this.setEvents = response.data)));
   }
 
   getAllEventsPublish(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events/publish`);
+    return this.http
+      .get<any>(`${this.url}/events/publish`)
+      .pipe(tap((response) => (this.setEvents = response.data)));
   }
 
   getFeaturedEvents(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events/featured`);
+    return this.http
+      .get<any>(`${this.url}/events/featured`)
+      .pipe(tap((response) => (this.setFeatured = response.data)));
   }
 
   getUpcomingEvents(): Observable<ResponseEvents> {
-    return this.http.get<any>(`${this.url}/events/upcoming`);
+    return this.http
+      .get<any>(`${this.url}/events/upcoming`)
+      .pipe(tap((response) => (this.setUpcoming = response.data)));
   }
 
   getEventById(id: number): Observable<ResponseEvent> {
@@ -72,6 +94,12 @@ export class EventService {
     return this.http.post<any>(`${this.url}/events/search/publish`, {
       conditions,
     });
+  }
+
+  getCitiesEvents(): Observable<ResponseCatalog> {
+    return this.http
+      .get<ResponseCatalog>(`${this.url}/events/cities`)
+      .pipe(tap((response) => (this.setCities = response.data)));
   }
 
   createEvent(event: any): Observable<any> {

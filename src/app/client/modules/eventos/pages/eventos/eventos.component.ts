@@ -1,3 +1,4 @@
+import { DataService } from "./../../../../../services/data.service";
 import { SpinnerService } from "./../../../../../services/spinner.service";
 import { Event } from "./../../../../../interfaces/event";
 import { UploadImageEventService } from "./../../../../../services/upload-image-event.service";
@@ -5,7 +6,7 @@ import { environment } from "./../../../../../../environments/environment";
 import { EventService } from "./../../../../../services/events.service";
 import { Component, OnInit } from "@angular/core";
 import { Subject, pairwise, startWith } from "rxjs";
-import { FormControl, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-eventos",
@@ -23,8 +24,23 @@ export class EventosComponent implements OnInit {
     Validators.minLength(3),
   ]);
 
+  public filters = new FormGroup({
+    city: new FormControl(null,[]),
+    type: new FormControl(null,[]),
+    date: new FormControl(null,[]),
+    outstanding: new FormControl(null,[])
+  });
+
   get events() {
     return this.eventService.getEvents;
+  }
+
+  get cities() {
+    return this.eventService.getCities;
+  }
+
+  get services() {
+    return this.dataService.getServices;
   }
 
   get mainImagesUrl(): string[] {
@@ -41,6 +57,7 @@ export class EventosComponent implements OnInit {
 
   constructor(
     private spinner: SpinnerService,
+    private dataService: DataService,
     private eventService: EventService,
     private uploadImageEventService: UploadImageEventService
   ) {}
@@ -49,6 +66,16 @@ export class EventosComponent implements OnInit {
     //Obtiene todos los eventos
     if (this.events.length === 0) {
       this.getEvents();
+    }
+
+    //Obtiene las ciudades de los eventos
+    if (this.cities.length === 0) {
+      this.getCities();
+    }
+
+    //Obtiene las lista de servicios
+    if (this.services.length === 0) {
+      this.getServices();
     }
 
     //Obtiene las imagenes principales para el slider del header
@@ -73,9 +100,9 @@ export class EventosComponent implements OnInit {
               this.eventsFiltered = response.data;
               this.spinner.setActive(false);
               if (response.data.length === 0) {
-                this.termNotFound = newValue
+                this.termNotFound = newValue;
               } else {
-                this.termNotFound = null
+                this.termNotFound = null;
               }
             });
         }
@@ -83,9 +110,15 @@ export class EventosComponent implements OnInit {
   }
 
   getEvents() {
-    this.eventService.getAllEventsPublish().subscribe((response) => {
-      this.eventService.setEvents = response.data;
-    });
+    this.eventService.getAllEventsPublish().subscribe((_) => {});
+  }
+
+  getCities() {
+    this.eventService.getCitiesEvents().subscribe((_) => {});
+  }
+
+  getServices() {
+    this.dataService.getAllServices().subscribe((_) => {});
   }
 
   getMainImages() {
@@ -118,7 +151,7 @@ export class EventosComponent implements OnInit {
 
   cleanFilters() {
     this.eventsFiltered = [];
-    this.termNotFound = null
+    this.termNotFound = null;
     this.inputSearchControl.setValue("");
   }
 }

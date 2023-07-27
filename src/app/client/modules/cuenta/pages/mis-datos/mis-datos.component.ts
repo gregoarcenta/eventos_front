@@ -121,7 +121,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
 
     if (this.dataService.getDocuments.length === 0) {
       this.dataService.getAllDocuments().subscribe({
-        next: (response) => (this.dataService.setDocuments = response.data),
+        next: (_) => {},
         error: (_) => this.router.navigateByUrl("/"),
       });
     }

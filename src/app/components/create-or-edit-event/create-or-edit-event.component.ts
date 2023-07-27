@@ -1,3 +1,4 @@
+import { AuthService } from "./../../services/auth.service";
 import { Event, Place as EventPlace } from "./../../interfaces/event";
 import { CustomValidators } from "./../../validations/validations-forms";
 import { _patterDescription, _patterName } from "./../../utils/regularPatterns";
@@ -94,10 +95,7 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
       img: ["", [Validators.required]],
       outstanding: [false, [Validators.required]],
       publish: [false, [Validators.required]],
-      organizer: this.fb.control<string | null>(null, [
-        Validators.required,
-        Validators.pattern(_patterName),
-      ]),
+      organizer: this.fb.control<string | null>(null, [Validators.required]),
       existsArtist: [false, [Validators.required]],
       artist: this.fb.control<string | null>(null, [
         Validators.minLength(3),
@@ -173,6 +171,7 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private placeService: PlaceService,
     private dataService: DataService,
+    private authService: AuthService,
     public formService: FormService,
     private spinner: SpinnerService,
     private router: Router,
@@ -182,6 +181,7 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.provinceSubscription?.unsubscribe();
     this.checkArtistSubscription?.unsubscribe();
+    this.dataService.setCities = [];
     this.deleteImageIfNotSave();
   }
 
@@ -201,29 +201,17 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
 
     // Obtiene lista de servicios
     if (this.dataService.getServices.length === 0) {
-      this.dataService
-        .getAllServices()
-        .subscribe(
-          (response) => (this.dataService.setServices = response.data)
-        );
+      this.dataService.getAllServices().subscribe((_) => {});
     }
 
     // Obtiene lista de localidades
     if (this.dataService.getLocalities.length === 0) {
-      this.dataService
-        .getAllLocalities()
-        .subscribe(
-          (response) => (this.dataService.setLocalities = response.data)
-        );
+      this.dataService.getAllLocalities().subscribe((_) => {});
     }
 
     // Obtiene lista de provincias
     if (this.dataService.getProvinces.length === 0) {
-      this.dataService
-        .getAllprovinces()
-        .subscribe(
-          (response) => (this.dataService.setProvinces = response.data)
-        );
+      this.dataService.getAllprovinces().subscribe((_) => {});
     }
 
     // Detecta cuando se cambia el check artist
@@ -280,7 +268,7 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
     this.imageSelected = this.event!.img;
     this.eventForm.patchValue({
       name: this.event!.name,
-      description: this.event!.name,
+      description: this.event!.description,
       img: this.event!.img,
       outstanding: this.event!.outstanding,
       publish: this.event!.publish,
@@ -314,7 +302,7 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
   }
 
   deleteImageIfNotSave() {
-    if (this.eventForm.value.img) {
+    if (this.eventForm.value.img && this.authService.getAuthUser) {
       this.uploadImageEventService
         .deleteImgIfNotExists(this.eventForm.value.img)
         .subscribe((_) => {});
@@ -438,11 +426,13 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
   }
 
   cargarCiudades(ejecutar = false, provinceId: number, cityId?: number) {
-    const controlPorvinceId = Number(this.placeForm.get("province_id")?.value);
+    const controlProvinceId = Number(this.placeForm.get("province_id")?.value);
     const controlCityId = Number(this.placeForm.get("city_id")?.value);
-    if (controlPorvinceId === provinceId && controlCityId === cityId) return;
+
+    if (controlProvinceId === provinceId && controlCityId === cityId) return;
     this.dataService.getCitiesByProvinceId(provinceId).subscribe((response) => {
-      if (controlPorvinceId !== provinceId || ejecutar) {
+
+      if (controlProvinceId !== provinceId || ejecutar) {
         this.dataService.setCities = response.data;
       }
 
@@ -586,7 +576,6 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
         });
       })
       .catch((error) => {
-        console.log(error);
         this.placeForm.get("validCoords")?.setValue(false);
       });
     this.editMode = true;
