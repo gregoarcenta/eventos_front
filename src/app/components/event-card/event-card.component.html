@@ -1,4 +1,12 @@
 <div class="card card-custom" [ngClass]="{'marginB': marginB}" *ngIf="event">
+  <div class="outstanding" *ngIf="event.outstanding">
+    <i class="bi bi-star-fill"></i>
+  </div>
+  <div
+    class="outstanding-cover"
+    placement="left"
+    ngbTooltip="Evento Destacado"
+  ></div>
   <img
     class="card-img-top img-responsive"
     src="{{url}}/{{event.img}}"
@@ -6,10 +14,12 @@
   />
   <div class="card-body">
     <h4 class="card-title line-clamp-2">{{event.name}}</h4>
+    <div class="d-flex align-items-center mb-2">
+      <i class="bi bi-record-circle-fill text-success"></i>
+      <h6 class="m-0 ms-1 text-success">Próximamente</h6>
+    </div>
     <div class="d-grid">
-      <a
-        class="btn btn-outline-primary"
-        routerLink="/eventos/{{event.id}}"
+      <a class="btn btn-outline-primary" routerLink="/eventos/{{event.id}}"
         >Ver evento</a
       >
     </div>

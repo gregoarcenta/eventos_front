@@ -4,31 +4,40 @@ import { Event } from "./../../../../../interfaces/event";
 import { UploadImageEventService } from "./../../../../../services/upload-image-event.service";
 import { environment } from "./../../../../../../environments/environment";
 import { EventService } from "./../../../../../services/events.service";
-import { Component, OnInit } from "@angular/core";
-import { Subject, pairwise, startWith } from "rxjs";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  BehaviorSubject,
+  Subscription,
+  debounceTime,
+  pairwise,
+  startWith,
+} from "rxjs";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-eventos",
   templateUrl: "./eventos.component.html",
   styleUrls: ["./eventos.component.scss"],
 })
-export class EventosComponent implements OnInit {
+export class EventosComponent implements OnInit, OnDestroy {
   private url = `${environment.url}/upload/eventos`;
-  private eventTerm$ = new Subject<string>();
-  public termNotFound: string | null = null;
-  public eventsFiltered: Event[] = [];
+  private inputSearchSubscription?: Subscription;
+  private filtersSubscription?: Subscription;
 
-  public inputSearchControl = new FormControl("", [
-    Validators.required,
-    Validators.minLength(3),
-  ]);
+  private eventTerm$ = new BehaviorSubject<string>("");
+  public termNotFound: string | null = null;
+  public notDataFilter: boolean = false;
+  public eventsFiltered: Event[] = [];
+  public conditionsFiltered: any = null;
+
+  public inputSearchControl = new FormControl<string | null>(null);
 
   public filters = new FormGroup({
-    city: new FormControl(null,[]),
-    type: new FormControl(null,[]),
-    date: new FormControl(null,[]),
-    outstanding: new FormControl(null,[])
+    city: new FormControl<string | null>(null),
+    type: new FormControl<string | null>(null),
+    start_date: new FormControl<string | null>(null),
+    end_date: new FormControl<string | null>(null),
+    outstanding: new FormControl<boolean>(false),
   });
 
   get events() {
@@ -62,6 +71,11 @@ export class EventosComponent implements OnInit {
     private uploadImageEventService: UploadImageEventService
   ) {}
 
+  ngOnDestroy(): void {
+    this.filtersSubscription?.unsubscribe();
+    this.inputSearchSubscription?.unsubscribe();
+  }
+
   ngOnInit(): void {
     //Obtiene todos los eventos
     if (this.events.length === 0) {
@@ -88,24 +102,19 @@ export class EventosComponent implements OnInit {
       this.getSecondariesImages();
     }
 
-    // Para buscar los eventos
-    this.eventTerm$
-      .pipe(startWith(""), pairwise())
+    // Para buscar los eventos por el input
+    this.inputSearchSubscription = this.eventTerm$
+      .pipe(pairwise())
       .subscribe(([oldValue, newValue]) => {
-        if (oldValue !== newValue) {
-          this.spinner.setActive(true);
-          this.eventService
-            .searchEventsPublish(newValue)
-            .subscribe((response) => {
-              this.eventsFiltered = response.data;
-              this.spinner.setActive(false);
-              if (response.data.length === 0) {
-                this.termNotFound = newValue;
-              } else {
-                this.termNotFound = null;
-              }
-            });
-        }
+        if (oldValue !== newValue) this.searchEvents();
+      });
+
+    // Para buscar los eventos cuando cambie de ciudad
+    this.filtersSubscription = this.filters
+      .get("city")!
+      .valueChanges.pipe(startWith(""), debounceTime(300), pairwise())
+      .subscribe(([oldValue, newValue]) => {
+        if (oldValue !== newValue) this.searchEvents();
       });
   }
 
@@ -142,16 +151,78 @@ export class EventosComponent implements OnInit {
     ];
   }
 
-  searchEvents() {
+  onClickInputSearch() {
     const term = this.inputSearchControl.value;
     if (term && term.length >= 3 && this.events.length > 0) {
       this.eventTerm$.next(term);
     }
   }
 
+  searchEvents() {
+    this.conditionsFiltered = {
+      ...this.filters.value,
+      city: this.filters.value.city === "null" ? null : this.filters.value.city,
+      term:
+        this.inputSearchControl.value === ""
+          ? null
+          : this.inputSearchControl.value,
+    };
+    if (
+      !this.conditionsFiltered.city &&
+      !this.conditionsFiltered.end_date &&
+      !this.conditionsFiltered.start_date &&
+      !this.conditionsFiltered.outstanding &&
+      !this.conditionsFiltered.type &&
+      !this.conditionsFiltered.term
+    ) {
+      return;
+    }
+    this.spinner.setActive(true);
+    this.eventService
+      .searchEventsPublish(this.conditionsFiltered)
+      .subscribe((response) => {
+        this.eventsFiltered = response.data;
+        this.spinner.setActive(false);
+        if (response.data.length > 0) {
+          this.termNotFound = null;
+          this.notDataFilter = false;
+          return;
+        }
+        if (
+          this.inputSearchControl.value &&
+          this.inputSearchControl.value.length > 0
+        ) {
+          this.termNotFound = this.inputSearchControl.value;
+          this.notDataFilter = false;
+          return;
+        }
+        this.termNotFound = null;
+        this.notDataFilter = true;
+      });
+  }
+
   cleanFilters() {
     this.eventsFiltered = [];
     this.termNotFound = null;
-    this.inputSearchControl.setValue("");
+    this.notDataFilter = false;
+    this.conditionsFiltered = null
+    this.inputSearchControl.setValue(null);
+    this.filters.patchValue({
+      city: null,
+      type: null,
+      start_date: null,
+      end_date: null,
+      outstanding: false,
+    });
+  }
+
+  getCityNameById(cityId: any): string {
+    const city = this.cities.find((c) => c.id == cityId);
+    return city ? city.name : "";
+  }
+
+  getServiceNameById(serviceId: any): string {
+    const service = this.services.find((s) => s.id == serviceId);
+    return service ? service.name : "";
   }
 }

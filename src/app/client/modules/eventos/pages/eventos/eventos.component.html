@@ -45,11 +45,11 @@
             class="form-control input-adm"
             placeholder="Buscar eventos..."
             [formControl]="inputSearchControl"
-            (keyup.enter)="searchEvents()"
+            (keyup.enter)="onClickInputSearch()"
           />
           <button
             class="btn btn-primary ms-2 text-nowrap"
-            (click)="searchEvents()"
+            (click)="onClickInputSearch()"
           >
             <i class="bi bi-search"></i
             ><span class="d-none m-0 d-sm-inline-block ms-sm-1"
@@ -58,7 +58,7 @@
           </button>
           <button
             class="btn btn-danger ms-2 text-nowrap"
-            *ngIf="eventsFiltered.length >= 1 || termNotFound"
+            *ngIf="eventsFiltered.length >= 1 || termNotFound || notDataFilter"
             (click)="cleanFilters()"
           >
             <i class="bi bi-eraser-fill"></i
@@ -68,10 +68,14 @@
           </button>
         </div>
       </div>
-      <div class="col-md-5 col-lg-4 col-xl-3 d-flex align-items-center">
+
+      <form
+        [formGroup]="filters"
+        class="col-md-5 col-lg-4 col-xl-3 d-flex align-items-center"
+      >
         <label class="me-2">Ubicación</label>
-        <select class="form-select input-adm">
-          <option value="0">No seleccionado</option>
+        <select class="form-select input-adm" formControlName="city">
+          <option [value]="null">No seleccionado</option>
           <option [value]="city.id" *ngFor="let city of cities"
             >{{ city.name }}</option
           >
@@ -81,26 +85,45 @@
           placement="top"
           ngbTooltip="Todos los filtros"
           data-bs-toggle="offcanvas"
-          href="#offcanvasExample"
+          href="#offcanvasFilters"
         >
           <i class="bi bi-funnel-fill"></i>
         </button>
-      </div>
+      </form>
     </div>
+  </section>
 
-    <!--Fecha-->
-    <!-- <div class="row g-2 justify-content-end align-items-center mt-1">
-      <div class="col-md-5 col-lg-4 col-xl-3 d-flex align-items-center">
-        <label for="start_date" class="text-nowrap me-2">Fecha</label>
-        <input
-          type="date"
-          placeholder="Ingrese fecha de inicio del evento"
-          formControlName="start_date"
-          class="form-control input-adm"
-          id="start_date"
-        />
-      </div>
-    </div> -->
+  <!-- badges filters -->
+  <section
+    class="mt-3"
+    *ngIf="conditionsFiltered?.city || conditionsFiltered?.end_date ||conditionsFiltered?.start_date || conditionsFiltered?.outstanding || conditionsFiltered?.type"
+  >
+    <label class="ms-2 fw-semibold"> Filtrado por:</label>
+    <span
+      class="badge text-bg-warning pointer mx-1"
+      *ngIf="conditionsFiltered?.city"
+      >Ciudad: {{getCityNameById(conditionsFiltered?.city)}}</span
+    >
+    <span
+      class="badge text-bg-warning pointer mx-1"
+      *ngIf="conditionsFiltered?.type"
+      >Tipo: {{getServiceNameById(conditionsFiltered?.type)}}</span
+    >
+    <span
+      class="badge text-bg-warning pointer mx-1"
+      *ngIf="conditionsFiltered?.outstanding"
+      >Eventos Destacados</span
+    >
+    <span
+      class="badge text-bg-warning pointer mx-1"
+      *ngIf="conditionsFiltered?.start_date"
+      >Fecha de inicio: {{conditionsFiltered?.start_date}}</span
+    >
+    <span
+      class="badge text-bg-warning pointer"
+      *ngIf="conditionsFiltered?.end_date"
+      >Fecha de fin: {{conditionsFiltered?.end_date}}</span
+    >
   </section>
 
   <!-- data events -->
@@ -109,7 +132,9 @@
     *ngIf="eventsFiltered.length > 0 || events.length > 0"
   >
     <div class="row g-3">
-      <ng-container *ngIf="eventsFiltered.length === 0 && !termNotFound">
+      <ng-container
+        *ngIf="eventsFiltered.length === 0 && !termNotFound && !notDataFilter"
+      >
         <div *ngFor="let event of events" class="col-sm-6 col-md-4 col-lg-3">
           <event-card [event]="event"></event-card>
         </div>
@@ -121,6 +146,12 @@
         </div>
       </ng-container>
 
+      <ng-container *ngIf="eventsFiltered.length === 0 && notDataFilter">
+        <div class="alert alert-info py-2">
+          No hay eventos relacionados con los filtros seleccionados
+        </div>
+      </ng-container>
+
       <ng-container *ngIf="eventsFiltered.length >= 1">
         <div *ngFor="let event of eventsFiltered" class="col-md-3">
           <event-card [event]="event"></event-card>
@@ -129,18 +160,19 @@
     </div>
   </section>
 
+  <!-- no data -->
   <div
     class="d-flex justify-content-center mt-3"
     *ngIf="eventsFiltered.length === 0 && events.length === 0"
   >
     <h5 class="alert alert-info">
-      Actualmente no contamos con eventos diponibles
+      No contamos con eventos diponibles
       <i class="bi bi-emoji-frown"></i>
     </h5>
   </div>
 </main>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFilters">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title fw-bold">Filtrar por</h5>
     <button
@@ -148,9 +180,11 @@
       class="btn-close text-reset"
       data-bs-dismiss="offcanvas"
       aria-label="Close"
+      #btnCanvasClosed
     ></button>
   </div>
   <div class="offcanvas-body">
+    <hr class="mt-0" />
     <form [formGroup]="filters">
       <!-- filtro por tipo -->
       <div class="">
@@ -164,7 +198,10 @@
             [name]="'type'"
             [value]="service.id"
           />
-          <label class="form-check-label" [for]="'checkservice'+service.id">
+          <label
+            class="form-check-label pointer"
+            [for]="'checkservice'+service.id"
+          >
             {{service.name | titlecase}}
           </label>
         </div>
@@ -172,15 +209,15 @@
       <hr />
 
       <!-- filtro por fecha -->
-      <div>
-        <label for="" class="fw-bold">Fecha</label>
+      <div class="">
+        <label for="" class="fw-bold">Rango de fechas</label>
         <!--Fecha de inicio-->
         <div class="mb-3">
           <label for="start_date">Fecha de inicio</label>
           <input
             type="date"
-            placeholder="Ingrese fecha de inicio del evento"
-            class="form-control input-adm"
+            class="form-control"
+            formControlName="start_date"
             id="start_date"
           />
         </div>
@@ -190,8 +227,8 @@
           <label for="end_date">Fecha de finalización</label>
           <input
             type="date"
-            placeholder="Ingrese fecha de finalización del evento"
-            class="form-control input-adm"
+            class="form-control"
+            formControlName="end_date"
             id="end_date"
           />
         </div>
@@ -199,26 +236,31 @@
       <hr />
 
       <!-- filtro por destacados -->
-      <div>
+      <div class="">
         <div class="form-check">
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            formControlName="outstanding"
+            id="checkFilterOutstanding"
           />
-          <label class="form-check-label" for="flexCheckDefault">
+          <label class="form-check-label pointer" for="checkFilterOutstanding">
             Solo eventos destacados
           </label>
         </div>
       </div>
 
       <!-- boton submit -->
-      <div class="mt-2 text-end">
-        <button class="btn btn-primary">Mostrar resultados</button>
+      <div class="mt-3 text-center">
+        <button
+          class="btn btn-primary"
+          (click)="searchEvents(); btnCanvasClosed.click();"
+        >
+          Mostrar resultados
+        </button>
       </div>
     </form>
 
-    <pre>{{filters.value | json}}</pre>
+    <!-- <pre>{{filters.value | json}}</pre> -->
   </div>
 </div>

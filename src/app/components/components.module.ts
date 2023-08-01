@@ -11,6 +11,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxMaskModule } from 'ngx-mask'
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NgxMaskModule } from 'ngx-mask'
     RouterModule,
     MatStepperModule,
     ReactiveFormsModule,
+    NgbTooltipModule,
     NgSelectModule,
     NgxMaskModule.forRoot(),
   ],

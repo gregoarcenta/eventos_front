@@ -90,7 +90,7 @@ export class EventService {
     return this.http.post<any>(`${this.url}/events/search`, { term });
   }
 
-  searchEventsPublish(conditions: string): Observable<ResponseEvents> {
+  searchEventsPublish(conditions: any): Observable<ResponseEvents> {
     return this.http.post<any>(`${this.url}/events/search/publish`, {
       conditions,
     });
