@@ -12,6 +12,13 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Estilos adicionales específicos para dispositivos móviles */
+@media (max-width: 768px) {
+  .custom-swal-modal .swal2-modal {
+    width: 100% !important;
+  }
+}
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
