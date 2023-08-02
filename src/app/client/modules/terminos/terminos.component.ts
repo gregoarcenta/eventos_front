@@ -14,7 +14,7 @@ export class TerminosComponent {
       ],
     },
     {
-      title: "Uso del aplicativol:",
+      title: "Uso del aplicativo:",
       description: [
         "El aplicativo de EventosEC está diseñada para proporcionar información sobre eventos y conciertos, así como para permitir la compra de boletos y la gestión de asistencias.",
         "Eres responsable de utilizar el aplicativo de manera adecuada y solo para los fines previstos",
