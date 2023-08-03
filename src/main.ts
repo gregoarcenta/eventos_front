@@ -14,7 +14,6 @@ if (!navigator.geolocation) {
 }
 
 const html = `
-
 <p>
   Queremos informarte que actualmente estamos en proceso de prueba de nuestra aplicación y los eventos que se encuentran publicados son parte de este proceso.
 </p>
@@ -30,18 +29,20 @@ const html = `
 <p>¡Gracias por ser parte de EventosEC!"</p>
 `;
 
-Swal.fire({
-  title: "<strong>Información Importante</strong>",
-  icon: "info",
-  html,
-  focusConfirm: false,
-  confirmButtonText: "Entendido",
-  allowOutsideClick: false,
-  width: "50%",
-  customClass: {
-    container: "custom-swal-modal",
-  },
-});
+if (environment.production) {
+  Swal.fire({
+    title: "<strong>Información Importante</strong>",
+    icon: "info",
+    html,
+    focusConfirm: false,
+    confirmButtonText: "Entendido",
+    allowOutsideClick: false,
+    width: "50%",
+    customClass: {
+      container: "custom-swal-modal",
+    },
+  });
+}
 
 if (environment.production) {
   enableProdMode();
