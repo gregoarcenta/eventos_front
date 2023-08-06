@@ -55,14 +55,13 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
   beforeUnloadHandler(event: Event) {
     this.deleteImageIfNotSave();
   }
-  firstFormGroup: FormGroup = this.fb.group({ firstCtrl: [""] });
-  secondFormGroup: FormGroup = this.fb.group({ secondCtrl: [""] });
   private provinceSubscription?: Subscription;
   private checkArtistSubscription?: Subscription;
 
   public eventId: null | number = null;
   public event: Event | null = null;
   public imageSelected: string | null = null;
+  public imagesForDelete: string[] = [];
 
   public organizers$?: Observable<User[]>;
   public organizerTerm$ = new Subject<string>();
@@ -191,12 +190,17 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
     });
 
     if (this.eventId) {
-      this.eventService
-        .getEventById(this.eventId as number)
-        .subscribe((response) => {
+      this.spinner.setActive(true);
+      this.eventService.getEventById(this.eventId as number).subscribe({
+        next: (response) => {
           this.event = response.data;
           this.fillData();
-        });
+          this.spinner.setActive(false);
+        },
+        error: (error) => {
+          this.router.navigateByUrl("/");
+        },
+      });
     }
 
     // Obtiene lista de servicios
@@ -302,11 +306,12 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
   }
 
   deleteImageIfNotSave() {
-    if (this.eventForm.value.img && this.authService.getAuthUser) {
+    if (!this.eventForm.value.img || !this.authService.getAuthUser) return;
+    this.imagesForDelete.forEach((image) => {
       this.uploadImageEventService
-        .deleteImgIfNotExists(this.eventForm.value.img)
+        .deleteImgIfNotExists(image)
         .subscribe((_) => {});
-    }
+    });
   }
 
   loadUsers() {
@@ -404,25 +409,36 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
             "warning"
           );
           return;
+        }
+
+        this.spinner.setActive(true);
+        if (this.eventId) {
+          this.uploadImageEventService
+            .updateImgEvent(archivo, this.eventId)
+            .subscribe((response) => this.newImageSelected(response));
         } else {
           this.uploadImageEventService
             .uploadImgEvent(archivo)
-            .subscribe((respose) => {
-              this.imageSelected = respose.data;
-              this.eventForm.patchValue({ img: this.imageSelected });
-              Swal.fire({
-                toast: true,
-                position: "top-end",
-                icon: "success",
-                title: "¡Imagen cargada exitosamente!",
-                showConfirmButton: false,
-                timer: 3000,
-              });
-            });
+            .subscribe((response) => this.newImageSelected(response));
         }
       };
       img.src = window.URL.createObjectURL(archivo);
     }
+  }
+
+  newImageSelected(response: any) {
+    this.imageSelected = response.data;
+    this.imagesForDelete.push(this.imageSelected!);
+    this.eventForm.patchValue({ img: this.imageSelected });
+    this.spinner.setActive(false);
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: response.message,
+      showConfirmButton: false,
+      timer: 4000,
+    });
   }
 
   cargarCiudades(ejecutar = false, provinceId: number, cityId?: number) {
@@ -431,7 +447,6 @@ export class CreateOrEditEventComponent implements OnInit, OnDestroy {
 
     if (controlProvinceId === provinceId && controlCityId === cityId) return;
     this.dataService.getCitiesByProvinceId(provinceId).subscribe((response) => {
-
       if (controlProvinceId !== provinceId || ejecutar) {
         this.dataService.setCities = response.data;
       }

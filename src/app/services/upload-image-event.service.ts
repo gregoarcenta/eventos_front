@@ -44,6 +44,19 @@ export class UploadImageEventService {
     );
   }
 
+  updateImgEvent(img: File, idEvent:number): Observable<ResponseUploadImage> {
+    let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
+    const formData = new FormData();
+    formData.append("imgBannerEvent", img, img.name);
+    return this.http.put<ResponseUploadImage>(
+      `${this.url}/upload/eventos/${idEvent}`,
+      formData,
+      {
+        headers,
+      }
+    );
+  }
+
   deleteImgIfNotExists(nameImage: string): Observable<any> {
     return this.http.post<any>(`${this.url}/upload/eventos/${nameImage}`, {});
   }

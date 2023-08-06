@@ -135,9 +135,9 @@ export class EventosComponent implements OnInit, OnDestroy {
       this.uploadImageEventService.setMainImages = response.data;
     }); */
     this.uploadImageEventService.setMainImages = [
-      "896d3794-bb1d-4055-97a9-e9d96fd54df0.jpg",
+      "green.jpg",
+      "16-8.jpg",
       "20086cb5-928d-4cd1-b5a2-ab1c81d5b0d1.jpg",
-      "363889e8-3a71-4572-9d35-b08da7631cd8.jpg",
     ];
   }
 

@@ -15,8 +15,28 @@ form {
   margin-bottom: .5rem;
 }
 
+.img-container-banner::before {
+  content: "Actualizar imagen";
+  color: white;
+  background-color: rgba(5, 5, 5, 0.43);
+  border-radius:  10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  z-index: 999;
+}
+
 .img-container-banner:hover {
   background-color: unset;
+}
+
+.img-container-banner-update:hover::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .content {
@@ -46,10 +66,10 @@ form {
   padding: 1rem;
 }
 
-.agg-locality{
+.agg-locality {
   height: 100%;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   padding: 5rem 1rem;
 }
@@ -63,51 +83,53 @@ form {
   font-weight: 900;
 }
 
-::ng-deep .step2CustomClass mat-step-header{
+::ng-deep .step2CustomClass mat-step-header {
   cursor: pointer !important;
 }
 
-::ng-deep .step2CustomClass:hover mat-step-header{
+::ng-deep .step2CustomClass:hover mat-step-header {
   background-color: rgb(233 237 238);
 }
+
 ::ng-deep .step2CustomClass .mat-step-label {
   color: black
 }
+
 ::ng-deep .step2CustomClass .mat-step-icon {
   background-color: #7c4dff;
 }
 
-  /**
+/**
    *
    * Estilos para el input de seleccion de organizador
    *
    */
 
-  .ng-select.custom {
-    border:0px;
-    min-height: 0px;
-    border-radius: 0;
-  }
+.ng-select.custom {
+  border: 0px;
+  min-height: 0px;
+  border-radius: 0;
+}
 
-  .ng-select.custom ::ng-deep .ng-select-container  {
-    min-height: 0px;
-    height: 39px;
-    border-width: 2px;
-    width: 100%;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #54667a;
-    border: 2px solid #e9ecef;
-    border-radius: 4px;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+.ng-select.custom ::ng-deep .ng-select-container {
+  min-height: 0px;
+  height: 39px;
+  border-width: 2px;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #54667a;
+  border: 2px solid #e9ecef;
+  border-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .ng-select.custom ::ng-deep .ng-select-container:focus-within {
@@ -116,6 +138,6 @@ form {
   box-shadow: 0 0 0 0.25rem rgba(142, 130, 217, 0.25);
 }
 
-.ng-select.custom ::ng-deep .ng-select-container input{
+.ng-select.custom ::ng-deep .ng-select-container input {
   color: #54667a;
 }

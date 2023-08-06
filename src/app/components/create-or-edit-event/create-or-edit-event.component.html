@@ -14,6 +14,7 @@
         <div class="col-md-6">
           <div
             class="img-container-banner"
+            [ngClass]="{'img-container-banner-update': eventId}"
             (dragover)="onDragOver($event)"
             (dragenter)="onDragEnter($event)"
             (drop)="onDragOver($event)"
