@@ -12,6 +12,9 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxMaskModule } from 'ngx-mask'
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { GeneralDataFormComponent } from './events/general-data-form/general-data-form.component';
+import { PlaceDataFormComponent } from './events/place-data-form/place-data-form.component';
+import { LocalitiesDataFormComponent } from './events/localities-data-form/localities-data-form.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
     MapViewComponent,
     EventCardComponent,
     CreateOrEditEventComponent,
+    GeneralDataFormComponent,
+    PlaceDataFormComponent,
+    LocalitiesDataFormComponent,
   ],
   exports: [
     SpinnerComponent,
