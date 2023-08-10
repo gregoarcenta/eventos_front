@@ -1,1 +1,160 @@
-<p>place-data-form works!</p>
+<form [formGroup]="placeForm">
+
+  <!--mensaje-->
+  <ng-container>
+    <p class="text-center mb-1 fw-bold">
+      Busque y seleccione el lugar donde se creará el evento
+    </p>
+    <p class="text-center mb-1 fw-bold">
+      Ejemplo: <span class=""> Teatro Sanchez Aguilar</span>
+    </p>
+  </ng-container>
+
+  <!--Para crear una ubicacion-->
+  <p class="text-center mb-1 fw-bold">
+    ¿No encuentras el lugar de tu evento?
+    <span class="text-primary pointer enlace" (click)="addPlace()"
+      >Da click aquí para crear una ubicación para tu evento</span
+    >
+  </p>
+
+  <!--search-->
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <!--search-->
+      <div class="mb-3">
+        <input
+          #placeSearch
+          type="search"
+          class="form-control input-adm"
+          placeholder="Buscar lugar del evento..."
+          (input)="searchPlaces($event)"
+        />
+        <div
+          class="alert alert-info py-1 mt-2 text-center"
+          *ngIf="notFoundPlace"
+        >
+          No se encuentra la ubicación especificada
+        </div>
+        <div class="autocompletado">
+          <ul class="list-group">
+            <li
+              *ngFor="let place of places"
+              class="list-group-item list-group-item-action pointer"
+              (click)="getPlace(place.id); placeSearch.value = ''"
+            >
+              {{ place.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="place || editMode">
+    <div
+      class="col-md-6 bg-light justify-content-center g-0 position-relative"
+    >
+      <map [editMode]="editMode"></map>
+      <div class="map-overlay" *ngIf="!editMode"></div>
+    </div>
+    <div class="col-md-6">
+      <!--name-->
+      <div class="mb-3">
+        <label for="placeName">Nombre</label>
+        <input
+          type="text"
+          placeholder="Ingrese su nombre"
+          formControlName="name"
+          class="form-control input-adm"
+          id="placeName"
+        />
+        <small
+          *ngIf="formService.validInput(placeForm, 'name')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorName(placeForm)}}</small
+        >
+      </div>
+      <!--description-->
+      <div class="mb-3">
+        <label for="placeDescription">Descripción</label>
+        <textarea
+          rows="5"
+          placeholder="Ingrese una descripción"
+          formControlName="description"
+          class="form-control input-adm"
+          id="placeDescription"
+        ></textarea>
+        <small
+          *ngIf="formService.validInput(placeForm, 'description')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorDescription(placeForm)}}</small
+        >
+      </div>
+      <!--reference-->
+      <div class="mb-3">
+        <label for="placeReference">Referencia</label>
+        <input
+          type="text"
+          placeholder="Ingrese una referencia"
+          formControlName="reference"
+          class="form-control input-adm"
+          id="placeReference"
+        />
+        <small
+          *ngIf="formService.validInput(placeForm, 'reference')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorReference(placeForm)}}</small
+        >
+      </div>
+
+      <div class="row">
+        <!--provincias-->
+        <div class="col-md-6">
+          <label class="form-check-label pointer">
+            Elige una provincia
+          </label>
+          <div class="mb-3 position-relative">
+            <select
+              class="form-select input-adm"
+              formControlName="province_id"
+            >
+              <option value="0" disabled>Selecciona una opción</option>
+              <option
+                [value]="province.id"
+                *ngFor="let province of provinces"
+                >{{province.name}}</option
+              >
+            </select>
+            <small
+              *ngIf="formService.validInput(placeForm, 'province_id')"
+              class="form-text text-danger"
+            >
+              {{formService.getMsgErrorSelect(placeForm, 'province_id')}}
+            </small>
+          </div>
+        </div>
+        <!--ciudades-->
+        <div class="col-md-6">
+          <label class="form-check-label pointer">
+            Elige una ciudad
+          </label>
+          <div class="mb-3 position-relative">
+            <select class="form-select input-adm" formControlName="city_id">
+              <option value="0" disabled>Selecciona una opción</option>
+              <option [value]="city.id" *ngFor="let city of cities"
+                >{{city.name}}</option
+              >
+            </select>
+            <small
+              *ngIf="formService.validInput(placeForm, 'city_id')"
+              class="form-text text-danger"
+            >
+              {{formService.getMsgErrorSelect(placeForm, 'city_id')}}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
