@@ -1,4 +1,4 @@
-import { Subject, debounceTime } from "rxjs";
+import { Subject, debounceTime, switchMap, take } from "rxjs";
 import { environment } from "./../../../../environments/environment";
 import { _patterName } from "./../../../utils/regularPatterns";
 import { EventService } from "./../../../services/events.service";
@@ -13,35 +13,34 @@ export class EventsComponent implements OnInit {
   public url = `${environment.url}/upload/eventos`;
   private searchTerm$ = new Subject<string>();
 
-  get events() {
-    return this.eventService.getEvents;
+  public skeletonCount = Array(4).fill(0);
+
+  get events$() {
+    return this.eventService.events$;
+  }
+
+  get loading$() {
+    return this.eventService.loading$;
   }
 
   constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
-    if (this.eventService.getEvents.length === 0) {
-      this.getAllEvent();
-    }
+    this.events$.pipe(take(1)).subscribe((events) => {
+      if (events.length === 0) this.getAllEvent();
+    });
 
-    this.searchTerm$
-      .pipe(debounceTime(300)) // Establece el retardo deseado (en milisegundos)
-      .subscribe((term) => {
-        this.realizarBusqueda(term);
-      });
+    this.searchTerm$.pipe(debounceTime(300)).subscribe((term) => {
+      this.eventService.searchEvents(term).subscribe((_) => {});
+    });
   }
 
   searchEvents(event: any) {
     const term = event.target.value;
-    if (term && term.length >= 3) return this.searchTerm$.next(term);
-
-    this.getAllEvent();
-  }
-
-  realizarBusqueda(term: string): void {
-    this.eventService.searchEvents(term).subscribe((response) => {
-      this.eventService.setEvents = response.data;
-    });
+    if (term && term.length >= 3) {
+      this.searchTerm$.next(term);
+      return;
+    }
   }
 
   getAllEvent() {

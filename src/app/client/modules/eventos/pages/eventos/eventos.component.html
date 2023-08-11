@@ -129,48 +129,59 @@
   <!-- data events -->
   <section
     class="mt-3 section-events"
-    *ngIf="eventsFiltered.length > 0 || events.length > 0"
+    *ngIf="((loading$ | async) || (events$ | async)!.length > 0) && !termNotFound && !notDataFilter; else notData"
   >
     <div class="row g-3">
-      <ng-container
-        *ngIf="eventsFiltered.length === 0 && !termNotFound && !notDataFilter"
-      >
-        <div *ngFor="let event of events" class="col-sm-6 col-md-4 col-lg-3">
-          <event-card [event]="event"></event-card>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="eventsFiltered.length === 0 && termNotFound">
-        <div class="alert alert-info py-2">
-          No hay eventos relacionados con la busqueda: "{{termNotFound}}"
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="eventsFiltered.length === 0 && notDataFilter">
-        <div class="alert alert-info py-2">
-          No hay eventos relacionados con los filtros seleccionados
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="eventsFiltered.length >= 1">
-        <div *ngFor="let event of eventsFiltered" class="col-md-3">
-          <event-card [event]="event"></event-card>
+      <ng-container *ngIf="loading$ | async; else contentData">
+        <div *ngFor="let _ of skeletonCount" class="col-sm-6 col-md-4 col-lg-3">
+          <ngx-skeleton-loader [theme]="{height: '280px'}"></ngx-skeleton-loader>
         </div>
       </ng-container>
     </div>
   </section>
-
-  <!-- no data -->
-  <div
-    class="d-flex justify-content-center mt-3"
-    *ngIf="eventsFiltered.length === 0 && events.length === 0"
-  >
-    <h5 class="alert alert-info">
-      No contamos con eventos diponibles
-      <i class="bi bi-emoji-frown"></i>
-    </h5>
-  </div>
 </main>
+
+<!-- no data -->
+<ng-template #notData>
+  <div class="d-flex justify-content-center mt-3">
+    <div
+      *ngIf="(events$ | async)!.length === 0;"
+    >
+      <h5 class="alert alert-info">
+        No contamos con eventos diponibles
+        <i class="bi bi-emoji-frown"></i>
+      </h5>
+    </div>
+
+    <div *ngIf="termNotFound">
+      <div class="alert alert-info py-2">
+        No hay eventos relacionados con la busqueda: "{{termNotFound}}"
+      </div>
+    </div>
+    <div *ngIf="notDataFilter">
+      <div class="alert alert-info py-2">
+        No hay eventos relacionados con los filtros seleccionados
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentData>
+  <ng-container *ngIf="eventsFiltered.length === 0">
+    <div
+      *ngFor="let event of events$ | async"
+      class="col-sm-6 col-md-4 col-lg-3"
+    >
+      <event-card [event]="event"></event-card>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="eventsFiltered.length > 0">
+    <div *ngFor="let event of eventsFiltered" class="col-sm-6 col-md-4 col-lg-3">
+      <event-card [event]="event"></event-card>
+    </div>
+  </ng-container>
+</ng-template>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFilters">
   <div class="offcanvas-header">

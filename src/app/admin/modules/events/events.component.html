@@ -8,7 +8,10 @@
       (input)="searchEvents($event)"
     />
   </div>
-  <div class="col-md-4 text-end">
+  <div class="col-md-4 text-end mt-2 mt-md-0">
+    <button class="btn btn-outline-info me-2" (click)="getAllEvent()">
+      Actualizar Eventos <i class="bi bi-arrow-clockwise"></i>
+    </button>
     <button class="btn btn-primary" [routerLink]="['./agregar']">
       Agregar nuevo evento
     </button>
@@ -20,25 +23,14 @@
 <!-- Row -->
 <div class="row">
   <!-- column -->
-  <ng-container *ngIf="events.length > 0; else notData">
-    <div class="col-lg-3 col-md-6" *ngFor="let event of events">
-      <!-- Card -->
-      <!------------- start Card title ---------------->
-      <div class="card">
-        <img
-          class="card-img-top img-responsive"
-          src="{{url}}/{{event.img}}"
-          alt="imagen - {{event.name}}"
-        />
-        <div class="card-body">
-          <h4 class="card-title">{{event.name}}</h4>
-          <p class="card-text line-clamp-2">{{event.description}}</p>
-          <a class="btn btn-primary" routerLink="./{{event.id}}">Ver evento</a>
-        </div>
+  <ng-container
+    *ngIf="(loading$ | async) || (events$ | async)!.length > 0; else notData"
+  >
+    <ng-container *ngIf="loading$ | async; else contentData">
+      <div *ngFor="let _ of skeletonCount" class="col-sm-6 col-md-4 col-lg-3">
+        <ngx-skeleton-loader [theme]="{height: '280px'}"></ngx-skeleton-loader>
       </div>
-      <!------------- end Card title ------------------>
-      <!-- Card -->
-    </div>
+    </ng-container>
   </ng-container>
 </div>
 <!-- Row -->
@@ -51,4 +43,25 @@
 
 <ng-template #notDataEvents>
   <h5 class="ms-4">No hay eventos agregados</h5>
+</ng-template>
+
+<ng-template #contentData>
+  <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let event of events$ | async">
+    <!-- Card -->
+    <!------------- start Card title ---------------->
+    <div class="card">
+      <img
+        class="card-img-top img-responsive"
+        src="{{url}}/{{event.img}}"
+        alt="imagen - {{event.name}}"
+      />
+      <div class="card-body">
+        <h4 class="card-title">{{event.name}}</h4>
+        <p class="card-text line-clamp-2">{{event.description}}</p>
+        <a class="btn btn-primary" routerLink="./{{event.id}}">Ver evento</a>
+      </div>
+    </div>
+    <!------------- end Card title ------------------>
+    <!-- Card -->
+  </div>
 </ng-template>

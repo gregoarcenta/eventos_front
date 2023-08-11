@@ -29,7 +29,7 @@ const html = `
 <p>¡Gracias por ser parte de EventosEC!"</p>
 `;
 
-if (environment.production) {
+if (environment.production && environment.domain === "eventosec.com") {
   Swal.fire({
     title: "<strong>Información Importante</strong>",
     icon: "info",

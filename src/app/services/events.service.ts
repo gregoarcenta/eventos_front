@@ -1,13 +1,9 @@
 import { DataCatalog, ResponseCatalog } from "./../interfaces/catalogs";
-import {
-  Event,
-  ResponseEvent,
-  ResponseEvents,
-} from "./../interfaces/event";
+import { Event, ResponseEvent, ResponseEvents } from "./../interfaces/event";
 import { environment } from "./../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, tap } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -15,18 +11,15 @@ import { Observable, tap } from "rxjs";
 export class EventService {
   private url: string = environment.url;
 
-  private events: Event[] = [];
+  private eventsSubject = new BehaviorSubject<Event[]>([]);
+  public events$: Observable<Event[]> = this.eventsSubject.asObservable();
+
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$: Observable<boolean> = this.loadingSubject.asObservable();
+
   private cities: DataCatalog[] = [];
   private featured: Event[] = [];
   private upcoming: Event[] = [];
-
-  get getEvents() {
-    return this.events;
-  }
-
-  set setEvents(events: Event[]) {
-    this.events = events;
-  }
 
   get getCities() {
     return this.cities;
@@ -55,15 +48,23 @@ export class EventService {
   constructor(private http: HttpClient) {}
 
   getAllEvents(): Observable<ResponseEvents> {
-    return this.http
-      .get<any>(`${this.url}/events`)
-      .pipe(tap((response) => (this.setEvents = response.data)));
+    this.loadingSubject.next(true);
+    return this.http.get<any>(`${this.url}/events`).pipe(
+      tap((response) => {
+        this.eventsSubject.next(response.data);
+        this.loadingSubject.next(false);
+      })
+    );
   }
 
   getAllEventsPublish(): Observable<ResponseEvents> {
-    return this.http
-      .get<any>(`${this.url}/events/publish`)
-      .pipe(tap((response) => (this.setEvents = response.data)));
+    this.loadingSubject.next(true);
+    return this.http.get<any>(`${this.url}/events/publish`).pipe(
+      tap((response) => {
+        this.eventsSubject.next(response.data);
+        this.loadingSubject.next(false);
+      })
+    );
   }
 
   getFeaturedEvents(): Observable<ResponseEvents> {
@@ -87,7 +88,13 @@ export class EventService {
   }
 
   searchEvents(term: string): Observable<ResponseEvents> {
-    return this.http.post<any>(`${this.url}/events/search`, { term });
+    return this.http
+      .post<any>(`${this.url}/events/search`, { term })
+      .pipe(
+        tap((response) => {
+          this.eventsSubject.next(response.data);
+        })
+      );
   }
 
   searchEventsPublish(conditions: any): Observable<ResponseEvents> {

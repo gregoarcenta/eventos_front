@@ -7,6 +7,7 @@ import { EventosComponent } from "./pages/eventos/eventos.component";
 import { EventoComponent } from "./pages/evento/evento.component";
 import { NgbCarouselModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule } from "@angular/forms";
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [EventosComponent, EventoComponent],
@@ -16,6 +17,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     NgbCarouselModule,
     ComponentsModule,
     ReactiveFormsModule,
+    NgxSkeletonLoaderModule,
     NgbTooltipModule
   ],
 })

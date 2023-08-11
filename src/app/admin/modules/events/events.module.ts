@@ -7,6 +7,7 @@ import { EventsRoutingModule } from "./events-routing.module";
 import { EventsComponent } from "./events.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { EventComponent } from "./pages/event/event.component";
+import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 
 @NgModule({
   declarations: [EventsComponent, EventComponent],
@@ -15,6 +16,7 @@ import { EventComponent } from "./pages/event/event.component";
     EventsRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,
+    NgxSkeletonLoaderModule,
   ],
 })
 export class EventsModule {}

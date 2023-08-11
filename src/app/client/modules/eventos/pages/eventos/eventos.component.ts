@@ -11,6 +11,7 @@ import {
   debounceTime,
   pairwise,
   startWith,
+  take,
 } from "rxjs";
 import { FormControl, FormGroup } from "@angular/forms";
 
@@ -23,6 +24,8 @@ export class EventosComponent implements OnInit, OnDestroy {
   private url = `${environment.url}/upload/eventos`;
   private inputSearchSubscription?: Subscription;
   private filtersSubscription?: Subscription;
+
+  public skeletonCount = Array(4).fill(0);
 
   private eventTerm$ = new BehaviorSubject<string>("");
   public termNotFound: string | null = null;
@@ -40,8 +43,12 @@ export class EventosComponent implements OnInit, OnDestroy {
     outstanding: new FormControl<boolean>(false),
   });
 
-  get events() {
-    return this.eventService.getEvents;
+  get events$() {
+    return this.eventService.events$;
+  }
+
+  get loading$() {
+    return this.eventService.loading$;
   }
 
   get cities() {
@@ -78,29 +85,21 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //Obtiene todos los eventos
-    if (this.events.length === 0) {
-      this.getEvents();
-    }
+    this.events$.pipe(take(1)).subscribe((events) => {
+      if (events.length === 0) this.getEvents();
+    });
 
     //Obtiene las ciudades de los eventos
-    if (this.cities.length === 0) {
-      this.getCities();
-    }
+    if (this.cities.length === 0) this.getCities();
 
     //Obtiene las lista de servicios
-    if (this.services.length === 0) {
-      this.getServices();
-    }
+    if (this.services.length === 0) this.getServices();
 
     //Obtiene las imagenes principales para el slider del header
-    if (this.mainImagesUrl.length === 0) {
-      this.getMainImages();
-    }
+    if (this.mainImagesUrl.length === 0) this.getMainImages();
 
     //Obtiene las imagenes secundarias del header
-    if (this.secondariesImagesUrl.length === 0) {
-      this.getSecondariesImages();
-    }
+    if (this.secondariesImagesUrl.length === 0) this.getSecondariesImages();
 
     // Para buscar los eventos por el input
     this.inputSearchSubscription = this.eventTerm$
@@ -153,9 +152,11 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   onClickInputSearch() {
     const term = this.inputSearchControl.value;
-    if (term && term.length >= 3 && this.events.length > 0) {
-      this.eventTerm$.next(term);
-    }
+    this.events$.pipe(take(1)).subscribe((events) => {
+      if (term && term.length >= 3 && events.length > 0) {
+        this.eventTerm$.next(term);
+      }
+    });
   }
 
   searchEvents() {
@@ -205,7 +206,7 @@ export class EventosComponent implements OnInit, OnDestroy {
     this.eventsFiltered = [];
     this.termNotFound = null;
     this.notDataFilter = false;
-    this.conditionsFiltered = null
+    this.conditionsFiltered = null;
     this.inputSearchControl.setValue(null);
     this.filters.patchValue({
       city: null,
