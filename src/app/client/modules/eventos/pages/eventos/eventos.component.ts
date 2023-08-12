@@ -4,7 +4,13 @@ import { Event } from "./../../../../../interfaces/event";
 import { UploadImageEventService } from "./../../../../../services/upload-image-event.service";
 import { environment } from "./../../../../../../environments/environment";
 import { EventService } from "./../../../../../services/events.service";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import {
   BehaviorSubject,
   Subscription,
@@ -21,17 +27,22 @@ import { FormControl, FormGroup } from "@angular/forms";
   styleUrls: ["./eventos.component.scss"],
 })
 export class EventosComponent implements OnInit, OnDestroy {
+  @ViewChild("lastEvent") lastEvent!: ElementRef;
   private url = `${environment.url}/upload/eventos`;
   private inputSearchSubscription?: Subscription;
   private filtersSubscription?: Subscription;
 
   public skeletonCount = Array(4).fill(0);
 
+  public pageSize: number = 4;
+
   private eventTerm$ = new BehaviorSubject<string>("");
   public termNotFound: string | null = null;
   public notDataFilter: boolean = false;
   public eventsFiltered: Event[] = [];
   public conditionsFiltered: any = null;
+  public currentPageFilters: number = 1;
+  public totalEventFiltereds: number = 0;
 
   public inputSearchControl = new FormControl<string | null>(null);
 
@@ -49,6 +60,14 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   get loading$() {
     return this.eventService.loading$;
+  }
+
+  get spinner$() {
+    return this.eventService.spinner$;
+  }
+
+  get currentPage() {
+    return this.eventService.currentPage;
   }
 
   get cities() {
@@ -105,7 +124,10 @@ export class EventosComponent implements OnInit, OnDestroy {
     this.inputSearchSubscription = this.eventTerm$
       .pipe(pairwise())
       .subscribe(([oldValue, newValue]) => {
-        if (oldValue !== newValue) this.searchEvents();
+        if (oldValue !== newValue) {
+          this.currentPageFilters = 1;
+          this.searchEvents();
+        }
       });
 
     // Para buscar los eventos cuando cambie de ciudad
@@ -113,12 +135,17 @@ export class EventosComponent implements OnInit, OnDestroy {
       .get("city")!
       .valueChanges.pipe(startWith(""), debounceTime(300), pairwise())
       .subscribe(([oldValue, newValue]) => {
-        if (oldValue !== newValue) this.searchEvents();
+        if (oldValue !== newValue) {
+          this.currentPageFilters = 1;
+          this.searchEvents();
+        }
       });
   }
 
   getEvents() {
-    this.eventService.getAllEventsPublish().subscribe((_) => {});
+    this.eventService
+      .getAllEventsPublish(this.currentPage, this.pageSize)
+      .subscribe((_) => {});
   }
 
   getCities() {
@@ -159,7 +186,7 @@ export class EventosComponent implements OnInit, OnDestroy {
     });
   }
 
-  searchEvents() {
+  getConditionsFiltereds() {
     this.conditionsFiltered = {
       ...this.filters.value,
       city: this.filters.value.city === "null" ? null : this.filters.value.city,
@@ -176,15 +203,33 @@ export class EventosComponent implements OnInit, OnDestroy {
       !this.conditionsFiltered.type &&
       !this.conditionsFiltered.term
     ) {
-      return;
+      return null;
     }
+    return this.conditionsFiltered;
+  }
+
+  searchEvents() {
+    const conditions = this.getConditionsFiltereds();
+    if (!conditions) return;
     this.spinner.setActive(true);
     this.eventService
-      .searchEventsPublish(this.conditionsFiltered)
+      .searchEventsPublish(
+        this.currentPageFilters,
+        this.pageSize,
+        this.conditionsFiltered
+      )
       .subscribe((response) => {
-        this.eventsFiltered = response.data;
+        if (this.currentPageFilters === 1) {
+          this.eventsFiltered = response.data.events;
+        } else {
+          this.eventsFiltered = [
+            ...this.eventsFiltered,
+            ...response.data.events,
+          ];
+        }
+        this.totalEventFiltereds = response.data.total ?? 0;
         this.spinner.setActive(false);
-        if (response.data.length > 0) {
+        if (response.data.events.length > 0) {
           this.termNotFound = null;
           this.notDataFilter = false;
           return;
@@ -207,6 +252,8 @@ export class EventosComponent implements OnInit, OnDestroy {
     this.termNotFound = null;
     this.notDataFilter = false;
     this.conditionsFiltered = null;
+    this.currentPageFilters = 1;
+    this.totalEventFiltereds = 0;
     this.inputSearchControl.setValue(null);
     this.filters.patchValue({
       city: null,
@@ -225,5 +272,25 @@ export class EventosComponent implements OnInit, OnDestroy {
   getServiceNameById(serviceId: any): string {
     const service = this.services.find((s) => s.id == serviceId);
     return service ? service.name : "";
+  }
+
+  hasMoreEvents(): boolean {
+    return this.currentPage * this.pageSize < this.eventService.totalEvents!;
+  }
+
+  hasMoreEventsFiltereds(): boolean {
+    return this.currentPageFilters * this.pageSize < this.totalEventFiltereds;
+  }
+
+  getMoreEvents() {
+    const conditions = this.getConditionsFiltereds();
+    if (!conditions) {
+      this.eventService.currentPage += 1;
+      this.getEvents();
+    } else {
+      this.currentPageFilters += 1;
+      this.searchEvents();
+    }
+    this.lastEvent.nativeElement.scrollIntoView({ behavior: "smooth" });
   }
 }

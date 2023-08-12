@@ -11,11 +11,17 @@ import { BehaviorSubject, Observable, tap } from "rxjs";
 export class EventService {
   private url: string = environment.url;
 
+  public totalEvents?: number;
+  public currentPage: number = 1;
+
   private eventsSubject = new BehaviorSubject<Event[]>([]);
   public events$: Observable<Event[]> = this.eventsSubject.asObservable();
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$: Observable<boolean> = this.loadingSubject.asObservable();
+
+  private spinnerSubject = new BehaviorSubject<boolean>(false);
+  public spinner$: Observable<boolean> = this.spinnerSubject.asObservable();
 
   private cities: DataCatalog[] = [];
   private featured: Event[] = [];
@@ -51,32 +57,51 @@ export class EventService {
     this.loadingSubject.next(true);
     return this.http.get<any>(`${this.url}/events`).pipe(
       tap((response) => {
-        this.eventsSubject.next(response.data);
+        this.eventsSubject.next(response.data.events);
         this.loadingSubject.next(false);
       })
     );
   }
 
-  getAllEventsPublish(): Observable<ResponseEvents> {
-    this.loadingSubject.next(true);
-    return this.http.get<any>(`${this.url}/events/publish`).pipe(
-      tap((response) => {
-        this.eventsSubject.next(response.data);
-        this.loadingSubject.next(false);
-      })
-    );
+  getAllEventsPublish(
+    currentPage: number,
+    pageSize: number
+  ): Observable<ResponseEvents> {
+    if (currentPage > 1) {
+      this.spinnerSubject.next(true);
+    } else {
+      this.loadingSubject.next(true);
+    }
+    return this.http
+      .get<any>(
+        `${this.url}/events/publish?page=${currentPage}&pageSize=${pageSize}`
+      )
+      .pipe(
+        tap((response) => {
+          this.eventsSubject.next([
+            ...this.eventsSubject.getValue(),
+            ...response.data.events,
+          ]);
+          if (currentPage > 1) {
+            this.spinnerSubject.next(false);
+          } else {
+            this.loadingSubject.next(false);
+          }
+          this.totalEvents = response.data.total;
+        })
+      );
   }
 
   getFeaturedEvents(): Observable<ResponseEvents> {
     return this.http
       .get<any>(`${this.url}/events/featured`)
-      .pipe(tap((response) => (this.setFeatured = response.data)));
+      .pipe(tap((response) => (this.setFeatured = response.data.events)));
   }
 
   getUpcomingEvents(): Observable<ResponseEvents> {
     return this.http
       .get<any>(`${this.url}/events/upcoming`)
-      .pipe(tap((response) => (this.setUpcoming = response.data)));
+      .pipe(tap((response) => (this.setUpcoming = response.data.events)));
   }
 
   getEventById(id: number): Observable<ResponseEvent> {
@@ -92,15 +117,22 @@ export class EventService {
       .post<any>(`${this.url}/events/search`, { term })
       .pipe(
         tap((response) => {
-          this.eventsSubject.next(response.data);
+          this.eventsSubject.next(response.data.events);
         })
       );
   }
 
-  searchEventsPublish(conditions: any): Observable<ResponseEvents> {
-    return this.http.post<any>(`${this.url}/events/search/publish`, {
-      conditions,
-    });
+  searchEventsPublish(
+    currentPage: number,
+    pageSize: number,
+    conditions: any
+  ): Observable<ResponseEvents> {
+    return this.http.post<any>(
+      `${this.url}/events/search/publish?page=${currentPage}&pageSize=${pageSize}`,
+      {
+        conditions,
+      }
+    );
   }
 
   getCitiesEvents(): Observable<ResponseCatalog> {
