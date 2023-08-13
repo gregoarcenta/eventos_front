@@ -1,17 +1,24 @@
 <div class="row mb-3 justify-content-between">
-  <div class="col-md-4">
-    <input
-      #iSearch
-      type="search"
-      placeholder="Buscar eventos..."
-      class="form-control"
-      (input)="searchEvents($event)"
-    />
+  <div class="col-md-6">
+    <div class="d-flex">
+      <input
+        #iSearch
+        type="search"
+        placeholder="Buscar eventos..."
+        class="form-control"
+        (input)="searchEvents($event)"
+      />
+      <button
+        class="btn btn-outline-info rounded-circle ms-2"
+        (click)="getAllEvent()"
+        placement="end"
+        ngbTooltip="Actualizar eventos"
+      >
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+    </div>
   </div>
   <div class="col-md-4 text-end mt-2 mt-md-0">
-    <button class="btn btn-outline-info me-2" (click)="getAllEvent()">
-      Actualizar Eventos <i class="bi bi-arrow-clockwise"></i>
-    </button>
     <button class="btn btn-primary" [routerLink]="['./agregar']">
       Agregar nuevo evento
     </button>
