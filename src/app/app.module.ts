@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   CommonModule,
   LocationStrategy,
-  PathLocationStrategy,
+  PathLocationStrategy
 } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";

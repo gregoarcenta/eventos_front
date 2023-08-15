@@ -34,7 +34,7 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   public skeletonCount = Array(4).fill(0);
 
-  public pageSize: number = 4;
+  public pageSize: number = 12;
 
   private eventTerm$ = new BehaviorSubject<string>("");
   public termNotFound: string | null = null;

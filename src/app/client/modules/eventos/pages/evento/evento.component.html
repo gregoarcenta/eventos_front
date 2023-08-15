@@ -1,1 +1,117 @@
-<p>evento works!</p>
+<div class="container my-3 mt-lg-4" *ngIf="event">
+  <!-- seccion header -->
+  <div class="row justify-content-center">
+    <!-- columna imagen -->
+    <div class="col-lg-8">
+      <img [src]="imageURL" alt="Imagen evento" class="img-fluid" />
+    </div>
+
+    <!-- columna card comprar -->
+    <div class="col-lg-4 py-4 py-lg-5">
+      <div class="h-100 d-flex flex-column justify-content-between">
+        <h1 class="fw-bold text-center">{{event.name}}</h1>
+        <div class="card text-center shadow mt-3 mt-lg-0 card-pay">
+          <div class="card-body">
+            <div class="date">
+              <h4 class="fw-semibold">Fecha</h4>
+              <p>{{ startDateTime | date:'fullDate':'':'es-EC'}}</p>
+            </div>
+            <div class="hour">
+              <h4 class="fw-semibold">Horario</h4>
+              <p>{{ startDateTime | date:'shortTime'}}</p>
+            </div>
+            <div class="d-grid">
+              <button mat-button color="primary" (click)="addToCalendar()">
+                <i class="bi bi-calendar-plus"></i> Agregar al calendario
+              </button>
+              <button class="btn btn-primary mt-2">
+                Comprar boletos <i class="bi bi-ticket-perforated-fill"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- seccion informacion -->
+  <div class="row mt-lg-2">
+    <!-- columna destacado, asistentes, tipo -->
+    <div class="col-lg-8">
+      <section class="tags">
+        <div class="d-flex justify-content-between">
+          <!-- perfil user -->
+          <div class="d-flex justify-content-center align-items-center">
+            <img
+              [src]="userImageURL"
+              alt="imagen de perfil del usuario"
+              class="img-fluid"
+              style="height: 1.2rem; width: 1.2rem;"
+            />
+            <span class="pointer enlace ms-1">{{ event.organizer }}</span>
+          </div>
+          <!-- tags -->
+          <div>
+            <span class="badge text-bg-info ms-2" *ngIf="event.outstanding"
+              >Evento Destacado</span
+            >
+            <span class="badge text-bg-dark ms-2"
+              >{{event.service.name | titlecase}}</span
+            >
+            <span class="badge text-bg-light ms-2 d-none d-md-inline-block" *ngIf="event.assistants > 0"
+              >{{event.assistants}} personas asistiran a este evento</span
+            >
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-lg-4"></div>
+
+    <!-- columna 1 -->
+    <div class="col-lg-8">
+      <!-- descripcion -->
+      <section class="description mt-4">
+        <h3 class="fw-bold">Descripción</h3>
+        <div>{{event.description}}</div>
+      </section>
+
+      <!-- artista principal -->
+      <section class="description mt-4">
+        <h3 class="fw-bold">Artista Principal</h3>
+        <div>{{event.artist}}</div>
+      </section>
+
+      <!-- fechas y horarios -->
+      <section class="dates mt-4">
+        <h3 class="fw-bold">Fechas y horarios</h3>
+        <ul class="m-0">
+          <li>
+            Inicia el
+            <span class="fw-semibold"
+              >{{startDateTime | date:'fullDate':'':'es-EC'}}</span
+            >
+            a las
+            <span class="fw-semibold"
+              >{{startDateTime | date:'shortTime'}}</span
+            >
+          </li>
+          <li>
+            Filaniza el
+            <span class="fw-semibold"
+              >{{endDateTime | date:'fullDate':'':'es-EC'}}</span
+            >
+            a las
+            <span class="fw-semibold">{{endDateTime | date:'shortTime'}}</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- columna 2 -->
+    <div class="col-lg-4 mt-4">
+      <h3 class="fw-bold">Localización del evento</h3>
+      <!-- <p>aqui va el mapa</p> -->
+    </div>
+  </div>
+</div>
+<!-- <pre>{{event | json}}</pre> -->
