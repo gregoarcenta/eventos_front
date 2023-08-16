@@ -102,7 +102,7 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.checkArtistSubscription?.unsubscribe();
-    this.eventFormService.clearEventForm()
+    this.eventFormService.clearEventForm();
     this.deleteImageIfNotSave();
   }
 
@@ -135,7 +135,7 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   }
 
   deleteImageIfNotSave() {
-    if (!this.eventForm.value.img || !this.authService.getAuthUser) return;
+    if (!this.authService.getAuthUser) return;
     this.imagesForDelete.forEach((image) => {
       this.uploadImageEventService
         .deleteImgIfNotExists(image)
