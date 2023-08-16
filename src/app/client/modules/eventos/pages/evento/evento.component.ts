@@ -1,3 +1,4 @@
+import { PlaceService } from './../../../../../services/place.service';
 import { environment } from "./../../../../../../environments/environment";
 import { SpinnerService } from "./../../../../../services/spinner.service";
 import { Event } from "./../../../../../interfaces/event";
@@ -30,11 +31,18 @@ export class EventoComponent implements OnInit {
     return new Date(this.event!.end_date + "T" + this.event!.end_time);
   }
 
+  get localities(){
+    return this.event?.place_localities.filter(locality => {
+      return locality.sold_tickets < locality.limit_tickets
+    })
+  }
+
   constructor(
     private router: Router,
     private spinner: SpinnerService,
+    private placeService:PlaceService,
     private eventService: EventService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
     this.spinner.setActive(true);
     this.activatedRoute.params.subscribe(
@@ -46,6 +54,10 @@ export class EventoComponent implements OnInit {
     this.eventService.getEventPublishById(this.eventId!).subscribe({
       next: (response) => {
         this.event = response.data;
+        this.placeService.setPlaceLocation(
+          this.event.place.direction.lng,
+          this.event.place.direction.lat
+        );
         this.spinner.setActive(false);
       },
       error: (error) => {

@@ -12,8 +12,22 @@ img {
   border-radius: 10px;
 }
 
-.tags {
+.tags, .info {
   background-color: rgba(126, 89, 249, 0.028);
   padding: 1rem;
   border-radius: 10px;
+}
+
+.map{
+  height: 300px;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  // pointer-events: none;
 }

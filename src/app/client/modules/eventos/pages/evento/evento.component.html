@@ -14,7 +14,10 @@
           <div class="card-body">
             <div class="date">
               <h4 class="fw-semibold">Fecha</h4>
-              <p>{{ startDateTime | date:'fullDate':'':'es-EC'}}</p>
+              <p>
+                {{ startDateTime | date:'fullDate':'':'es-EC'|
+                capitalizeFirstLetter}}
+              </p>
             </div>
             <div class="hour">
               <h4 class="fw-semibold">Horario</h4>
@@ -58,7 +61,9 @@
             <span class="badge text-bg-dark ms-2"
               >{{event.service.name | titlecase}}</span
             >
-            <span class="badge text-bg-light ms-2 d-none d-md-inline-block" *ngIf="event.assistants > 0"
+            <span
+              class="badge text-bg-light ms-2 d-none d-md-inline-block"
+              *ngIf="event.assistants > 0"
               >{{event.assistants}} personas asistiran a este evento</span
             >
           </div>
@@ -68,49 +73,95 @@
     <div class="col-lg-4"></div>
 
     <!-- columna 1 -->
-    <div class="col-lg-8">
-      <!-- descripcion -->
-      <section class="description mt-4">
-        <h3 class="fw-bold">Descripción</h3>
-        <div>{{event.description}}</div>
-      </section>
+    <div class="col-lg-8 mt-2">
+      <div class="info">
+        <!-- descripcion -->
+        <section class="description">
+          <h3 class="fw-bold">Descripción</h3>
+          <div>{{event.description}}</div>
+        </section>
 
-      <!-- artista principal -->
-      <section class="description mt-4">
-        <h3 class="fw-bold">Artista Principal</h3>
-        <div>{{event.artist}}</div>
-      </section>
+        <!-- artista principal -->
+        <section class="artist mt-4" *ngIf="event.artist">
+          <h3 class="fw-bold">Grupo o artista principal</h3>
+          <div>{{event.artist}}</div>
+        </section>
 
-      <!-- fechas y horarios -->
-      <section class="dates mt-4">
-        <h3 class="fw-bold">Fechas y horarios</h3>
-        <ul class="m-0">
-          <li>
-            Inicia el
-            <span class="fw-semibold"
-              >{{startDateTime | date:'fullDate':'':'es-EC'}}</span
-            >
-            a las
-            <span class="fw-semibold"
-              >{{startDateTime | date:'shortTime'}}</span
-            >
-          </li>
-          <li>
-            Filaniza el
-            <span class="fw-semibold"
-              >{{endDateTime | date:'fullDate':'':'es-EC'}}</span
-            >
-            a las
-            <span class="fw-semibold">{{endDateTime | date:'shortTime'}}</span>
-          </li>
-        </ul>
-      </section>
+        <!-- fechas y horarios -->
+        <section class="dates mt-4">
+          <h3 class="fw-bold">Fechas y horarios</h3>
+          <ul class="m-0">
+            <li>
+              Inicia el
+              <span class="fw-semibold"
+                >{{startDateTime | date:'fullDate':'':'es-EC' |
+                capitalizeFirstLetter}}</span
+              >
+              a las
+              <span class="fw-semibold"
+                >{{startDateTime | date:'shortTime'}}</span
+              >
+            </li>
+            <li>
+              Finaliza el
+              <span class="fw-semibold"
+                >{{endDateTime | date:'fullDate':'':'es-EC' |
+                capitalizeFirstLetter}}</span
+              >
+              a las
+              <span class="fw-semibold">{{endDateTime | date:'shortTime'}}</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Localidades y precios -->
+        <section class="localities mt-4">
+          <h3 class="fw-bold">Localidades</h3>
+          <table class="table bord">
+            <thead>
+              <tr>
+                <th scope="col">Localidad</th>
+                <th scope="col">Total</th>
+                <th scope="col">Caracteristica</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of localities">
+                <td>{{item.locality.name}}</td>
+                <td>{{item.price | currency}}</td>
+                <td>
+                  {{item.numeration?'Asientos enumerados':'Asientos no
+                  enumerados'}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
     </div>
 
     <!-- columna 2 -->
     <div class="col-lg-4 mt-4">
-      <h3 class="fw-bold">Localización del evento</h3>
-      <!-- <p>aqui va el mapa</p> -->
+      <!-- mapa ubicacion -->
+      <section>
+        <h3 class="fw-bold">Ubicación</h3>
+        <div class="map position-relative">
+          <map></map>
+          <div class="map-overlay"></div>
+        </div>
+      </section>
+
+      <!-- Lugar y direccion -->
+      <section class="place mt-4">
+        <h3 class="fw-bold">Dirección</h3>
+        <p class="m-0">
+          {{event.place.direction.city.name | titlecase}} -
+          {{event.place.direction.province.name | titlecase}}
+        </p>
+        <p class="m-0">
+          {{event.place.name}},  {{event.place.direction.reference}}
+        </p>
+      </section>
     </div>
   </div>
 </div>

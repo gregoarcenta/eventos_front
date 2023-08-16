@@ -1,3 +1,4 @@
+import { CapitalizeFirstLetterPipe } from './../../../pipes/capitalize-first-letter.pipe';
 import { ComponentsModule } from "./../../../components/components.module";
 import { NgModule } from "@angular/core";
 import { CommonModule, registerLocaleData } from "@angular/common";
@@ -15,7 +16,7 @@ import { MatButtonModule } from "@angular/material/button";
 registerLocaleData(localeEs);
 
 @NgModule({
-  declarations: [EventosComponent, EventoComponent],
+  declarations: [EventosComponent, EventoComponent, CapitalizeFirstLetterPipe],
   imports: [
     CommonModule,
     EventosRoutingModule,
