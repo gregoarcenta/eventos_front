@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -16,6 +17,7 @@ import {
 })
 export class MapViewComponent implements OnInit, AfterViewInit {
   @ViewChild("mapDiv") mapViewElement!: ElementRef;
+  @Input() markRoute: Boolean = false;
 
   constructor(
     private placeService: PlaceService,
@@ -27,19 +29,31 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const coords =
       this.placeService.userLocation || this.placeService.placeLocation;
-    const map = new Map({
-      container: this.mapViewElement.nativeElement, // container ID
-      style: "mapbox://styles/mapbox/streets-v12", // style URL
-      center: coords!, // starting position [lng, lat]
-      zoom: 16, // starting zoom
-    });
+    if (this.markRoute) {
+      const map = new Map({
+        container: this.mapViewElement.nativeElement, // container ID
+        style: "mapbox://styles/mapbox/streets-v12", // style URL
+        center: coords!,
+        zoom: 16, // starting zoom
+      });
+      this.mapService.setMapRutes(map);
+    } else {
+      const map = new Map({
+        container: this.mapViewElement.nativeElement, // container ID
+        style: "mapbox://styles/mapbox/streets-v12", // style URL
+        center: coords!, // starting position [lng, lat]
+        zoom: 16, // starting zoom
+      });
 
-    this.mapService.setMap(map);
+      this.mapService.setMap(map);
 
-    this.mapService.createMarker(coords!);
+      this.mapService.createMarker(coords!);
 
-    map.on("click", (event) => {
-      this.placeService.setPlaceLocation(event.lngLat.lng, event.lngLat.lat);
-    });
+      map.on("click", (event) => {
+        this.placeService.setPlaceLocation(event.lngLat.lng, event.lngLat.lat);
+      });
+    }
+
+    // this.mapService.getRouteBetweenPoints()
   }
 }

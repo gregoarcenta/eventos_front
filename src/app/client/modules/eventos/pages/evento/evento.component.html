@@ -51,7 +51,12 @@
               class="img-fluid"
               style="height: 1.2rem; width: 1.2rem;"
             />
-            <span class="pointer enlace ms-1">{{ event.organizer }}</span>
+            <span
+              class="pointer enlace ms-1"
+              [ngbPopover]="popContentUser"
+              triggers="mouseenter"
+              >{{ event.organizer }}</span
+            >
           </div>
           <!-- tags -->
           <div>
@@ -109,7 +114,9 @@
                 capitalizeFirstLetter}}</span
               >
               a las
-              <span class="fw-semibold">{{endDateTime | date:'shortTime'}}</span>
+              <span class="fw-semibold"
+                >{{endDateTime | date:'shortTime'}}</span
+              >
             </li>
           </ul>
         </section>
@@ -121,7 +128,7 @@
             <thead>
               <tr>
                 <th scope="col">Localidad</th>
-                <th scope="col">Total</th>
+                <th scope="col">Costo por boleto</th>
                 <th scope="col">Caracteristica</th>
               </tr>
             </thead>
@@ -149,6 +156,9 @@
           <map></map>
           <div class="map-overlay"></div>
         </div>
+        <div class="d-grid mt-1">
+          <button class="btn btn-outline-success" (click)="openMapFullscreen(map)"> ¿No sabes como llegar? <i class="bi bi-pin-map"></i> </button>
+        </div>
       </section>
 
       <!-- Lugar y direccion -->
@@ -159,10 +169,54 @@
           {{event.place.direction.province.name | titlecase}}
         </p>
         <p class="m-0">
-          {{event.place.name}},  {{event.place.direction.reference}}
+          <span
+            class="enlace pointer"
+            [ngbPopover]="popContentPlace"
+            triggers="mouseenter"
+          >
+            {{event.place.name}}</span
+          >, {{event.place.direction.reference}}
         </p>
       </section>
     </div>
   </div>
 </div>
+
+<ng-template #popContentUser>
+  <div class="d-flex">
+    <img
+      [src]="userImageURL"
+      alt="imagen de perfil del usuario"
+      class="img-fluid"
+      style="height: 2rem; width: 2rem;"
+    />
+    <div class="d-flex flex-column ms-2">
+      <h6 class="m-0">
+        {{event!.user.name |titlecase}} {{event!.user.surname |titlecase}}
+      </h6>
+      <span class="text-primary">{{ event!.organizer }}</span>
+    </div>
+  </div>
+  <div class="d-grid">
+    <button class="btn btn-outline-primary btn-sm mt-2">Ir el perfil</button>
+  </div>
+</ng-template>
+
+<ng-template #popContentPlace>
+  {{event!.place.direction.description}}
+</ng-template>
+
+<ng-template #map let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Ubicacion actual y guía para llegar el evento</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body p-2">
+		<map [markRoute]="true"></map>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar mapa</button>
+	</div>
+</ng-template>
+
 <!-- <pre>{{event | json}}</pre> -->

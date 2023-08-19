@@ -1,10 +1,13 @@
-import { PlaceService } from './../../../../../services/place.service';
+import { MapService } from "./../../../../../services/map.service";
+import { PlaceService } from "./../../../../../services/place.service";
 import { environment } from "./../../../../../../environments/environment";
 import { SpinnerService } from "./../../../../../services/spinner.service";
 import { Event } from "./../../../../../interfaces/event";
 import { EventService } from "./../../../../../services/events.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { LngLat } from "mapbox-gl";
 
 @Component({
   selector: "app-evento",
@@ -31,18 +34,20 @@ export class EventoComponent implements OnInit {
     return new Date(this.event!.end_date + "T" + this.event!.end_time);
   }
 
-  get localities(){
-    return this.event?.place_localities.filter(locality => {
-      return locality.sold_tickets < locality.limit_tickets
-    })
+  get localities() {
+    return this.event?.place_localities.filter((locality) => {
+      return locality.sold_tickets < locality.limit_tickets;
+    });
   }
 
   constructor(
     private router: Router,
+    private modalService: NgbModal,
+    private mapService: MapService,
     private spinner: SpinnerService,
-    private placeService:PlaceService,
+    private placeService: PlaceService,
     private eventService: EventService,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {
     this.spinner.setActive(true);
     this.activatedRoute.params.subscribe(
@@ -75,12 +80,24 @@ export class EventoComponent implements OnInit {
     const startDate = this.startDateTime;
     const endDate = this.endDateTime;
 
-
-    const eventStartDate = startDate.toISOString().replace(/-|:|\.\d{3}/g, '');
-    const eventEndDate = endDate.toISOString().replace(/-|:|\.\d{3}/g, '');
+    const eventStartDate = startDate.toISOString().replace(/-|:|\.\d{3}/g, "");
+    const eventEndDate = endDate.toISOString().replace(/-|:|\.\d{3}/g, "");
 
     const calendarURL = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${eventStartDate}/${eventEndDate}&location=${eventLocation}&details=${eventDescription}`;
 
-    window.open(calendarURL, '_blank');
+    window.open(calendarURL, "_blank");
+  }
+
+  openMapFullscreen(map: any) {
+    this.placeService.getUserLocation(true).then(({ lng, lat }) => {
+      const lng_ = this.event!.place.direction.lng;
+      const lat_ = this.event!.place.direction.lat;
+      this.mapService.createMarkerMapRutes(
+        new LngLat(Number(lng), Number(lat)),
+        new LngLat(Number(lng_), Number(lat_))
+      );
+      this.mapService.getRouteBetweenPoints([lng, lat],[Number(lng_), Number(lat_)])
+    });
+    this.modalService.open(map, { fullscreen: true });
   }
 }

@@ -2,10 +2,8 @@ import { PlaceService } from "./../../services/place.service";
 import {
 
   Component,
-  ElementRef,
   Input,
   OnInit,
-  ViewChild,
 } from "@angular/core";
 
 @Component({
@@ -15,6 +13,7 @@ import {
 })
 export class MapComponent implements OnInit {
   @Input() editMode:boolean = false
+  @Input() markRoute: Boolean = false;
 
   get isUserLocationReady(): boolean {
     return this.placeService.isUserLocationReady;

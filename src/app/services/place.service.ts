@@ -30,13 +30,15 @@ export class PlaceService {
 
   constructor(private http: HttpClient, private mapService: MapService) {}
 
-  getUserLocation(): Promise<LngLat> {
+  getUserLocation(forRoute: boolean = false): Promise<LngLat> {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
-          this.setUserLocation(new LngLat(coords.longitude, coords.latitude));
+          if (!forRoute) {
+            this.setUserLocation(new LngLat(coords.longitude, coords.latitude));
+          }
           localStorage.setItem("GEOLOCATION_PERMISSION_DENIED", "0");
-          resolve(this.userLocation!);
+          resolve(new LngLat(coords.longitude, coords.latitude));
         },
         (error) => {
           this.placeLocation = null;
