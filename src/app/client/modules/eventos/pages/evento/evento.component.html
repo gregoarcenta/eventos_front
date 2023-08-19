@@ -212,7 +212,7 @@
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body p-2">
-		<map [markRoute]="true"></map>
+		<map [markRoute]="true" [editMode]="true"></map>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar mapa</button>

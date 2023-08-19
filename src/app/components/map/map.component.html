@@ -22,7 +22,7 @@
 
 <div
   class="h-100 d-flex flex-column justify-content-center align-items-center"
-  *ngIf="!isUserLocationReady && !isPlaceLocationReady; else mapReady"
+  *ngIf="((!isUserLocationReady && !isPlaceLocationReady) && !markRoute) || ((!isUserLocationReady || !isPlaceLocationReady) && markRoute); else mapReady"
 >
   <map-spinner></map-spinner>
 </div>

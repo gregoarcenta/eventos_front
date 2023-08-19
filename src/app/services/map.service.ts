@@ -45,12 +45,19 @@ export class MapService {
   }
 
   createMarkerMapRutes(startCoords: LngLat, endCoords: LngLat) {
+    if (!this.mapRutes)
+      throw new Error("Mapa para mostrar la ruta no inicializado 1");
+
     new Marker({ color: "red" }).setLngLat(startCoords).addTo(this.mapRutes!);
     new Marker({ color: "blue" }).setLngLat(endCoords).addTo(this.mapRutes!);
   }
 
   getRouteBetweenPoints(start: [number, number], end: [number, number]) {
     this.directionService.getRuteCoords(start, end).subscribe((resp) => {
+      this.createMarkerMapRutes(
+        new LngLat(start[0], start[1]),
+        new LngLat(end[0], end[1])
+      );
       this.drawPolyline(resp.routes[0]);
     });
   }
@@ -102,6 +109,6 @@ export class MapService {
           "line-width": 3,
         },
       });
-    })
+    });
   }
 }

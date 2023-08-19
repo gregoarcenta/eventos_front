@@ -92,10 +92,6 @@ export class EventoComponent implements OnInit {
     this.placeService.getUserLocation(true).then(({ lng, lat }) => {
       const lng_ = this.event!.place.direction.lng;
       const lat_ = this.event!.place.direction.lat;
-      this.mapService.createMarkerMapRutes(
-        new LngLat(Number(lng), Number(lat)),
-        new LngLat(Number(lng_), Number(lat_))
-      );
       this.mapService.getRouteBetweenPoints([lng, lat],[Number(lng_), Number(lat_)])
     });
     this.modalService.open(map, { fullscreen: true });

@@ -1,10 +1,6 @@
+import { MapService } from "./../../services/map.service";
 import { PlaceService } from "./../../services/place.service";
-import {
-
-  Component,
-  Input,
-  OnInit,
-} from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
   selector: "map",
@@ -12,7 +8,7 @@ import {
   styleUrls: ["./map.component.scss"],
 })
 export class MapComponent implements OnInit {
-  @Input() editMode:boolean = false
+  @Input() editMode: boolean = false;
   @Input() markRoute: Boolean = false;
 
   get isUserLocationReady(): boolean {

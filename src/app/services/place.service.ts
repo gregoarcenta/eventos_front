@@ -34,11 +34,11 @@ export class PlaceService {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
-          if (!forRoute) {
-            this.setUserLocation(new LngLat(coords.longitude, coords.latitude));
-          }
+          this.userLocation = new LngLat(coords.longitude, coords.latitude);
+          if (!forRoute) this.setUserLocation(this.userLocation);
+
           localStorage.setItem("GEOLOCATION_PERMISSION_DENIED", "0");
-          resolve(new LngLat(coords.longitude, coords.latitude));
+          resolve(this.userLocation);
         },
         (error) => {
           this.placeLocation = null;
