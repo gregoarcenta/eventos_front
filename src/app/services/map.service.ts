@@ -94,7 +94,7 @@ export class MapService {
     };
 
     //todo: Limpiar ruta previa
-    this.mapRutes.on("style.load", () => {
+    this.mapRutes.on("load", () => {
       this.mapRutes!.addSource("RouteString", sourceData);
       this.mapRutes!.addLayer({
         id: "RouteString",
@@ -109,6 +109,7 @@ export class MapService {
           "line-width": 3,
         },
       });
+      this.mapRutes!.resize()
     });
   }
 }
