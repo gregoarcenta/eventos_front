@@ -72,12 +72,12 @@
                   <i
                       class="bi bi-eye-fill"
                       *ngIf="!showPassword && loginForm.value.password!.length > 0"
-                      (click)="showPassword = !showPassword"
+                      (click)="toggleShowPassword()"
                     ></i>
                     <i
                       class="bi bi-eye-slash-fill"
                       *ngIf="showPassword && loginForm.value.password!.length > 0"
-                      (click)="showPassword = !showPassword"
+                      (click)="toggleShowPassword()"
                     ></i>
                   <small
                     *ngIf="validInput('password')"

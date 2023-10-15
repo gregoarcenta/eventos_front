@@ -3,7 +3,6 @@ import { AuthService } from "./../../../services/auth.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import Swal from "sweetalert2";
 
 @Component({
   selector: "app-auth",
@@ -30,6 +29,10 @@ export class AuthComponent implements OnInit {
     return (
       this.loginForm.get(name)?.invalid && this.loginForm.get(name)?.touched
     );
+  }
+
+  toggleShowPassword(){
+    this.showPassword = !this.showPassword
   }
 
   login() {

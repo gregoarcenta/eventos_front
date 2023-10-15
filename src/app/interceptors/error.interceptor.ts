@@ -10,14 +10,12 @@ import {
   HttpInterceptor,
 } from "@angular/common/http";
 import { catchError, Observable } from "rxjs";
-import { Router } from "@angular/router";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
-    private spinner: SpinnerService,
-    private router: Router
+    private spinner: SpinnerService
   ) {}
 
   intercept(
