@@ -49,7 +49,7 @@ export class EventoComponent implements OnInit {
     private eventService: EventService,
     private activatedRoute: ActivatedRoute
   ) {
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
     this.activatedRoute.params.subscribe(
       (params) => (this.eventId = params["evento"])
     );
@@ -63,10 +63,10 @@ export class EventoComponent implements OnInit {
           this.event.place.direction.lng,
           this.event.place.direction.lat
         );
-        this.spinner.setActive(false);
+        //this.spinner.setActive(false);
       },
       error: (error) => {
-        this.spinner.setActive(false);
+        //this.spinner.setActive(false);
         this.router.navigateByUrl("/");
       },
     });

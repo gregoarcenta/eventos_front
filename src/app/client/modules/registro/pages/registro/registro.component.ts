@@ -83,10 +83,10 @@ export class RegistroComponent implements OnInit {
   }
 
   onRegister() {
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
     this.registerService.register(this.registerForm.value).subscribe({
       next: (response) => {
-        this.spinner.setActive(false);
+        //this.spinner.setActive(false);
         Swal.fire({
           title: "Listo!",
           text: response.message,

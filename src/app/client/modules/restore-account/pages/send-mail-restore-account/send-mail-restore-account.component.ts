@@ -29,13 +29,13 @@ export class SendMailRestoreAccountComponent implements OnInit {
   sendMail() {
     if (this.email.invalid) return this.email.markAllAsTouched();
 
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
 
     this.restoreAccountService
       .sendMailRestoreAccount(this.email.value!)
       .subscribe({
         next: (response) => {
-          this.spinner.setActive(false);
+          //this.spinner.setActive(false);
           Swal.fire({
             title: "Listo!",
             text: response.message,

@@ -21,9 +21,9 @@ export class CreateEventAdminComponent implements OnInit {
   ngOnInit(): void {}
 
   createEvent(event: any) {
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
     this.eventService.createEvent(event).subscribe((response) => {
-      this.spinner.setActive(false);
+      //this.spinner.setActive(false);
       Swal.fire("¡Listo!", response.message, "success").then((_) => {
         this.router.navigate(["/administrador/eventos"]);
       });

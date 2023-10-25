@@ -31,21 +31,18 @@ export class AuthService {
   isAuthenticate(): Observable<boolean> {
     const token: string = localStorage.getItem("token") || "";
 
-    if (token && this.authUser) return of(true);
+    if (!token) return of(false);
 
-    if (token) {
-      this.spinner.setActive(true);
-      return this.http.get<ResponseUser>(`${this.url}/login/renew`).pipe(
-        map(({ data }) => {
-          localStorage.setItem("token", data.jwt);
-          this.authUser = data.user;
-          this.spinner.setActive(false);
-          return true;
-        }),
-        catchError((_) => of(false))
-      );
-    }
-    return of(false);
+    if (this.authUser) return of(true);
+
+    return this.http.get<ResponseUser>(`${this.url}/login/renew`).pipe(
+      map(({ data }) => {
+        localStorage.setItem("token", data.jwt);
+        this.authUser = data.user;
+        return true;
+      }),
+      catchError((_) => of(false))
+    );
   }
 
   login(data: any): Observable<ResponseUser> {

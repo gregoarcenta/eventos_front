@@ -194,7 +194,7 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.spinner.setActive(true);
+        //this.spinner.setActive(true);
         if (this.event) {
           this.uploadImageEventService
             .updateImgEvent(archivo, this.event.id)
@@ -213,7 +213,7 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
     this.imageSelected = response.data;
     if (!this.event) this.imagesForDelete.push(this.imageSelected!);
     this.eventForm.patchValue({ img: this.imageSelected });
-    this.spinner.setActive(false);
+    //this.spinner.setActive(false);
     Swal.fire({
       toast: true,
       position: "top-end",

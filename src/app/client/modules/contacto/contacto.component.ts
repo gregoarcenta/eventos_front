@@ -130,7 +130,7 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   submitForm() {
     if (this.contactForm.invalid) return this.contactForm.markAllAsTouched();
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
     grecaptcha.ready(() => {
       grecaptcha
         .execute(environment.captchaClientKey, {
@@ -162,7 +162,7 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
           city: 0,
         });
         this.contactForm.markAsUntouched();
-        this.spinner.setActive(false);
+        //this.spinner.setActive(false);
       });
   }
 

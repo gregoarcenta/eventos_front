@@ -1,17 +1,30 @@
 import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class SpinnerService {
-  private _active: boolean = false;
+  private activeRequests = 0;
+  private _active = new BehaviorSubject<boolean>(true);
 
-  get active() {
-    return this._active;
+  get $active() {
+    return this._active.asObservable();
   }
 
-  setActive(value: boolean) {
-    this._active = value;
-  }
   constructor() {}
+
+  show() {
+    if (this.activeRequests === 0) {
+      setTimeout(() => this._active.next(true));
+    }
+    this.activeRequests++;
+  }
+
+  hide() {
+    this.activeRequests--;
+    if (this.activeRequests === 0) {
+      this._active.next(false);
+    }
+  }
 }

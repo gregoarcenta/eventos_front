@@ -211,7 +211,7 @@ export class EventosComponent implements OnInit, OnDestroy {
   searchEvents() {
     const conditions = this.getConditionsFiltereds();
     if (!conditions) return;
-    this.spinner.setActive(true);
+    // //this.spinner.setActive(true);
     this.eventService
       .searchEventsPublish(
         this.currentPageFilters,
@@ -228,7 +228,7 @@ export class EventosComponent implements OnInit, OnDestroy {
           ];
         }
         this.totalEventFiltereds = response.data.total ?? 0;
-        this.spinner.setActive(false);
+        // //this.spinner.setActive(false);
         if (response.data.events.length > 0) {
           this.termNotFound = null;
           this.notDataFilter = false;

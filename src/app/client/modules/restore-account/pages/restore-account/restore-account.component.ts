@@ -82,12 +82,12 @@ export class RestoreAccountComponent implements OnInit {
   restorePassword() {
     if (this.password.invalid) return this.password.markAllAsTouched();
 
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
     this.restoreAccountService
       .restoreAccount(this.token, this.password.value!)
       .subscribe({
         next: (response) => {
-          this.spinner.setActive(false);
+          //this.spinner.setActive(false);
           Swal.fire({
             title: "Listo!",
             text: response.message,

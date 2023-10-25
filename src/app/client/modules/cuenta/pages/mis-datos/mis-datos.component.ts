@@ -183,7 +183,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
   updateData() {
     if (this.userForm.invalid) return this.userForm.markAllAsTouched();
 
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
     const document_id = this.userForm.get("document_id")!.value;
     const num_document = this.userForm.get("num_document")!.value;
     const business_name = this.userForm.get("business_name")!.value;
@@ -201,7 +201,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
         this.userForm.patchValue(this.authUser as any);
         this.userForm.disable();
         this.userForm.updateValueAndValidity();
-        this.spinner.setActive(false);
+        //this.spinner.setActive(false);
       });
   }
 }

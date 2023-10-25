@@ -66,12 +66,12 @@ export class ChangePasswordComponent implements OnInit {
       this.passwordForm.markAllAsTouched();
       return;
     }
-    this.spinner.setActive(true);
+    //this.spinner.setActive(true);
     this.restoreAccountService
       .changePassword(this.passwordForm.value)
       .subscribe((response) => {
         this.passwordForm.reset();
-        this.spinner.setActive(false);
+        //this.spinner.setActive(false);
         Swal.fire("¡Listo!", response.message, "success");
       });
   }
