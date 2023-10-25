@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 describe("AuthComponent", () => {
   let fixture: ComponentFixture<AuthComponent>;
   let authComponent: AuthComponent;
+  let compiled: HTMLElement;
   let router: Router;
 
   const authServiceMock = {
@@ -28,8 +29,10 @@ describe("AuthComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthComponent);
     authComponent = fixture.componentInstance;
+    compiled = fixture.nativeElement;
+
     fixture.detectChanges();
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   });
 
   it("Debe de existir en el componente", () => {
@@ -87,7 +90,7 @@ describe("AuthComponent", () => {
     // Act: Angular debe actualizar la vista después de configurar el campo
     fixture.detectChanges();
 
-    const errorMessage = fixture.nativeElement.querySelector(
+    const errorMessage = compiled.querySelector(
       ".form-text.text-danger"
     );
     expect(errorMessage).toBeTruthy();
@@ -104,7 +107,7 @@ describe("AuthComponent", () => {
     fixture.detectChanges();
 
     // Assert: Verifica que el mensaje de error esté presente en el HTML
-    const errorMessage = fixture.nativeElement.querySelector(
+    const errorMessage = compiled.querySelector(
       ".form-text.text-danger"
     );
     expect(errorMessage).toBeTruthy();
@@ -116,13 +119,16 @@ describe("AuthComponent", () => {
       password: "",
     });
 
-    const markAllAsTouchedMock = jest.spyOn(authComponent.loginForm, "markAllAsTouched")
+    const markAllAsTouchedMock = jest.spyOn(
+      authComponent.loginForm,
+      "markAllAsTouched"
+    );
 
     authComponent.login();
 
-    expect(authComponent.loginForm.invalid).toBe(true)
+    expect(authComponent.loginForm.invalid).toBe(true);
     expect(markAllAsTouchedMock).toHaveBeenCalled();
-    expect(authServiceMock.login).not.toHaveBeenCalled()
+    expect(authServiceMock.login).not.toHaveBeenCalled();
   });
 
   it("Debe mostrar y ocultar la password al dar click en el icono de ojo", () => {

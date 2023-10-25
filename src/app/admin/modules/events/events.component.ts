@@ -13,7 +13,7 @@ export class EventsComponent implements OnInit {
   public url = `${environment.url}/upload/eventos`;
   private searchTerm$ = new Subject<string>();
 
-  public skeletonCount = Array(4).fill(0);
+  public skeletonCount = Array(8).fill(0);
 
   get events$() {
     return this.eventService.events$;
