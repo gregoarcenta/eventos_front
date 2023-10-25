@@ -1,0 +1,9 @@
+<ng-container *ngIf="event">
+  <edit-event
+    [isAdmin]="isAdmin"
+    [event]="event"
+    (onDataGeneralUpdate)="updateDataGeneralEvent($event)"
+    (onDataPlaceUpdate)="updateDataPlaceEvent($event)"
+    (onDataLocalitiesUpdate)="updateDataLocalitiesEvent($event)"
+  ></edit-event>
+</ng-container>

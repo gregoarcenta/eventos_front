@@ -11,6 +11,6 @@ export const _patterName =
   "^[a-zA-ZñÑáÁéÉíÍóÓúÚ]{2,20}( ([a-zA-ZñÑáÁéÉíÍóÓúÚ]{1,20})?)*$";
 
 export const _patterDescription =
-  "^[a-zA-ZñÑáÁéÉíÍóÓúÚ.,]{1,30}( ([a-zA-ZñÑáÁéÉíÍóÓúÚ.,]{1,30})?)*$";
+  "^[0-9a-zA-ZñÑáÁéÉíÍóÓúÚ.,]{1,30}( ([0-9a-zA-ZñÑáÁéÉíÍóÓúÚ.,]{1,30})?)*$";
 
 export const _patterUsername = "^[a-zA-Z0-9_-]{4,16}$";

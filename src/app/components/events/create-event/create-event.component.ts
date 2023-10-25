@@ -1,25 +1,28 @@
-import { EventFormService } from "./../../services/event-form.service";
-import { Event } from "./../../interfaces/event";
-import { _patterDescription, _patterName } from "./../../utils/regularPatterns";
-import { SpinnerService } from "./../../services/spinner.service";
-import { EventService } from "./../../services/events.service";
-import { PlaceService } from "./../../services/place.service";
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { EventFormService } from "../../../services/event-form.service";
+import { Event } from "../../../interfaces/event";
+import { PlaceService } from "../../../services/place.service";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
 import { FormArray, FormGroup } from "@angular/forms";
 import { MatStepper } from "@angular/material/stepper";
-import { ActivatedRoute, Router } from "@angular/router";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "create-or-edit-event",
-  templateUrl: "./create-or-edit-event.component.html",
-  styleUrls: ["./create-or-edit-event.component.scss"],
+  selector: "create-event",
+  templateUrl: "./create-event.component.html",
+  styleUrls: ["./create-event.component.scss"],
 })
-export class CreateOrEditEventComponent implements OnInit {
-  @Input() isAdmin!: boolean;
+export class CreateEventComponent implements OnInit {
+  @Input() isAdmin: boolean = false;
   @ViewChild(MatStepper) stepper!: MatStepper;
+  @Output() onCreateEvent = new EventEmitter<Event>();
 
-  public eventId: null | number = null;
   public event: Event | null = null;
 
   get eventForm() {
@@ -40,31 +43,10 @@ export class CreateOrEditEventComponent implements OnInit {
 
   constructor(
     private eventFormService: EventFormService,
-    private activatedRoute: ActivatedRoute,
-    private eventService: EventService,
     private placeService: PlaceService,
-    private spinner: SpinnerService,
-    private router: Router
-  ) {
-    this.activatedRoute.params.subscribe((params) => {
-      this.eventId = params["id"] || null;
-      if (this.eventId) this.spinner.setActive(true);
-    });
-  }
+  ) {}
 
-  ngOnInit(): void {
-    if (!this.eventId) return;
-    this.eventService.getEventById(this.eventId as number).subscribe({
-      next: (response) => {
-        this.event = response.data;
-        this.spinner.setActive(false);
-      },
-      error: (error) => {
-        this.spinner.setActive(false);
-        this.router.navigateByUrl("/");
-      },
-    });
-  }
+  ngOnInit(): void {}
 
   validateChangeStepper(e: any) {
     const steps = document.querySelectorAll(".mat-step");
@@ -165,38 +147,13 @@ export class CreateOrEditEventComponent implements OnInit {
       return;
     }
 
-    const event = {
+    const event: any = {
       ...this.eventForm.value,
       place_id: this.placeForm.value.place_id,
       place: this.placeForm.value,
       place_localities: this.localitiesArray.value,
     };
-    if (this.eventId) {
-      this.updateEvent(event);
-    } else {
-      this.createEvent(event);
-    }
-  }
 
-  createEvent(event: any) {
-    this.spinner.setActive(true);
-    this.eventService.createEvent(event).subscribe((response) => {
-      this.spinner.setActive(false);
-      Swal.fire("¡Listo!", response.message, "success").then((_) => {
-        this.router.navigate(["/administrador/eventos"]);
-      });
-    });
-  }
-
-  updateEvent(event: any) {
-    this.spinner.setActive(true);
-    this.eventService
-      .updateEvent(event, this.eventId!)
-      .subscribe((response) => {
-        this.spinner.setActive(false);
-        Swal.fire("¡Listo!", response.message, "success").then((_) => {
-          this.router.navigate(["/administrador/eventos"]);
-        });
-      });
+    this.onCreateEvent.emit(event);
   }
 }

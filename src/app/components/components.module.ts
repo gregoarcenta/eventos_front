@@ -6,7 +6,7 @@ import { MapSpinnerComponent } from "./map-spinner/map-spinner.component";
 import { MapViewComponent } from "./map-view/map-view.component";
 import { EventCardComponent } from "./event-card/event-card.component";
 import { RouterModule } from "@angular/router";
-import { CreateOrEditEventComponent } from "./create-or-edit-event/create-or-edit-event.component";
+import { CreateEventComponent } from "./events/create-event/create-event.component";
 import { MatStepperModule } from "@angular/material/stepper";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
@@ -15,6 +15,7 @@ import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { GeneralDataFormComponent } from './events/general-data-form/general-data-form.component';
 import { PlaceDataFormComponent } from './events/place-data-form/place-data-form.component';
 import { LocalitiesDataFormComponent } from './events/localities-data-form/localities-data-form.component';
+import { EditEventComponent } from './events/edit-event/edit-event.component';
 
 @NgModule({
   declarations: [
@@ -23,16 +24,18 @@ import { LocalitiesDataFormComponent } from './events/localities-data-form/local
     MapSpinnerComponent,
     MapViewComponent,
     EventCardComponent,
-    CreateOrEditEventComponent,
+    CreateEventComponent,
     GeneralDataFormComponent,
     PlaceDataFormComponent,
     LocalitiesDataFormComponent,
+    EditEventComponent,
   ],
   exports: [
     SpinnerComponent,
     MapComponent,
     EventCardComponent,
-    CreateOrEditEventComponent,
+    CreateEventComponent,
+    EditEventComponent
   ],
   imports: [
     CommonModule,

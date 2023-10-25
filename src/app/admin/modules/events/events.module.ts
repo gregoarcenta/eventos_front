@@ -6,19 +6,20 @@ import { EventsRoutingModule } from "./events-routing.module";
 
 import { EventsComponent } from "./events.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { EventComponent } from "./pages/event/event.component";
+import { CreateEventAdminComponent } from "./pages/create-event-admin/create-event-admin.component";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { EditEventAdminComponent } from './pages/edit-event-admin/edit-event-admin.component';
 
 @NgModule({
-  declarations: [EventsComponent, EventComponent],
+  declarations: [EventsComponent, CreateEventAdminComponent, EditEventAdminComponent],
   imports: [
     CommonModule,
     EventsRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,
     NgxSkeletonLoaderModule,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
 })
 export class EventsModule {}

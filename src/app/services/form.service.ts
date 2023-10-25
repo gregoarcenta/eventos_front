@@ -18,7 +18,7 @@ export class FormService {
       return "El nombre debe tener 3 o mas caracteres";
     }
     if (controlEmail.getError("pattern")) {
-      return "El nombre solo puede contener letras";
+      return "El formato del nombre no es valido";
     }
     return "";
   }
@@ -183,7 +183,7 @@ export class FormService {
       return "La descripción debe tener 3 o mas caracteres";
     }
     if (controlEmail.getError("pattern")) {
-      return "La descripción solo puede contener letras";
+      return "El formato de la descripción no es valido";
     }
     return "";
   }

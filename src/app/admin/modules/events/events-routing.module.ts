@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './../../../guards/auth.guard';
 import { EventsComponent } from './events.component';
-import { EventComponent } from './pages/event/event.component';
+import { CreateEventAdminComponent } from './pages/create-event-admin/create-event-admin.component';
+import { EditEventAdminComponent } from './pages/edit-event-admin/edit-event-admin.component';
 
 const routes: Routes = [
   {
@@ -12,12 +13,12 @@ const routes: Routes = [
   },
   {
     path: "agregar",
-    component: EventComponent,
+    component: CreateEventAdminComponent,
     canActivate:[AuthGuard]
   },
   {
     path: ":id",
-    component: EventComponent,
+    component: EditEventAdminComponent,
     canActivate:[AuthGuard]
   },
 ];
