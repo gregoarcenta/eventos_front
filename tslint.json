@@ -41,7 +41,6 @@
       "trace"
     ],
     "no-empty": false,
-    
     "no-non-null-assertion": true,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,

@@ -1,5 +1,4 @@
 import { DataService } from "./../../../../../services/data.service";
-import { SpinnerService } from "./../../../../../services/spinner.service";
 import { Event } from "./../../../../../interfaces/event";
 import { UploadImageEventService } from "./../../../../../services/upload-image-event.service";
 import { environment } from "./../../../../../../environments/environment";
@@ -26,11 +25,9 @@ import { FormControl, FormGroup } from "@angular/forms";
   templateUrl: "./eventos.component.html",
   styleUrls: ["./eventos.component.scss"],
 })
-export class EventosComponent implements OnInit, OnDestroy {
+export class EventosComponent implements OnInit {
   @ViewChild("lastEvent") lastEvent!: ElementRef;
   private url = `${environment.url}/upload/eventos`;
-  private inputSearchSubscription?: Subscription;
-  private filtersSubscription?: Subscription;
 
   public skeletonCount = Array(4).fill(0);
 
@@ -91,16 +88,10 @@ export class EventosComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private spinner: SpinnerService,
     private dataService: DataService,
     private eventService: EventService,
     private uploadImageEventService: UploadImageEventService
   ) {}
-
-  ngOnDestroy(): void {
-    this.filtersSubscription?.unsubscribe();
-    this.inputSearchSubscription?.unsubscribe();
-  }
 
   ngOnInit(): void {
     //Obtiene todos los eventos
@@ -121,17 +112,15 @@ export class EventosComponent implements OnInit, OnDestroy {
     if (this.secondariesImagesUrl.length === 0) this.getSecondariesImages();
 
     // Para buscar los eventos por el input
-    this.inputSearchSubscription = this.eventTerm$
-      .pipe(pairwise())
-      .subscribe(([oldValue, newValue]) => {
-        if (oldValue !== newValue) {
-          this.currentPageFilters = 1;
-          this.searchEvents();
-        }
-      });
+    this.eventTerm$.pipe(pairwise()).subscribe(([oldValue, newValue]) => {
+      if (oldValue !== newValue) {
+        this.currentPageFilters = 1;
+        this.searchEvents();
+      }
+    });
 
     // Para buscar los eventos cuando cambie de ciudad
-    this.filtersSubscription = this.filters
+    this.filters
       .get("city")!
       .valueChanges.pipe(startWith(""), debounceTime(300), pairwise())
       .subscribe(([oldValue, newValue]) => {
@@ -179,7 +168,7 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   onClickInputSearch() {
     const term = this.inputSearchControl.value;
-    this.events$.pipe(take(1)).subscribe((events) => {
+    this.events$.subscribe((events) => {
       if (term && term.length >= 3 && events.length > 0) {
         this.eventTerm$.next(term);
       }
@@ -211,7 +200,6 @@ export class EventosComponent implements OnInit, OnDestroy {
   searchEvents() {
     const conditions = this.getConditionsFiltereds();
     if (!conditions) return;
-    // //this.spinner.setActive(true);
     this.eventService
       .searchEventsPublish(
         this.currentPageFilters,
@@ -228,7 +216,6 @@ export class EventosComponent implements OnInit, OnDestroy {
           ];
         }
         this.totalEventFiltereds = response.data.total ?? 0;
-        // //this.spinner.setActive(false);
         if (response.data.events.length > 0) {
           this.termNotFound = null;
           this.notDataFilter = false;

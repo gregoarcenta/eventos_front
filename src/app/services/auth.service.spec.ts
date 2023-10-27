@@ -1,5 +1,6 @@
 import { User } from "./../interfaces/user";
 import { environment } from "./../../environments/environment";
+import { RouterTestingModule } from "@angular/router/testing";
 import { AuthService } from "./auth.service";
 import { TestBed } from "@angular/core/testing";
 import {
@@ -17,7 +18,7 @@ describe("AuthService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [AuthService],
     });
     router = TestBed.inject(Router);
@@ -133,8 +134,10 @@ describe("AuthService", () => {
   });
 
   it("Debe mostrar sweetalert para preguntar si cerrar sesion", async () => {
-    const fireSpy = jest.spyOn(Swal, "fire").mockImplementation();
-    fireSpy.mockImplementation(() => Promise.resolve({ isConfirmed: true }) as any);
+    const fireSpy = jest.spyOn(Swal, "fire");
+    fireSpy.mockImplementation(
+      () => Promise.resolve({ isConfirmed: true }) as any
+    );
 
     const logoutSpy = jest.spyOn(service, "logout");
     logoutSpy.mockImplementation(() => {});
@@ -158,25 +161,29 @@ describe("AuthService", () => {
     localStorage.setItem("token", "TOKEN");
     service.setAuthUser = {} as User;
 
+    router.navigate = jest.fn();
+
     service.logout();
 
     expect(localStorage.getItem("token")).toBeNull();
     expect(service.getAuthUser).toBeUndefined();
   });
 
-  it("Debe redirigir al login al cerrar sesion si esta en 'admin.eventosec.com'", () => {
+    it("Debe redirigir al login al cerrar sesion si esta en 'admin.eventosec.com'", () => {
     environment.domain = "admin.eventosec.com";
 
-    const navigateSpy = jest.spyOn(router, "navigate");
+    router.navigate = jest.fn();
+    const navigateSpy = jest.spyOn(router, "navigate")
 
     service.logout();
 
     expect(navigateSpy).toHaveBeenCalledWith(["/administrador/login"]);
   });
 
-  it("Debe redirigir al login al cerrar sesion si esta en 'eventosec.com'", () => {
+    it("Debe redirigir al login al cerrar sesion si esta en 'eventosec.com'", () => {
     environment.domain = "eventosec.com";
 
+    router.navigate = jest.fn();
     const navigateSpy = jest.spyOn(router, "navigate");
 
     service.logout();

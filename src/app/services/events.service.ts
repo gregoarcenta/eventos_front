@@ -113,13 +113,11 @@ export class EventService {
   }
 
   searchEvents(term: string): Observable<ResponseEvents> {
-    return this.http
-      .post<any>(`${this.url}/events/search`, { term })
-      .pipe(
-        tap((response) => {
-          this.eventsSubject.next(response.data.events);
-        })
-      );
+    return this.http.post<any>(`${this.url}/events/search`, { term }).pipe(
+      tap((response) => {
+        this.eventsSubject.next(response.data.events);
+      })
+    );
   }
 
   searchEventsPublish(

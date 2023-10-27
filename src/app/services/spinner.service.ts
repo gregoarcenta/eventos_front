@@ -6,7 +6,7 @@ import { BehaviorSubject } from "rxjs";
 })
 export class SpinnerService {
   private activeRequests = 0;
-  private _active = new BehaviorSubject<boolean>(true);
+  private _active = new BehaviorSubject<boolean>(false);
 
   get $active() {
     return this._active.asObservable();
