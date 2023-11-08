@@ -1,6 +1,5 @@
 import { AuthService } from "./../services/auth.service";
 import { environment } from "./../../environments/environment";
-// import { SpinnerService } from "./../services/spinner.service";
 import Swal from "sweetalert2";
 import { Injectable } from "@angular/core";
 import {
@@ -15,7 +14,6 @@ import { catchError, Observable } from "rxjs";
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
-    // private spinner: SpinnerService
   ) {}
 
   intercept(

@@ -1,1 +1,21 @@
-<pre>{{event | json}}</pre>
+<mat-tab-group backgroundColor="primary" #tabGroup (selectedIndexChange)="onTabChange($event)">
+  <mat-tab label="Información general">
+    <div class="container-fluid my-3">
+      <general-data-form [event]="event"></general-data-form>
+    </div>
+  </mat-tab>
+  <mat-tab label="Lugar">
+    <div class="container-fluid my-3" *ngIf="loadMap">
+      <place-data-form [event]="event"></place-data-form>
+    </div>
+  </mat-tab>
+  <mat-tab label="Localidades">
+    <div class="container-fluid my-3">
+      <localities-data-form [event]="event"></localities-data-form>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="sticky-bottom">
+  <button [disabled]="!changesMade" class="btn btn-primary" (click)="onUpdateData()">Guardar Cambios</button>
+</div>

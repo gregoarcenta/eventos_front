@@ -10,53 +10,33 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
   styleUrls: ["./localities-data-form.component.scss"],
 })
 export class LocalitiesDataFormComponent implements OnInit, OnDestroy {
-  @Input() set _event(event: Event | null) {
-    if (!event) return;
-    this.event = event;
-    this.event.place_localities.forEach((locality) => {
-      const newLocalityFormGroup = this.fb.group({
-        localityId: [locality.id, Validators.required],
-        numeration: [locality.numeration, [Validators.required]],
-        price: [locality.price, [Validators.required, Validators.min(0.1)]],
-        limit_tickets: [
-          locality.limit_tickets,
-          [Validators.required, Validators.min(1)],
-        ],
-        locality_id: [
-          locality.locality_id,
-          [Validators.required, Validators.min(1)],
-        ],
-      });
-
-      this.localitiesArray.push(newLocalityFormGroup);
-    });
-  }
-
-  public event: Event | null = null;
+  @Input() event: Event | null = null;
 
   get localities() {
     return this.dataService.getLocalities;
   }
 
-  get localitiesArray() {
-    return this.localitiesForm.get("localities") as FormArray<FormGroup>;
-  }
-
-  get localitiesForm() {
+  get localitiesDataForm() {
     return this.eventFormService.localitiesDataForm;
   }
 
+  get localitiesDataArray() {
+    return this.localitiesDataForm.controls["localities"];
+  }
+
   constructor(
-    private fb: FormBuilder,
     private dataService: DataService,
     private eventFormService: EventFormService
   ) {}
 
   ngOnDestroy(): void {
-    this.localitiesArray.clear()
+    this.eventFormService.clearLocalitiesForm();
+    this.eventFormService.localitiesDataOriginal = undefined;
   }
 
   ngOnInit(): void {
+    this.onFillLocalitiesData();
+
     // Obtiene lista de localidades
     if (this.dataService.getLocalities.length === 0) {
       this.dataService.getAllLocalities().subscribe((_) => {});
@@ -64,17 +44,18 @@ export class LocalitiesDataFormComponent implements OnInit, OnDestroy {
   }
 
   addLocality() {
-    const newLocalityFormGroup = this.fb.group({
-      numeration: [false, [Validators.required]],
-      price: [null, [Validators.required, Validators.min(0.1)]],
-      limit_tickets: [null, [Validators.required, Validators.min(1)]],
-      locality_id: [0, [Validators.required, Validators.min(1)]],
-    });
-
-    this.localitiesArray.push(newLocalityFormGroup);
+    const fgLocality = this.eventFormService.generateFormGroupLocality();
+    this.localitiesDataArray.push(fgLocality);
   }
 
   removeLocality(index: number) {
-    this.localitiesArray.removeAt(index);
+    this.localitiesDataArray.removeAt(index);
+  }
+
+  onFillLocalitiesData() {
+    if (!this.event) return;
+
+    this.eventFormService.setLocalitiesDataForm(this.event.place_localities);
+    this.eventFormService.setLocalitiesDataOriginal();
   }
 }

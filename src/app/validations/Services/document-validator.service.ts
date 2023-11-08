@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import {
   AbstractControl,
   AsyncValidator,
+  AsyncValidatorFn,
   ValidationErrors,
 } from "@angular/forms";
 import { map, Observable, of } from "rxjs";

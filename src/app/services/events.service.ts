@@ -143,9 +143,19 @@ export class EventService {
     return this.http.post<any>(`${this.url}/events`, event);
   }
 
-  updateEvent(event: any, eventId: number): Observable<any> {
-    return this.http.put<any>(`${this.url}/events`, { event, eventId });
+  updateDataGeneralEvent(event: any, eventId: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/events/general`, { event, eventId });
   }
+
+  updateDataPlaceEvent(event: any, eventId: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/events/place`, { event, eventId });
+  }
+
+  updateDataLocalitiesEvent(event: any, eventId: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/events/localities`, { event, eventId });
+  }
+
+
 
   // deteleEvent(id: number): Observable<any> {
   //   return this.http.delete<any>(`${this.url}/events`, data)

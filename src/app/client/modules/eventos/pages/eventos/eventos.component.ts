@@ -25,8 +25,10 @@ import { FormControl, FormGroup } from "@angular/forms";
   templateUrl: "./eventos.component.html",
   styleUrls: ["./eventos.component.scss"],
 })
-export class EventosComponent implements OnInit {
+export class EventosComponent implements OnInit, OnDestroy {
   @ViewChild("lastEvent") lastEvent!: ElementRef;
+  public eventsSubscription?: Subscription;
+
   private url = `${environment.url}/upload/eventos`;
 
   public skeletonCount = Array(4).fill(0);
@@ -93,9 +95,13 @@ export class EventosComponent implements OnInit {
     private uploadImageEventService: UploadImageEventService
   ) {}
 
+  ngOnDestroy(): void {
+    this.eventsSubscription?.unsubscribe();
+  }
+
   ngOnInit(): void {
     //Obtiene todos los eventos
-    this.events$.pipe(take(1)).subscribe((events) => {
+    this.eventsSubscription = this.events$.pipe(take(1)).subscribe((events) => {
       if (events.length === 0) this.getEvents();
     });
 

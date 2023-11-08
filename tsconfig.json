@@ -1,8 +1,5 @@
 {
   "compileOnSave": false,
-  "angularCompilerOptions": {
-    "strictTemplates": true
-  },
   "compilerOptions": {
     "baseUrl": "./",
     "downlevelIteration": true,
@@ -27,5 +24,8 @@
       "node",
       "mapbox-gl"
     ]
-  }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  },
 }

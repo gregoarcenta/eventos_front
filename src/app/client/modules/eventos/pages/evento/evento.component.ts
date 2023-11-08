@@ -1,13 +1,12 @@
 import { MapService } from "./../../../../../services/map.service";
 import { PlaceService } from "./../../../../../services/place.service";
 import { environment } from "./../../../../../../environments/environment";
-import { SpinnerService } from "./../../../../../services/spinner.service";
+
 import { Event } from "./../../../../../interfaces/event";
 import { EventService } from "./../../../../../services/events.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { LngLat } from "mapbox-gl";
 
 @Component({
   selector: "app-evento",
@@ -44,12 +43,10 @@ export class EventoComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private mapService: MapService,
-    private spinner: SpinnerService,
     private placeService: PlaceService,
     private eventService: EventService,
     private activatedRoute: ActivatedRoute
   ) {
-    //this.spinner.setActive(true);
     this.activatedRoute.params.subscribe(
       (params) => (this.eventId = params["evento"])
     );
@@ -63,10 +60,9 @@ export class EventoComponent implements OnInit {
           this.event.place.direction.lng,
           this.event.place.direction.lat
         );
-        //this.spinner.setActive(false);
+
       },
       error: (error) => {
-        //this.spinner.setActive(false);
         this.router.navigateByUrl("/");
       },
     });

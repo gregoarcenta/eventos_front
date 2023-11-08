@@ -6,7 +6,6 @@ import { DataService } from "./../../../services/data.service";
 import { FormService } from "./../../../services/form.service";
 import { environment } from "./../../../../environments/environment";
 import { UploadImageEventService } from "./../../../services/upload-image-event.service";
-import { SpinnerService } from "./../../../services/spinner.service";
 import { _patterName } from "./../../../utils/regularPatterns";
 import { EventFormService } from "./../../../services/event-form.service";
 import {
@@ -40,39 +39,26 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   beforeUnloadHandler(event: Event) {
     this.deleteImageIfNotSave();
   }
-  @Input() set _event(event: Event | null) {
-    if (!event) return;
-    this.event = event;
-    this.imageSelected = this.event!.img;
-    this.eventForm.patchValue({
-      name: this.event.name,
-      description: this.event.description,
-      img: this.event.img,
-      outstanding: this.event.outstanding,
-      publish: this.event.publish,
-      organizer: this.event.organizer,
-      existsArtist: this.event.artist ? true : false,
-      artist: this.event.artist,
-      start_date: String(this.event.start_date),
-      start_time: this.event.start_time,
-      end_date: String(this.event.end_date),
-      end_time: this.event.end_time,
-      service_id: this.event.service_id,
-    });
-  }
+  @Input() event: Event | null = null;
+
   private checkArtistSubscription?: Subscription;
 
-  public event: Event | null = null;
-
-  public imageSelected: string | null = null;
   public imagesForDelete: string[] = [];
 
   public organizers$?: Observable<User[]>;
   public organizerTerm$ = new Subject<string>();
   public organizerLoading: boolean = false;
 
+  get existsImg(): boolean {
+    return this.generalDataForm.controls["img"].value ? true : false;
+  }
+
+  get img() {
+    return this.generalDataForm.controls["img"].value;
+  }
+
   get imageURL(): string {
-    return `${environment.url}/upload/eventos/${this.imageSelected}`;
+    return `${environment.url}/upload/eventos/${this.img}`;
   }
 
   get services() {
@@ -80,18 +66,21 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   }
 
   get placeHolderOrganizer() {
-    if (!this.eventForm.value.organizer) {
+    if (!this.generalDataForm.value.organizer) {
       return "Ingrese nombre o usuario";
     }
     return "";
   }
 
-  get eventForm() {
+  get generalDataForm() {
     return this.eventFormService.generalDataForm;
   }
 
+  get generalDataOriginal() {
+    return this.eventFormService.generalDataOriginal;
+  }
+
   constructor(
-    private spinner: SpinnerService,
     public formService: FormService,
     private dataService: DataService,
     private userService: UserService,
@@ -103,31 +92,34 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.checkArtistSubscription?.unsubscribe();
     this.eventFormService.clearEventForm();
+    this.eventFormService.generalDataOriginal = undefined;
     this.deleteImageIfNotSave();
   }
 
   ngOnInit(): void {
+    this.onFillEventData();
+
     // Obtiene lista de servicios
     if (this.dataService.getServices.length === 0) {
       this.dataService.getAllServices().subscribe((_) => {});
     }
 
     // Detecta cuando se cambia el check artist
-    this.checkArtistSubscription = this.eventForm
+    this.checkArtistSubscription = this.generalDataForm
       .get("existsArtist")!
       .valueChanges.subscribe((value) => {
-        const inputArtistField = this.eventForm.get("artist");
-        inputArtistField!.setValue(null);
+        const artistControl = this.generalDataForm.controls["artist"];
+        artistControl!.setValue(null);
         if (value) {
-          inputArtistField!.setValidators([
+          artistControl!.setValidators([
             Validators.required,
             Validators.minLength(3),
             Validators.pattern(_patterName),
           ]);
         } else {
-          inputArtistField!.clearValidators();
+          artistControl!.clearValidators();
         }
-        inputArtistField!.updateValueAndValidity();
+        artistControl!.updateValueAndValidity();
       });
 
     //Para la busqueda de usuarios, seleccion del organizador
@@ -193,8 +185,6 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
           );
           return;
         }
-
-        //this.spinner.setActive(true);
         if (this.event) {
           this.uploadImageEventService
             .updateImgEvent(archivo, this.event.id)
@@ -210,10 +200,9 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   }
 
   newImageSelected(response: any) {
-    this.imageSelected = response.data;
-    if (!this.event) this.imagesForDelete.push(this.imageSelected!);
-    this.eventForm.patchValue({ img: this.imageSelected });
-    //this.spinner.setActive(false);
+    if (!this.event) this.imagesForDelete.push(response.data);
+    this.generalDataForm.controls["img"].setValue(response.data);
+
     Swal.fire({
       toast: true,
       position: "top-end",
@@ -242,5 +231,12 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
         )
       )
     );
+  }
+
+  onFillEventData() {
+    if (!this.event) return;
+
+    this.eventFormService.setGeneralDataForm(this.event);
+    this.eventFormService.setGeneralDataOriginal();
   }
 }

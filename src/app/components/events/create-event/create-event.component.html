@@ -7,7 +7,7 @@
 >
   <mat-step [stepControl]="eventForm">
     <ng-template matStepLabel>Descripción general del evento</ng-template>
-    <general-data-form [_event]="event"></general-data-form>
+    <general-data-form></general-data-form>
     <div class="text-end">
       <button class="btn btn-primary" (click)="validateEventForm()">
         Siguiente
@@ -17,7 +17,7 @@
 
   <mat-step [stepControl]="placeForm">
     <ng-template matStepLabel>Ubicación del evento</ng-template>
-    <place-data-form [_event]="event"></place-data-form>
+    <place-data-form></place-data-form>
     <div class="text-end">
       <button matStepperPrevious class="btn btn-secondary me-2">Atras</button>
       <button class="btn btn-primary" (click)="validatePlaceForm()">
@@ -28,7 +28,7 @@
 
   <mat-step [stepControl]="localitiesForm">
     <ng-template matStepLabel>Esquema y localidades del evento</ng-template>
-    <localities-data-form [_event]="event"></localities-data-form>
+    <localities-data-form></localities-data-form>
     <div class="text-end mt-2">
       <button matStepperPrevious class="btn btn-secondary me-2">Atras</button>
       <button class="btn btn-primary" type="submit" (click)="onSubmit()">

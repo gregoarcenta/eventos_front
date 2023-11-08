@@ -38,22 +38,25 @@ export class MapViewComponent implements OnInit, AfterViewInit {
       });
       this.mapService.setMapRutes(map);
     } else {
-      const map = new Map({
-        container: this.mapViewElement.nativeElement, // container ID
-        style: "mapbox://styles/mapbox/streets-v12", // style URL
-        center: coords!, // starting position [lng, lat]
-        zoom: 16, // starting zoom
-      });
+      setTimeout(() => {
+        const map = new Map({
+          container: this.mapViewElement.nativeElement, // container ID
+          style: "mapbox://styles/mapbox/streets-v12", // style URL
+          center: coords!, // starting position [lng, lat]
+          zoom: 16, // starting zoom
+        });
 
-      this.mapService.setMap(map);
+        this.mapService.setMap(map);
 
-      this.mapService.createMarker(coords!);
+        this.mapService.createMarker(coords!);
 
-      map.on("click", (event) => {
-        this.placeService.setPlaceLocation(event.lngLat.lng, event.lngLat.lat);
+        map.on("click", (event) => {
+          this.placeService.setPlaceLocation(
+            event.lngLat.lng,
+            event.lngLat.lat
+          );
+        });
       });
     }
-
-    // this.mapService.getRouteBetweenPoints()
   }
 }

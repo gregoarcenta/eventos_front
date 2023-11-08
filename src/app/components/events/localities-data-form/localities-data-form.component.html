@@ -1,24 +1,22 @@
-<form [formGroup]="localitiesForm">
+<form [formGroup]="localitiesDataForm">
   <div formArrayName="localities" class="row">
     <div
       class="col-sm-6 col-md-4 mt-2"
-      *ngFor="let localityForm of localitiesArray.controls; let i = index"
+      *ngFor="
+        let localityForm of localitiesDataArray.controls;
+        let i = index
+      "
     >
       <div [formGroup]="localityForm" class="container-locality">
         <!--Localidades catalogo-->
         <div class="mb-2 position-relative">
-          <select
-            class="form-select input-adm"
-            formControlName="locality_id"
-          >
-            <option value="0" disabled
-              >Selecciona el nombre de tu localidad</option
-            >
-            <option
-              [value]="locality.id"
-              *ngFor="let locality of localities"
-              >{{locality.name}}</option
-            >
+          <select class="form-select input-adm" formControlName="locality_id">
+            <option value="0" disabled>
+              Selecciona el nombre de tu localidad
+            </option>
+            <option [value]="locality.id" *ngFor="let locality of localities">
+              {{ locality.name }}
+            </option>
           </select>
         </div>
         <!-- Limte de boletos-->
@@ -29,7 +27,7 @@
           <div class="col-xl-4">
             <input
               type="text"
-              placeholder="10000"
+              placeholder="10000 🎟️"
               formControlName="limit_tickets"
               class="form-control input-adm"
               id="limit_tickets"

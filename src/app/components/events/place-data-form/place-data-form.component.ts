@@ -6,7 +6,13 @@ import { Event } from "./../../../interfaces/event";
 import { Place } from "./../../../interfaces/place";
 import { Place as EventPlace } from "./../../../interfaces/event";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { Subject, Subscription, debounceTime } from "rxjs";
+import {
+  Subject,
+  Subscription,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+} from "rxjs";
 
 @Component({
   selector: "place-data-form",
@@ -14,31 +20,32 @@ import { Subject, Subscription, debounceTime } from "rxjs";
   styleUrls: ["./place-data-form.component.scss"],
 })
 export class PlaceDataFormComponent implements OnInit, OnDestroy {
-  @Input() set _event(event: Event | null) {
-    if (!event) return;
-    this.event = event;
-    this.getPlace(this.event.place.id);
-  }
+  @Input() event: Event | null = null;
 
   private provinceSubscription?: Subscription;
 
-  public event: Event | null = null;
-
   private placeTerm$ = new Subject<string>();
   public places: Place[] = [];
-  public place: EventPlace | null = null;
   public notFoundPlace: boolean = false;
-  public editMode: boolean = false;
+
+
+  get place_id() : boolean {
+    return !!this.placeDataForm.controls["place_id"].value
+  }
+
+  get editMode() : boolean {
+    return this.placeDataForm.controls["customPlace"].value
+  }
 
   get provinces() {
     return this.dataService.getProvinces;
   }
 
-  get cities() {
-    return this.dataService.getCities;
+  get cities$() {
+    return this.dataService.cities$;
   }
 
-  get placeForm() {
+  get placeDataForm() {
     return this.eventFormService.placeDataForm;
   }
 
@@ -52,21 +59,30 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.provinceSubscription?.unsubscribe();
     this.eventFormService.clearPlaceForm();
-    this.dataService.setCities = [];
+    this.eventFormService.placeDataOriginal = undefined;
+    this.placeService.placeLocation = null
+    this.placeService.userLocation = null
+    this.dataService.setCitiesObsevable = []
   }
 
   ngOnInit(): void {
+    this.onFillPlaceData();
+
     // Obtiene lista de provincias
     if (this.dataService.getProvinces.length === 0) {
       this.dataService.getAllprovinces().subscribe((_) => {});
     }
 
     // Detecta cuando se cambia el select de provincia
-    this.provinceSubscription = this.placeForm
-      .get("province_id")!
-      .valueChanges.subscribe((provinceId) => {
-        //Obtiene lista de ciudades por id de provincia
-        if (!this.place) this.cargarCiudades(true, Number(provinceId));
+    this.provinceSubscription = this.placeDataForm.controls[
+      "province_id"
+    ].valueChanges
+      .pipe(
+        map((value) => Number(value)),
+        distinctUntilChanged()
+      )
+      .subscribe((provinceId) => {
+        this.loadCities(provinceId);
       });
 
     // Para buscar places
@@ -94,91 +110,57 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
     this.placeTerm$.next(term);
   }
 
-  addPlace() {
-    if (this.editMode) return;
-    this.placeForm.patchValue({
-      name: "",
-      description: "",
-      reference: "",
-      province_id: 0,
-      city_id: 0,
-      place_id: null,
-      lat: "",
-      lng: "",
+  getPlace(placeId: number) {
+    if (this.placeDataForm.get("place_id")?.value === placeId) return;
+
+    this.places = [];
+    this.placeService.getPlaceById(placeId).subscribe((response) => {
+      this.setPlace(response.data);
     });
+  }
+
+  setPlace(place: EventPlace) {
+    setTimeout(() => {
+      this.placeService.setPlaceLocation(
+        place.direction.lng,
+        place.direction.lat
+      );
+    }, 1000);
+    this.eventFormService.setPlaceDataForm(place);
+    this.placeDataForm.disable();
+  }
+
+  setCustomPlace() {
+    if (this.editMode) return;
+    this.eventFormService.clearPlaceForm();
+    this.placeDataForm.controls["customPlace"].setValue(true);
     this.placeService
       .getUserLocation()
       .then(({ lng, lat }) => {
-        this.placeForm.get("validCoords")?.setValue(true);
-        this.placeForm.patchValue({
+        // this.placeDataForm.get("validCoords")?.setValue(true);
+        this.placeDataForm.patchValue({
           lat: String(lat),
           lng: String(lng),
         });
       })
       .catch((error) => {
-        this.placeForm.get("validCoords")?.setValue(false);
+        // this.placeDataForm.get("validCoords")?.setValue(false);
       });
-    this.editMode = true;
-    this.placeForm.enable();
-    this.placeForm.markAsUntouched();
-    this.place = null;
-    this.dataService.setCities = [];
+    this.placeDataForm.enable();
+    this.placeDataForm.markAsUntouched();
   }
 
-  getPlace(placeId: number) {
-    if (this.placeForm.get("place_id")?.value === placeId) return;
-    this.places = [];
-    this.placeService.getPlaceById(placeId).subscribe((response) => {
-      this.place = response.data;
-
-      this.placeService.setPlaceLocation(
-        this.place.direction.lng,
-        this.place.direction.lat
-      );
-
-      this.editMode = false;
-
-      this.cargarCiudades(
-        false,
-        this.place.direction.province_id,
-        this.place.direction.city_id
-      );
-
-      this.placeForm.get("place_id")?.setValue(this.place.id);
-      this.placeForm.get("validCoords")?.setValue(true);
-      this.placeForm.get("lat")?.setValue(this.place.direction.lat);
-      this.placeForm.get("lng")?.setValue(this.place.direction.lng);
-
-      this.placeForm.get("name")?.setValue(this.place.name);
-
-      this.placeForm
-        .get("description")
-        ?.setValue(this.place.direction.description);
-
-      this.placeForm.get("reference")?.setValue(this.place.direction.reference);
-
-      this.placeForm
-        .get("province_id")
-        ?.setValue(this.place.direction.province_id);
-
-      this.placeForm.disable();
-      this.placeForm.updateValueAndValidity();
-    });
-  }
-
-  cargarCiudades(ejecutar = false, provinceId: number, cityId?: number) {
-    const controlProvinceId = Number(this.placeForm.get("province_id")?.value);
-    const controlCityId = Number(this.placeForm.get("city_id")?.value);
-
-    if (controlProvinceId === provinceId && controlCityId === cityId) return;
+  loadCities(provinceId: number) {
     this.dataService.getCitiesByProvinceId(provinceId).subscribe((response) => {
-      if (controlProvinceId !== provinceId || ejecutar) {
-        this.dataService.setCities = response.data;
-      }
-
-      if (this.place) {
-        this.placeForm.get("city_id")?.setValue(this.place.direction.city_id);
-      }
+      this.dataService.setCitiesObsevable = response.data;
     });
+  }
+
+  onFillPlaceData() {
+    if (!this.event) return;
+
+    this.loadCities(this.event.place.direction.province_id);
+    this.setPlace(this.event.place);
+    this.eventFormService.setPlaceDataOriginal();
   }
 }

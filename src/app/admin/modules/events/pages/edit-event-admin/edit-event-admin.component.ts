@@ -1,7 +1,9 @@
+import { EditEventComponent } from './../../../../../components/events/edit-event/edit-event.component';
+import { EventFormService } from "./../../../../../services/event-form.service";
 import { SpinnerService } from "./../../../../../services/spinner.service";
 import { Event } from "./../../../../../interfaces/event";
 import { EventService } from "./../../../../../services/events.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import Swal from "sweetalert2";
 
@@ -11,11 +13,13 @@ import Swal from "sweetalert2";
   styleUrls: ["./edit-event-admin.component.scss"],
 })
 export class EditEventAdminComponent implements OnInit {
+  @ViewChild(EditEventComponent) editEventChild!: EditEventComponent;
   public isAdmin: boolean = true;
   public eventId!: number;
   public event!: Event;
 
   constructor(
+    private eventFormService: EventFormService,
     private activatedRoute: ActivatedRoute,
     private eventService: EventService,
     public spinner: SpinnerService,
@@ -44,29 +48,30 @@ export class EditEventAdminComponent implements OnInit {
 
   updateDataGeneralEvent(event: any) {
     this.eventService
-      .updateEvent(event, this.eventId!)
+      .updateDataGeneralEvent(event, this.eventId!)
       .subscribe((response) => {
-        Swal.fire("¡Listo!", response.message, "success").then((_) => {
-          this.router.navigate(["/administrador/eventos"]);
-        });
+        Swal.fire("¡Listo!", response.message, "success");
+        this.eventFormService.setGeneralDataOriginal();
+        this.editEventChild.changesMade = false
       });
   }
   updateDataPlaceEvent(event: any) {
     this.eventService
-      .updateEvent(event, this.eventId!)
+      .updateDataPlaceEvent(event, this.eventId!)
       .subscribe((response) => {
-        Swal.fire("¡Listo!", response.message, "success").then((_) => {
-          this.router.navigate(["/administrador/eventos"]);
-        });
+        Swal.fire("¡Listo!", response.message, "success");
+        this.eventFormService.setPlaceDataOriginal();
+        this.editEventChild.changesMade = false
       });
   }
   updateDataLocalitiesEvent(event: any) {
     this.eventService
-      .updateEvent(event, this.eventId!)
+      .updateDataLocalitiesEvent(event, this.eventId!)
       .subscribe((response) => {
-        Swal.fire("¡Listo!", response.message, "success").then((_) => {
-          this.router.navigate(["/administrador/eventos"]);
-        });
+        Swal.fire("¡Listo!", response.message, "success");
+        this.eventFormService.setLocalitiesDataForm(response.data)
+        this.eventFormService.setLocalitiesDataOriginal();
+        this.editEventChild.changesMade = false
       });
   }
 }

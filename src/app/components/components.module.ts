@@ -16,6 +16,7 @@ import { GeneralDataFormComponent } from './events/general-data-form/general-dat
 import { PlaceDataFormComponent } from './events/place-data-form/place-data-form.component';
 import { LocalitiesDataFormComponent } from './events/localities-data-form/localities-data-form.component';
 import { EditEventComponent } from './events/edit-event/edit-event.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { EditEventComponent } from './events/edit-event/edit-event.component';
     ReactiveFormsModule,
     NgbTooltipModule,
     NgSelectModule,
+    MatTabsModule,
     NgxMaskModule.forRoot(),
   ],
 })

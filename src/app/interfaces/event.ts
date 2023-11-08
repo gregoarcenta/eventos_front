@@ -39,12 +39,12 @@ export interface Event {
   end_time: string;
   created_at: Date;
   updated_at: Date;
-  user_id: number;
-  place_id: number;
   service_id: number;
-  place: Place;
-  user: User;
   service: DataCatalog;
+  user_id: number;
+  user: User;
+  place_id: number;
+  place: Place;
   place_localities: PlaceLocality[];
 }
 
@@ -74,7 +74,7 @@ export interface PlaceLocality {
   numeration: boolean;
   sold_tickets: number;
   price: number;
-  locality_id: number;
   event_id: number;
+  locality_id: number;
   locality: DataCatalog;
 }

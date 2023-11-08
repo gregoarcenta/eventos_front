@@ -1,4 +1,4 @@
-<form [formGroup]="eventForm">
+<form [formGroup]="generalDataForm">
   <div class="row">
     <!--image event-->
     <div class="col-md-6">
@@ -12,13 +12,13 @@
       >
         <div
           class="content d-flex flex-column justify-content-center align-items-center"
-          *ngIf="!imageSelected"
+          *ngIf="!existsImg"
         >
           <i class="bi bi-image-fill"></i>
           <h5>Subir imagen referencia del evento</h5>
         </div>
         <img
-          *ngIf="imageSelected"
+          *ngIf="existsImg"
           class="content img-fluid"
           [src]="imageURL"
           alt="Imagen seleccionada"
@@ -42,9 +42,9 @@
           id="name"
         />
         <small
-          *ngIf="formService.validInput(eventForm, 'name')"
+          *ngIf="formService.validInput(generalDataForm, 'name')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorName(eventForm)}}</small
+          >{{formService.getMsgErrorName(generalDataForm)}}</small
         >
       </div>
       <!--description-->
@@ -58,9 +58,9 @@
           id="description"
         ></textarea>
         <small
-          *ngIf="formService.validInput(eventForm, 'description')"
+          *ngIf="formService.validInput(generalDataForm, 'description')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorDescription(eventForm)}}</small
+          >{{formService.getMsgErrorDescription(generalDataForm)}}</small
         >
       </div>
       <!--Evento destacado-->
@@ -106,7 +106,7 @@
         </label>
       </div>
       <!--artist-->
-      <div class="mb-3" *ngIf="eventForm.value.existsArtist">
+      <div class="mb-3" *ngIf="generalDataForm.value.existsArtist">
         <!-- <label for="artist">Artista</label> -->
         <input
           type="text"
@@ -116,9 +116,9 @@
           id="artist"
         />
         <small
-          *ngIf="formService.validInput(eventForm, 'artist')"
+          *ngIf="formService.validInput(generalDataForm, 'artist')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorArtist(eventForm)}}</small
+          >{{formService.getMsgErrorArtist(generalDataForm)}}</small
         >
       </div>
     </div>
@@ -136,10 +136,10 @@
           >
         </select>
         <small
-          *ngIf="formService.validInput(eventForm, 'service_id')"
+          *ngIf="formService.validInput(generalDataForm, 'service_id')"
           class="form-text text-danger"
         >
-          {{formService.getMsgErrorSelectService(eventForm)}}
+          {{formService.getMsgErrorSelectService(generalDataForm)}}
         </small>
       </div>
     </div>
@@ -187,9 +187,9 @@
           </ng-template>
         </ng-select>
         <small
-          *ngIf="formService.validInput(eventForm, 'organizer')"
+          *ngIf="formService.validInput(generalDataForm, 'organizer')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorOrganizer(eventForm)}}</small
+          >{{formService.getMsgErrorOrganizer(generalDataForm)}}</small
         >
       </div>
     </div>
@@ -208,12 +208,12 @@
           id="start_date"
         />
         <small
-          *ngIf="formService.validInput(eventForm, 'start_date')"
+          *ngIf="formService.validInput(generalDataForm, 'start_date')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorFechaInicio(eventForm)}}</small
+          >{{formService.getMsgErrorFechaInicio(generalDataForm)}}</small
         >
         <small
-          *ngIf="eventForm.hasError('fechaInicioInvalida')"
+          *ngIf="generalDataForm.hasError('fechaInicioInvalida')"
           class="form-text text-danger"
         >
           La fecha y hora de inicio no pueden ser anteriores a la actual.
@@ -232,9 +232,9 @@
           id="start_time"
         />
         <small
-          *ngIf="formService.validInput(eventForm, 'start_time')"
+          *ngIf="formService.validInput(generalDataForm, 'start_time')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorHoraInicio(eventForm)}}</small
+          >{{formService.getMsgErrorHoraInicio(generalDataForm)}}</small
         >
       </div>
     </div>
@@ -250,13 +250,13 @@
           id="end_date"
         />
         <small
-          *ngIf="formService.validInput(eventForm, 'end_date')"
+          *ngIf="formService.validInput(generalDataForm, 'end_date')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorFechaFin(eventForm)}}</small
+          >{{formService.getMsgErrorFechaFin(generalDataForm)}}</small
         >
 
         <small
-          *ngIf="eventForm.hasError('fechaFinInvalida')"
+          *ngIf="generalDataForm.hasError('fechaFinInvalida')"
           class="form-text text-danger"
         >
           La fecha y hora de finalización no pueden ser anteriores a la
@@ -276,9 +276,9 @@
           id="end_time"
         />
         <small
-          *ngIf="formService.validInput(eventForm, 'end_time')"
+          *ngIf="formService.validInput(generalDataForm, 'end_time')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorHoraFin(eventForm)}}</small
+          >{{formService.getMsgErrorHoraFin(generalDataForm)}}</small
         >
       </div>
     </div>

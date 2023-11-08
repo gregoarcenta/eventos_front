@@ -2,7 +2,7 @@ import { DataCatalog, ResponseCatalog } from "../interfaces/catalogs";
 import { environment } from "./../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable, map, tap } from "rxjs";
+import { BehaviorSubject, Observable, map, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +13,14 @@ export class DataService {
   private services: DataCatalog[] = [];
   private localities: DataCatalog[] = [];
   private provinces: DataCatalog[] = [];
-  private cities: DataCatalog[] = [];
+  private cities: DataCatalog[] = []; //TODO: Eliminar eso my utilizar el del observable
+
+  private citiesSubject = new BehaviorSubject<DataCatalog[]>([]);
+  public cities$ = this.citiesSubject.asObservable();
+
+  set setCitiesObsevable(cities:DataCatalog[]){
+    this.citiesSubject.next(cities)
+  }
 
   get getDocuments() {
     return this.documents;

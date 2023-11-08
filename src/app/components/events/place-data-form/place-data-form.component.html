@@ -1,4 +1,4 @@
-<form [formGroup]="placeForm">
+<form [formGroup]="placeDataForm">
   <!--mensaje-->
   <ng-container>
     <p class="text-center mb-1 fw-bold">
@@ -12,7 +12,7 @@
   <!--Para crear una ubicacion-->
   <p class="text-center mb-1 fw-bold">
     ¿No encuentras el lugar de tu evento?
-    <span class="text-primary pointer enlace" (click)="addPlace()"
+    <span class="text-primary pointer enlace" (click)="setCustomPlace()"
       >Da click aquí para crear una ubicación para tu evento</span
     >
   </p>
@@ -50,8 +50,8 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="place || editMode">
-    <div class="col-md-6 bg-light justify-content-center g-0 position-relative">
+  <div class="row" *ngIf="place_id || editMode">
+    <div class="col-md-6 justify-content-center g-0 position-relative">
       <map [editMode]="editMode"></map>
       <div class="map-overlay" *ngIf="!editMode"></div>
     </div>
@@ -67,9 +67,9 @@
           id="placeName"
         />
         <small
-          *ngIf="formService.validInput(placeForm, 'name')"
+          *ngIf="formService.validInput(placeDataForm, 'name')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorName(placeForm)}}</small
+          >{{ formService.getMsgErrorName(placeDataForm) }}</small
         >
       </div>
       <!--description-->
@@ -83,9 +83,9 @@
           id="placeDescription"
         ></textarea>
         <small
-          *ngIf="formService.validInput(placeForm, 'description')"
+          *ngIf="formService.validInput(placeDataForm, 'description')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorDescription(placeForm)}}</small
+          >{{ formService.getMsgErrorDescription(placeDataForm) }}</small
         >
       </div>
       <!--reference-->
@@ -99,50 +99,46 @@
           id="placeReference"
         />
         <small
-          *ngIf="formService.validInput(placeForm, 'reference')"
+          *ngIf="formService.validInput(placeDataForm, 'reference')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorReference(placeForm)}}</small
+          >{{ formService.getMsgErrorReference(placeDataForm) }}</small
         >
       </div>
 
       <div class="row">
         <!--provincias-->
         <div class="col-md-6">
-          <label class="form-check-label pointer">
-            Elige una provincia
-          </label>
+          <label class="form-check-label pointer"> Elige una provincia </label>
           <div class="mb-3 position-relative">
             <select class="form-select input-adm" formControlName="province_id">
               <option value="0" disabled>Selecciona una opción</option>
-              <option [value]="province.id" *ngFor="let province of provinces"
-                >{{province.name}}</option
-              >
+              <option [value]="province.id" *ngFor="let province of provinces">
+                {{ province.name }}
+              </option>
             </select>
             <small
-              *ngIf="formService.validInput(placeForm, 'province_id')"
+              *ngIf="formService.validInput(placeDataForm, 'province_id')"
               class="form-text text-danger"
             >
-              {{formService.getMsgErrorSelect(placeForm, 'province_id')}}
+              {{ formService.getMsgErrorSelect(placeDataForm, "province_id") }}
             </small>
           </div>
         </div>
         <!--ciudades-->
         <div class="col-md-6">
-          <label class="form-check-label pointer">
-            Elige una ciudad
-          </label>
+          <label class="form-check-label pointer"> Elige una ciudad </label>
           <div class="mb-3 position-relative">
             <select class="form-select input-adm" formControlName="city_id">
               <option value="0" disabled>Selecciona una opción</option>
-              <option [value]="city.id" *ngFor="let city of cities"
-                >{{city.name}}</option
-              >
+              <option [value]="city.id" *ngFor="let city of cities$ | async">
+                {{ city.name }}
+              </option>
             </select>
             <small
-              *ngIf="formService.validInput(placeForm, 'city_id')"
+              *ngIf="formService.validInput(placeDataForm, 'city_id')"
               class="form-text text-danger"
             >
-              {{formService.getMsgErrorSelect(placeForm, 'city_id')}}
+              {{ formService.getMsgErrorSelect(placeDataForm, "city_id") }}
             </small>
           </div>
         </div>

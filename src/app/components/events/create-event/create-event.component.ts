@@ -23,8 +23,6 @@ export class CreateEventComponent implements OnInit {
   @ViewChild(MatStepper) stepper!: MatStepper;
   @Output() onCreateEvent = new EventEmitter<Event>();
 
-  public event: Event | null = null;
-
   get eventForm() {
     return this.eventFormService.generalDataForm;
   }
@@ -38,12 +36,12 @@ export class CreateEventComponent implements OnInit {
   }
 
   get localitiesArray() {
-    return this.localitiesForm.get("localities") as FormArray<FormGroup>;
+    return this.localitiesForm.controls["localities"];
   }
 
   constructor(
     private eventFormService: EventFormService,
-    private placeService: PlaceService,
+    private placeService: PlaceService
   ) {}
 
   ngOnInit(): void {}
@@ -94,9 +92,10 @@ export class CreateEventComponent implements OnInit {
   }
 
   validatePlaceForm() {
-    const placeId = this.placeForm.get("place_id")?.value || null;
+    const placeId = this.placeForm.controls["place_id"].value;
+    const customPlace = this.placeForm.controls["customPlace"].value;
 
-    if (placeId && placeId === -1) {
+    if (!placeId && !customPlace) {
       Swal.fire(
         "¡Lo sentimo!",
         "Tiene que seleccionar una ubicación para el evento",
@@ -105,9 +104,7 @@ export class CreateEventComponent implements OnInit {
       return false;
     }
 
-    // if (placeId && placeId < 10000) return false;
-
-    if (placeId === null && this.placeForm.invalid) {
+    if (this.placeForm.invalid) {
       this.placeForm.markAllAsTouched();
       return false;
     }
@@ -147,11 +144,16 @@ export class CreateEventComponent implements OnInit {
       return;
     }
 
+    const place_localities = this.localitiesArray.value.map((locality) => {
+      const { id, ...data } = locality;
+      return data;
+    });
+
     const event: any = {
       ...this.eventForm.value,
       place_id: this.placeForm.value.place_id,
       place: this.placeForm.value,
-      place_localities: this.localitiesArray.value,
+      place_localities,
     };
 
     this.onCreateEvent.emit(event);
