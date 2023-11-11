@@ -1,8 +1,8 @@
-import { NoAuthGuard } from "./../guards/noAuth.guard";
-import { AuthGuard } from "./../guards/auth.guard";
+import { MainComponent } from './layout/main/main.component';
+import { NoAuthGuard } from "../core/guards/noAuth.guard";
+import { AuthGuard } from "../core/guards/auth.guard";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { LayoutComponent } from "./layout/layout.component";
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: "",
-    component: LayoutComponent,
+    component: MainComponent,
     children: [
       // Dashboard rute
       {

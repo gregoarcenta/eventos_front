@@ -1,12 +1,12 @@
-import { DocumentValidatorService } from "./../../../../../validations/Services/document-validator.service";
-import { DataCatalog } from "../../../../../interfaces/catalogs";
-import { DataService } from "./../../../../../services/data.service";
-import { UserService } from "./../../../../../services/user.service";
-import { CustomValidators } from "./../../../../../validations/validations-forms";
-import { SpinnerService } from "./../../../../../services/spinner.service";
-import { FormService } from "./../../../../../services/form.service";
-import { EmailValidatorService } from "./../../../../../validations/Services/email-validator.service";
-import { UsernameValidatorService } from "./../../../../../validations/Services/username-validator.service";
+import { DataStore } from "./../../../../../core/services/store/data.store";
+import { EmailValidatorService } from "./../../../../../shared/validations/services/email-validator.service";
+import { DocumentValidatorService } from "./../../../../../shared/validations/services/document-validator.service";
+import { UsernameValidatorService } from "./../../../../../shared/validations/services/username-validator.service";
+import { CustomValidators } from "./../../../../../shared/validations/validations-forms";
+
+import { UserService } from "../../../../../core/services/user.service";
+import { FormService } from "../../../../../core/services/form.service";
+
 import {
   _patterName,
   _patternMail,
@@ -14,13 +14,12 @@ import {
   _patternPassword,
   _patternCell,
   _patternAge,
-} from "./../../../../../utils/regularPatterns";
-import { AuthService } from "./../../../../../services/auth.service";
+} from "../../../../../shared/utils/regularPatterns";
+import { AuthService } from "../../../../../core/services/auth.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
 import Swal from "sweetalert2";
-import { Subscription } from "rxjs";
+import { Subscription, take } from "rxjs";
 
 @Component({
   selector: "app-mis-datos",
@@ -75,8 +74,8 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     return this.authService.getAuthUser;
   }
 
-  get documents() {
-    return this.dataService.getDocuments;
+  get documents$() {
+    return this.dataStore.documents$;
   }
 
   get getImgUser() {
@@ -102,12 +101,10 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     private dvs: DocumentValidatorService,
     private evs: EmailValidatorService,
     private authService: AuthService,
-    private dataService: DataService,
     private userService: UserService,
+    private dataStore: DataStore,
     public formService: FormService,
-    private spinner: SpinnerService,
-    private fb: FormBuilder,
-    private router: Router
+    private fb: FormBuilder
   ) {}
 
   ngOnDestroy(): void {
@@ -118,13 +115,6 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     this.userForm.patchValue(this.authUser as any);
     this.userForm.disable();
     this.changeTypeDocument();
-
-    if (this.dataService.getDocuments.length === 0) {
-      this.dataService.getAllDocuments().subscribe({
-        next: (_) => {},
-        error: (_) => this.router.navigateByUrl("/"),
-      });
-    }
   }
 
   validaNumeros(tecla: any): boolean {
@@ -143,25 +133,32 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     this.typeDocumentSubscription = typeDocument.valueChanges.subscribe(
       (value) => {
         if (!this.authUser?.document_id) {
-          documentControl.enable();
           documentControl.setValue("" as any);
         }
         if (value == 1) {
+          businessNameControl.clearValidators();
+
           documentControl.addValidators([CustomValidators.validCedula]);
           documentControl.removeValidators([CustomValidators.validRuc]);
-          businessNameControl.clearValidators();
+
           businessNameControl.updateValueAndValidity();
+          documentControl.updateValueAndValidity();
         }
         if (value == 2) {
+          businessNameControl.addValidators([Validators.required]);
+
           documentControl.addValidators([CustomValidators.validRuc]);
           documentControl.removeValidators([CustomValidators.validCedula]);
-          businessNameControl.addValidators([Validators.required]);
+
           businessNameControl.updateValueAndValidity();
+          documentControl.updateValueAndValidity();
         }
         if (value == 3) {
           businessNameControl.clearValidators();
           documentControl.clearValidators();
+
           documentControl.addValidators([Validators.required]);
+
           businessNameControl.updateValueAndValidity();
           documentControl.updateValueAndValidity();
         }
@@ -172,7 +169,9 @@ export class MisDatosComponent implements OnInit, OnDestroy {
   enabledForm() {
     this.userForm.enable();
     if (!this.userForm.value.document_id) {
-      this.userForm.controls["document_id"].setValue(this.documents[0].id);
+      this.documents$.pipe(take(1)).subscribe((documents) => {
+        this.userForm.controls["document_id"].setValue(documents[0].id);
+      });
     } else {
       this.userForm.controls["document_id"].disable();
       this.userForm.controls["num_document"].disable();
@@ -183,7 +182,6 @@ export class MisDatosComponent implements OnInit, OnDestroy {
   updateData() {
     if (this.userForm.invalid) return this.userForm.markAllAsTouched();
 
-    //this.spinner.setActive(true);
     const document_id = this.userForm.get("document_id")!.value;
     const num_document = this.userForm.get("num_document")!.value;
     const business_name = this.userForm.get("business_name")!.value;
@@ -193,7 +191,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
         img: this.authUser?.img,
         document_id,
         num_document,
-        business_name
+        business_name,
       })
       .subscribe((response) => {
         Swal.fire("¡Listo!", response.message, "success");
@@ -201,7 +199,6 @@ export class MisDatosComponent implements OnInit, OnDestroy {
         this.userForm.patchValue(this.authUser as any);
         this.userForm.disable();
         this.userForm.updateValueAndValidity();
-        //this.spinner.setActive(false);
       });
   }
 }

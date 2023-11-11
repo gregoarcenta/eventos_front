@@ -1,4 +1,4 @@
-import { AuthGuard } from './../../../guards/auth.guard';
+import { AuthGuard } from '../../../core/guards/auth.guard';
 import { DashboardComponent } from "./dashboard.component";
 
 import { NgModule } from "@angular/core";

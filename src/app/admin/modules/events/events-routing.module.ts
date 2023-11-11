@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './../../../guards/auth.guard';
+import { AuthGuard } from '../../../core/guards/auth.guard';
 import { EventsComponent } from './events.component';
 import { CreateEventAdminComponent } from './pages/create-event-admin/create-event-admin.component';
 import { EditEventAdminComponent } from './pages/edit-event-admin/edit-event-admin.component';

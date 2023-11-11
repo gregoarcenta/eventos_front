@@ -1,0 +1,286 @@
+<form [formGroup]="generalDataForm">
+  <div class="row">
+    <!--image event-->
+    <div class="col-md-6">
+      <div
+        class="img-container-banner"
+        [ngClass]="{'img-container-banner-update': event}"
+        (dragover)="onDragOver($event)"
+        (dragenter)="onDragEnter($event)"
+        (drop)="onDragOver($event)"
+        (click)="onClickImageBanner()"
+      >
+        <div
+          class="content d-flex flex-column justify-content-center align-items-center"
+          *ngIf="!existsImg"
+        >
+          <i class="bi bi-image-fill"></i>
+          <h5>Subir imagen referencia del evento</h5>
+        </div>
+        <img
+          *ngIf="existsImg"
+          class="content img-fluid"
+          [src]="imageURL"
+          alt="Imagen seleccionada"
+        />
+      </div>
+      <div class="alert alert-info text-center mb-3 p-1">
+        <i class="bi bi-info-circle"></i> La imagen deberá de tener un
+        aspecto de 16:10
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <!--name-->
+      <div class="mb-3">
+        <label for="name">Nombre del Evento</label>
+        <input
+          type="text"
+          placeholder="Ingrese su nombre"
+          formControlName="name"
+          class="form-control input-adm"
+          id="name"
+        />
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'name')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorName(generalDataForm)}}</small
+        >
+      </div>
+      <!--description-->
+      <div class="mb-3">
+        <label for="description">Descripción</label>
+        <textarea
+          rows="5"
+          placeholder="Ingrese una descripción"
+          formControlName="description"
+          class="form-control input-adm"
+          id="description"
+        ></textarea>
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'description')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorDescription(generalDataForm)}}</small
+        >
+      </div>
+      <!--Evento destacado-->
+      <div class="form-check mb-2">
+        <input
+          class="form-check-input pointer"
+          type="checkbox"
+          id="checkDestacado"
+          formControlName="outstanding"
+        />
+        <label class="form-check-label pointer" for="checkDestacado">
+          Evento destacado
+        </label>
+      </div>
+      <!--Publicar Evento-->
+      <div class="form-check">
+        <input
+          class="form-check-input pointer"
+          type="checkbox"
+          id="checkPublicado"
+          formControlName="publish"
+        />
+        <label class="form-check-label pointer" for="checkPublicado">
+          Publicar evento
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!--artist-->
+    <div class="col-md-4">
+      <!--Check Artist-->
+      <div class="form-check">
+        <input
+          class="form-check-input pointer"
+          type="checkbox"
+          id="checkArtista"
+          formControlName="existsArtist"
+        />
+        <label class="form-check-label pointer" for="checkArtista">
+          ¿Hay Artista invitado o cantante principal?
+        </label>
+      </div>
+      <!--artist-->
+      <div class="mb-3" *ngIf="generalDataForm.value.existsArtist">
+        <!-- <label for="artist">Artista</label> -->
+        <input
+          type="text"
+          placeholder="Ingrese nombre del artista"
+          formControlName="artist"
+          class="form-control input-adm"
+          id="artist"
+        />
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'artist')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorArtist(generalDataForm)}}</small
+        >
+      </div>
+    </div>
+
+    <!--servicios-->
+    <div class="col-md-4">
+      <label class="form-check-label pointer">
+        Elige el tipo de evento a realizar
+      </label>
+      <div class="mb-3 position-relative">
+        <select class="form-select input-adm" formControlName="service_id">
+          <option value="0" disabled>Selecciona una opción</option>
+          <option [value]="service.id" *ngFor="let service of services$ | async"
+            >{{service.name}}</option
+          >
+        </select>
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'service_id')"
+          class="form-text text-danger"
+        >
+          {{formService.getMsgErrorSelectService(generalDataForm)}}
+        </small>
+      </div>
+    </div>
+
+    <!--Organizador-->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label for="organizer">Organizador</label>
+        <ng-select
+          [items]="organizers$ | async"
+          bindLabel="username"
+          bindValue="username"
+          [addTag]="false"
+          [placeholder]="placeHolderOrganizer"
+          [multiple]="false"
+          [hideSelected]="false"
+          [minTermLength]="3"
+          [loading]="organizerLoading"
+          typeToSearchText="Por favor ingrese 3 o mas caracteres"
+          notFoundText="No se han encontrado usuarios"
+          [typeahead]="organizerTerm$"
+          class="custom"
+          formControlName="organizer"
+        >
+          <ng-template
+            ng-option-tmp
+            let-item="item"
+            let-index="index"
+            let-search="searchTerm"
+          >
+            <div class="d-flex align-items-center">
+              <img
+                style="border-radius: 50%;"
+                height="25"
+                width="25"
+                [src]="getImageProfile(item.img)"
+              />
+              <div class="ms-2">
+                <h5 class="m-0">
+                  {{item.name | titlecase}} {{item.surname |titlecase}}
+                </h5>
+                <h6 class="m-0 text-muted">{{item.username}}</h6>
+              </div>
+            </div>
+          </ng-template>
+        </ng-select>
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'organizer')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorOrganizer(generalDataForm)}}</small
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!--Fecha de inicio-->
+    <div class="col-md-3">
+      <div class="mb-3">
+        <label for="start_date">Fecha de inicio</label>
+        <input
+          type="date"
+          placeholder="Ingrese fecha de inicio del evento"
+          formControlName="start_date"
+          class="form-control input-adm"
+          id="start_date"
+        />
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'start_date')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorFechaInicio(generalDataForm)}}</small
+        >
+        <small
+          *ngIf="generalDataForm.hasError('fechaInicioInvalida')"
+          class="form-text text-danger"
+        >
+          La fecha y hora de inicio no pueden ser anteriores a la actual.
+        </small>
+      </div>
+    </div>
+    <!--Hora de inicio-->
+    <div class="col-md-3">
+      <div class="mb-3">
+        <label for="start_time">Hora de inicio</label>
+        <input
+          type="time"
+          placeholder="Ingrese hora de inicio del evento"
+          formControlName="start_time"
+          class="form-control input-adm"
+          id="start_time"
+        />
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'start_time')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorHoraInicio(generalDataForm)}}</small
+        >
+      </div>
+    </div>
+    <!--Fecha de fin-->
+    <div class="col-md-3">
+      <div class="mb-3">
+        <label for="end_date">Fecha de finalización</label>
+        <input
+          type="date"
+          placeholder="Ingrese fecha de finalización del evento"
+          formControlName="end_date"
+          class="form-control input-adm"
+          id="end_date"
+        />
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'end_date')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorFechaFin(generalDataForm)}}</small
+        >
+
+        <small
+          *ngIf="generalDataForm.hasError('fechaFinInvalida')"
+          class="form-text text-danger"
+        >
+          La fecha y hora de finalización no pueden ser anteriores a la
+          fecha y hora de inicio.
+        </small>
+      </div>
+    </div>
+    <!--Hora de fin-->
+    <div class="col-md-3">
+      <div class="mb-3">
+        <label for="end_time">Hora de finalización</label>
+        <input
+          type="time"
+          placeholder="Ingrese hora de finalización del evento"
+          formControlName="end_time"
+          class="form-control input-adm"
+          id="end_time"
+        />
+        <small
+          *ngIf="formService.validInput(generalDataForm, 'end_time')"
+          class="form-text text-danger"
+          >{{formService.getMsgErrorHoraFin(generalDataForm)}}</small
+        >
+      </div>
+    </div>
+  </div>
+</form>

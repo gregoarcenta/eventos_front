@@ -1,4 +1,4 @@
-import { EventService } from "./../../../../../services/events.service";
+import { EventService } from "../../../../../core/services/events.service";
 import { Router } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import Swal from "sweetalert2";

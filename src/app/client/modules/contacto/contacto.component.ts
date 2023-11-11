@@ -1,18 +1,18 @@
+import { DataStore } from './../../../core/services/store/data.store';
+import { DataCatalog } from './../../../core/interfaces/catalogs';
+import { CustomValidators } from "./../../../shared/validations/validations-forms";
 import { environment } from "./../../../../environments/environment";
-import { SpinnerService } from "./../../../services/spinner.service";
-import { ContactService } from "./../../../services/contact.service";
-import { CustomValidators } from "./../../../validations/validations-forms";
-import { DataCatalog } from "../../../interfaces/catalogs";
-import { DataService } from "./../../../services/data.service";
-import { FormService } from "./../../../services/form.service";
+import { ContactService } from "../../../core/services/contact.service";
+import { DataService } from "../../../core/services/data.service";
+import { FormService } from "../../../core/services/form.service";
 import {
   _patterName,
   _patternCell,
   _patternMail,
-} from "./../../../utils/regularPatterns";
+} from "../../../shared/utils/regularPatterns";
 import { AfterViewInit, Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Subscription } from "rxjs";
+import { BehaviorSubject, Subscription } from "rxjs";
 import Swal from "sweetalert2";
 
 declare const grecaptcha: any;
@@ -23,6 +23,8 @@ declare const grecaptcha: any;
   styleUrls: ["./contacto.component.scss"],
 })
 export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
+  private citiesSubject = new BehaviorSubject<DataCatalog[]>([]);
+
   public contactForm = this.fb.group({
     name: [
       "",
@@ -47,25 +49,29 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
     city: [0, [Validators.required, CustomValidators.validNotZero]],
   });
 
-  get services() {
-    return this.dataService.getServices;
+  get services$() {
+    return this.dataStore.services$;
   }
 
-  get provinces() {
-    return this.dataService.getProvinces;
+  get provinces$() {
+    return this.dataStore.provinces$;
   }
 
-  get cities() {
-    return this.dataService.getCities;
+  get cities$() {
+    return this.citiesSubject.asObservable();
+  }
+
+  set setCities(cities: DataCatalog[]) {
+    this.citiesSubject.next(cities);
   }
 
   private provinceSubscription?: Subscription;
 
   constructor(
     private fb: FormBuilder,
-    private spinner: SpinnerService,
     public formService: FormService,
     private dataService: DataService,
+    private dataStore: DataStore,
     private contactService: ContactService
   ) {}
 
@@ -85,8 +91,9 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
     captcha.style.opacity = "1";
 
     //Para hacer que el height este en 100% de su alto
-    let headerHeight = document.querySelector(".main-header .navbar")
-      ?.clientHeight;
+    let headerHeight = document.querySelector(
+      ".main-header .navbar"
+    )?.clientHeight;
     const buttonHeaderHeight = document.querySelector(
       ".main-header .navbar-toggler"
     )?.clientHeight;
@@ -105,16 +112,6 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    //Obtiene lista de servicios
-    if (this.dataService.getServices.length === 0) {
-      this.dataService.getAllServices().subscribe((_) => {});
-    }
-
-    //Obtiene lista de provincias
-    if (this.dataService.getProvinces.length === 0) {
-      this.dataService.getAllprovinces().subscribe((_) => {});
-    }
-
     //detecta cuando se cambia el select de provincia
     this.provinceSubscription = this.contactForm
       .get("province")!
@@ -123,14 +120,13 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dataService
           .getCitiesByProvinceId(Number(value))
           .subscribe(
-            (response) => (this.dataService.setCities = response.data)
+            (response) => (this.setCities = response.data)
           );
       });
   }
 
   submitForm() {
     if (this.contactForm.invalid) return this.contactForm.markAllAsTouched();
-    //this.spinner.setActive(true);
     grecaptcha.ready(() => {
       grecaptcha
         .execute(environment.captchaClientKey, {
@@ -162,7 +158,6 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
           city: 0,
         });
         this.contactForm.markAsUntouched();
-        //this.spinner.setActive(false);
       });
   }
 

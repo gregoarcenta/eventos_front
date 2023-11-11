@@ -1,7 +1,7 @@
 import { Subject, debounceTime, switchMap, take } from "rxjs";
 import { environment } from "./../../../../environments/environment";
-import { _patterName } from "./../../../utils/regularPatterns";
-import { EventService } from "./../../../services/events.service";
+import { _patterName } from "../../../shared/utils/regularPatterns";
+import { EventService } from "../../../core/services/events.service";
 import { Component, OnInit } from "@angular/core";
 
 @Component({

@@ -1,5 +1,5 @@
-import { RegisterService } from "./../../../../../services/register.service";
-import { SpinnerService } from "./../../../../../services/spinner.service";
+import { RegisterService } from "../../../../../core/services/register.service";
+import { SpinnerService } from "../../../../../core/services/spinner.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import Swal from "sweetalert2";

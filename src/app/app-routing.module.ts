@@ -1,8 +1,8 @@
-import { DomainAdminGuard } from "./guards/domain-admin.guard";
+import { DomainAdminGuard } from "./core/guards/domain-admin.guard";
 import { Routes } from "@angular/router";
-import { DomainClientGuard } from "./guards/domain-client.guard";
+import { DomainClientGuard } from "./core/guards/domain-client.guard";
 
-export const Approutes: Routes = [
+export const AppRoutes: Routes = [
   {
     path: "administrador",
     loadChildren: () =>

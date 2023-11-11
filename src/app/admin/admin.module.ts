@@ -1,23 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { LayoutModule } from './layout/layout.module';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { AdminRoutingModule } from './admin-routing.module';
-import { LayoutComponent } from './layout/layout.component';
-import { NavigationComponent } from './shared/navigation/navigation.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { AdminRoutingModule } from "./admin-routing.module";
 
 @NgModule({
-  declarations: [
-    LayoutComponent,
-    NavigationComponent,
-    SidebarComponent,
-  ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    NgbModule,
-  ]
+  declarations: [],
+  imports: [CommonModule, AdminRoutingModule, LayoutModule],
 })
-export class AdminModule { }
+export class AdminModule {}

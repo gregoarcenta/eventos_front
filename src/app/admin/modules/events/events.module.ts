@@ -1,4 +1,4 @@
-import { ComponentsModule } from "./../../../components/components.module";
+import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -15,8 +15,8 @@ import { EditEventAdminComponent } from './pages/edit-event-admin/edit-event-adm
   declarations: [EventsComponent, CreateEventAdminComponent, EditEventAdminComponent],
   imports: [
     CommonModule,
+    SharedModule,
     EventsRoutingModule,
-    ComponentsModule,
     ReactiveFormsModule,
     NgxSkeletonLoaderModule,
     NgbTooltipModule,

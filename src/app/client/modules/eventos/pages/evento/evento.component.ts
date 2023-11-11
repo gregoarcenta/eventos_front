@@ -1,9 +1,9 @@
-import { MapService } from "./../../../../../services/map.service";
-import { PlaceService } from "./../../../../../services/place.service";
+import { MapService } from "../../../../../core/services/map.service";
+import { PlaceService } from "../../../../../core/services/place.service";
 import { environment } from "./../../../../../../environments/environment";
 
-import { Event } from "./../../../../../interfaces/event";
-import { EventService } from "./../../../../../services/events.service";
+import { Event } from "../../../../../core/interfaces/event";
+import { EventService } from "../../../../../core/services/events.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";

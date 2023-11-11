@@ -107,7 +107,7 @@
     <span
       class="badge text-bg-warning pointer mx-1"
       *ngIf="conditionsFiltered?.type"
-      >Tipo: {{getServiceNameById(conditionsFiltered?.type)}}</span
+      >Tipo: {{getServiceNameById(conditionsFiltered?.type) | async}}</span
     >
     <span
       class="badge text-bg-warning pointer mx-1"
@@ -221,7 +221,7 @@
       <!-- filtro por tipo -->
       <div class="">
         <label class="fw-bold">Tipo</label>
-        <div class="form-check" *ngFor="let service of services">
+        <div class="form-check" *ngFor="let service of services$ | async">
           <input
             class="form-check-input"
             type="radio"

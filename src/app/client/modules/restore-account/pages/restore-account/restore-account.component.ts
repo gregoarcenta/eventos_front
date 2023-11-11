@@ -1,7 +1,7 @@
-import { User } from "./../../../../../interfaces/user";
-import { SpinnerService } from "./../../../../../services/spinner.service";
-import { RestoreAccountService } from "./../../../../../services/restore-account.service";
-import { _patternPassword } from "./../../../../../utils/regularPatterns";
+import { User } from "../../../../../core/interfaces/user";
+import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { RestoreAccountService } from "../../../../../core/services/restore-account.service";
+import { _patternPassword } from "../../../../../shared/utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";

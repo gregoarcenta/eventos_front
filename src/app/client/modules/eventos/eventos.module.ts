@@ -1,5 +1,4 @@
-import { CapitalizeFirstLetterPipe } from './../../../pipes/capitalize-first-letter.pipe';
-import { ComponentsModule } from "./../../../components/components.module";
+import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from "@angular/core";
 import { CommonModule, registerLocaleData } from "@angular/common";
 
@@ -16,17 +15,17 @@ import { MatButtonModule } from "@angular/material/button";
 registerLocaleData(localeEs);
 
 @NgModule({
-  declarations: [EventosComponent, EventoComponent, CapitalizeFirstLetterPipe],
+  declarations: [EventosComponent, EventoComponent],
   imports: [
     CommonModule,
     EventosRoutingModule,
-    NgbCarouselModule,
-    ComponentsModule,
     ReactiveFormsModule,
+    SharedModule,
     NgxSkeletonLoaderModule,
+    NgbPopoverModule,
+    NgbCarouselModule,
     NgbTooltipModule,
-    MatButtonModule,
-    NgbPopoverModule
+    MatButtonModule
   ],
 })
 export class EventosModule {}

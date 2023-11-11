@@ -1,4 +1,4 @@
-<form [formGroup]="userForm" *ngIf="authUser && documents.length > 0">
+<form [formGroup]="userForm" *ngIf="authUser">
   <div class="d-flex justify-content-between align-items-end mb-3 mb-sm-4">
     <div class="d-flex align-items-center">
       <img
@@ -6,10 +6,10 @@
         type="button"
         [src]="getImgUser"
         alt="imagen perfil"
-        style="width: 30px; height: 30px;"
+        style="width: 30px; height: 30px"
       />
       <h2 class="fw-bold my-0 mx-2">
-        Bienvenido, {{authUser.name}} {{authUser.surname}}
+        Bienvenido, {{ authUser.name }} {{ authUser.surname }}
       </h2>
     </div>
     <button
@@ -44,7 +44,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'name')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorName(userForm)}}</small
+          >{{ formService.getMsgErrorName(userForm) }}</small
         >
       </div>
     </div>
@@ -62,7 +62,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'surname')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorSurname(userForm)}}</small
+          >{{ formService.getMsgErrorSurname(userForm) }}</small
         >
       </div>
     </div>
@@ -80,7 +80,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'email')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorEmail(userForm)}}</small
+          >{{ formService.getMsgErrorEmail(userForm) }}</small
         >
       </div>
     </div>
@@ -98,7 +98,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'username')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorUsername(userForm)}}</small
+          >{{ formService.getMsgErrorUsername(userForm) }}</small
         >
       </div>
     </div>
@@ -117,7 +117,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'age')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorAge(userForm)}}</small
+          >{{ formService.getMsgErrorAge(userForm) }}</small
         >
       </div>
     </div>
@@ -136,7 +136,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'phone')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorPhone(userForm)}}</small
+          >{{ formService.getMsgErrorPhone(userForm) }}</small
         >
       </div>
     </div>
@@ -144,17 +144,17 @@
     <div class="col-lg-6">
       <label>Tipo de documento</label>
       <div class="d-flex my-2 justify-content-between align-items-center">
-        <div class="form-check" *ngFor="let document of documents">
+        <div class="form-check" *ngFor="let document of documents$ | async">
           <input
             class="form-check-input"
             type="radio"
             [id]="document.id"
             [value]="document.id"
-            [checked]="document.id === 1?true:false"
+            [checked]="document.id === 1 ? true : false"
             formControlName="document_id"
           />
           <label class="form-check-label pointer" [for]="document.id">
-            {{document.name | uppercase}}
+            {{ document.name | uppercase }}
           </label>
         </div>
       </div>
@@ -174,7 +174,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'num_document')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorNumDocument(userForm)}}</small
+          >{{ formService.getMsgErrorNumDocument(userForm) }}</small
         >
       </div>
     </div>
@@ -192,7 +192,7 @@
         <small
           *ngIf="formService.validInput(userForm, 'business_name')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorBusinessName(userForm)}}</small
+          >{{ formService.getMsgErrorBusinessName(userForm) }}</small
         >
       </div>
     </div>

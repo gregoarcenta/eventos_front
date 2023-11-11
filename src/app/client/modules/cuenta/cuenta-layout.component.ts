@@ -1,7 +1,7 @@
-import { getMimeFile, urlToFile } from "./../../../utils/convertImage";
-import { SpinnerService } from "./../../../services/spinner.service";
-import { UserService } from "./../../../services/user.service";
-import { AuthService } from "./../../../services/auth.service";
+import { getMimeFile, urlToFile } from "../../../shared/utils/convertImage";
+import { SpinnerService } from "../../../core/services/spinner.service";
+import { UserService } from "../../../core/services/user.service";
+import { AuthService } from "../../../core/services/auth.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgxImageCompressService } from "ngx-image-compress";
 import Swal from "sweetalert2";

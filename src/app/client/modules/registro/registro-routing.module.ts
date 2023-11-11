@@ -1,6 +1,6 @@
 import { RegistroComponent } from './pages/registro/registro.component';
 import { VerifyRegisterComponent } from './pages/verify-register/verify-register.component';
-import { NoAuthGuard } from "./../../../guards/noAuth.guard";
+import { NoAuthGuard } from "../../../core/guards/noAuth.guard";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 

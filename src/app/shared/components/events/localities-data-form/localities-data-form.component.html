@@ -1,0 +1,89 @@
+<form [formGroup]="localitiesDataForm">
+  <div formArrayName="localities" class="row">
+    <div
+      class="col-sm-6 col-md-4 mt-2"
+      *ngFor="
+        let localityForm of localitiesDataArray.controls;
+        let i = index
+      "
+    >
+      <div [formGroup]="localityForm" class="container-locality">
+        <!--Localidades catalogo-->
+        <div class="mb-2 position-relative">
+          <select class="form-select input-adm" formControlName="locality_id">
+            <option value="0" disabled>
+              Selecciona el nombre de tu localidad
+            </option>
+            <option [value]="locality.id" *ngFor="let locality of localities$ | async">
+              {{ locality.name }}
+            </option>
+          </select>
+        </div>
+        <!-- Limte de boletos-->
+        <div class="mb-2 row justify-content-start align-items-center">
+          <label for="limit_tickets" class="col-xl-8 col-form-label"
+            >Limite de boletos a vender</label
+          >
+          <div class="col-xl-4">
+            <input
+              type="text"
+              placeholder="10000 🎟️"
+              formControlName="limit_tickets"
+              class="form-control input-adm"
+              id="limit_tickets"
+              mask="separator.0"
+              thousandSeparator="."
+              suffix=" 🎟️"
+            />
+          </div>
+        </div>
+        <!-- precio de boletos-->
+        <div class="mb-2 row justify-content-start align-items-center">
+          <label for="price" class="col-xl-8 col-form-label"
+            >Costo del boletos de esta localidad</label
+          >
+          <div class="col-xl-4">
+            <input
+              #price
+              type="text"
+              class="form-control input-adm"
+              placeholder="5.00 $"
+              id="price"
+              formControlName="price"
+              mask="separator.2"
+              thousandSeparator=","
+              decimalSeparator="."
+              suffix=" $"
+            />
+          </div>
+        </div>
+        <!--Solo se podra activar la numeracion de ascientos si se tiene el esquema de lugar con sus localidades-->
+        <!--Adicional aniadir la habilitacion y desabilidacion de localidades predefinidas de un esquema-->
+        <!--Check numeration-->
+        <!-- <div class="form-check">
+          <input
+            type="checkbox"
+            class="form-check-input pointer"
+            id="checkNumeration"
+            formControlName="numeration"
+          />
+          <label class="form-check-label pointer" for="checkNumeration">
+            Asientos enumerados
+          </label>
+        </div> -->
+        <div class="d-grid d-md-block text-center mt-2">
+          <button class="btn btn-danger btn-sm" (click)="removeLocality(i)">
+            <i class="bi bi-trash3-fill"></i> Remover localidad
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 mt-2">
+      <div class="container-locality agg-locality">
+        <button class="btn btn-sm btn-warning" (click)="addLocality()">
+          <i class="bi bi-plus-square-dotted"></i> Agregar localidad
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

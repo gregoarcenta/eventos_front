@@ -1,15 +1,15 @@
-import { FormService } from "./../../../../../services/form.service";
-import { SpinnerService } from "./../../../../../services/spinner.service";
-import { UsernameValidatorService } from "./../../../../../validations/Services/username-validator.service";
-import { EmailValidatorService } from "./../../../../../validations/Services/email-validator.service";
-import { RegisterService } from "./../../../../../services/register.service";
-import { CustomValidators } from "./../../../../../validations/validations-forms";
+import { EmailValidatorService } from "./../../../../../shared/validations/services/email-validator.service";
+import { UsernameValidatorService } from "./../../../../../shared/validations/services/username-validator.service";
+import { RegisterService } from "./../../../../../core/services/register.service";
+import { FormService } from "../../../../../core/services/form.service";
+import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { CustomValidators } from "./../../../../../shared/validations/validations-forms";
 import {
   _patternMail,
   _patterUsername,
   _patternPassword,
   _patterName,
-} from "./../../../../../utils/regularPatterns";
+} from "../../../../../shared/utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";

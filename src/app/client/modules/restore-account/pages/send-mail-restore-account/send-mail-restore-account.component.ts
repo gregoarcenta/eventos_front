@@ -1,5 +1,5 @@
-import { RestoreAccountService } from "../../../../../services/restore-account.service";
-import { SpinnerService } from "../../../../../services/spinner.service";
+import { RestoreAccountService } from "../../../../../core/services/restore-account.service";
+import { SpinnerService } from "../../../../../core/services/spinner.service";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";

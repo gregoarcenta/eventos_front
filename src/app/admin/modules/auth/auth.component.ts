@@ -1,9 +1,9 @@
-import { FormService } from "./../../../services/form.service";
-import { SpinnerService } from "./../../../services/spinner.service";
+import { FormService } from "../../../core/services/form.service";
+import { SpinnerService } from "../../../core/services/spinner.service";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { AuthService } from "../../../services/auth.service";
+import { AuthService } from "../../../core/services/auth.service";
 @Component({
   selector: "app-auth",
   templateUrl: "./auth.component.html",

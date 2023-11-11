@@ -1,8 +1,8 @@
-import { EditEventComponent } from './../../../../../components/events/edit-event/edit-event.component';
-import { EventFormService } from "./../../../../../services/event-form.service";
-import { SpinnerService } from "./../../../../../services/spinner.service";
-import { Event } from "./../../../../../interfaces/event";
-import { EventService } from "./../../../../../services/events.service";
+import { EditEventComponent } from './../../../../../shared/components/events/edit-event/edit-event.component';
+import { EventFormService } from "../../../../../core/services/event-form.service";
+import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { Event } from "../../../../../core/interfaces/event";
+import { EventService } from "../../../../../core/services/events.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import Swal from "sweetalert2";

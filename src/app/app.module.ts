@@ -1,5 +1,5 @@
-import { ErrorInterceptor } from "./interceptors/error.interceptor";
-import { ComponentsModule } from "./components/components.module";
+import { SharedModule } from './shared/shared.module';
+import { ErrorInterceptor } from "./core/interceptors/error.interceptor";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
@@ -12,13 +12,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 
-import { Approutes } from "./app-routing.module";
+import { AppRoutes } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
-import { JwtInterceptor } from "./interceptors/jwt.interceptor";
+import { JwtInterceptor } from "./core/interceptors/jwt.interceptor";
 
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
@@ -41,8 +41,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ComponentsModule,
-    RouterModule.forRoot(Approutes, {
+    SharedModule,
+    RouterModule.forRoot(AppRoutes, {
       useHash: false,
       scrollPositionRestoration: "enabled",
       relativeLinkResolution: "legacy",

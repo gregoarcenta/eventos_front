@@ -1,4 +1,4 @@
-import { AuthGuard } from "./../../../guards/auth.guard";
+import { AuthGuard } from "../../../core/guards/auth.guard";
 import { MisDatosComponent } from "./pages/mis-datos/mis-datos.component";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";

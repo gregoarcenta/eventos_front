@@ -1,9 +1,9 @@
-import { SpinnerService } from "./../../../../../services/spinner.service";
-import { RestoreAccountService } from "./../../../../../services/restore-account.service";
-import { PasswordValidatorService } from "./../../../../../validations/Services/passwordValidator.service";
-import { CustomValidators } from "./../../../../../validations/validations-forms";
-import { FormService } from "./../../../../../services/form.service";
-import { _patternPassword } from "./../../../../../utils/regularPatterns";
+import { PasswordValidatorService } from './../../../../../shared/validations/services/passwordValidator.service';
+import { CustomValidators } from './../../../../../shared/validations/validations-forms';
+import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { RestoreAccountService } from "../../../../../core/services/restore-account.service";
+import { FormService } from "../../../../../core/services/form.service";
+import { _patternPassword } from "../../../../../shared/utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,

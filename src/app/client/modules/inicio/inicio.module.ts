@@ -1,4 +1,4 @@
-import { ComponentsModule } from './../../../components/components.module';
+import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +16,7 @@ import { CardFeaturesUpcomingComponent } from './components/card-features-upcomi
   imports: [
     CommonModule,
     InicioRoutingModule,
-    ComponentsModule
+    SharedModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

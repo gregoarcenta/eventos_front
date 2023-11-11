@@ -1,5 +1,5 @@
 import { environment } from "./../../../../../../environments/environment";
-import { Event } from "./../../../../../interfaces/event";
+import { Event } from "../../../../../core/interfaces/event";
 import {
   AfterViewInit,
   Component,

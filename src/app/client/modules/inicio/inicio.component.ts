@@ -1,5 +1,5 @@
 import { environment } from "./../../../../environments/environment";
-import { EventService } from "./../../../services/events.service";
+import { EventService } from "../../../core/services/events.service";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 
 @Component({

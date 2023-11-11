@@ -1,4 +1,4 @@
-import { AuthService } from "./../../../services/auth.service";
+import { AuthService } from "../../../core/services/auth.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthComponent } from "./auth.component";
 import { ComponentFixture, TestBed } from "@angular/core/testing";

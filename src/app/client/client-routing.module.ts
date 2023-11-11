@@ -1,9 +1,9 @@
-import { AuthGuard } from "./../guards/auth.guard";
-import { AuthUserGuard } from "./../guards/auth-user.guard";
-import { NoAuthGuard } from "./../guards/noAuth.guard";
+import { AuthGuard } from "../core/guards/auth.guard";
+import { AuthUserGuard } from "../core/guards/auth-user.guard";
+import { NoAuthGuard } from "../core/guards/noAuth.guard";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { LayoutComponent } from "./layout/layout.component";
+import { MainComponent } from "./layout/main/main.component";
 
 const routes: Routes = [
   {
@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: "",
-    component: LayoutComponent,
+    component: MainComponent,
     canActivate: [AuthUserGuard],
     children: [
       {

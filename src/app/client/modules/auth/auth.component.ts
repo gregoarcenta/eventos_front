@@ -1,5 +1,5 @@
-import { SpinnerService } from "./../../../services/spinner.service";
-import { AuthService } from "./../../../services/auth.service";
+import { SpinnerService } from "../../../core/services/spinner.service";
+import { AuthService } from "../../../core/services/auth.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";

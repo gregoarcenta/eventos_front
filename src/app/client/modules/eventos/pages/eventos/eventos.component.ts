@@ -1,8 +1,8 @@
-import { DataService } from "./../../../../../services/data.service";
-import { Event } from "./../../../../../interfaces/event";
-import { UploadImageEventService } from "./../../../../../services/upload-image-event.service";
+import { DataStore } from './../../../../../core/services/store/data.store';
+import { Event } from "../../../../../core/interfaces/event";
+import { UploadImageEventService } from "../../../../../core/services/upload-image-event.service";
 import { environment } from "./../../../../../../environments/environment";
-import { EventService } from "./../../../../../services/events.service";
+import { EventService } from "../../../../../core/services/events.service";
 import {
   Component,
   ElementRef,
@@ -12,8 +12,11 @@ import {
 } from "@angular/core";
 import {
   BehaviorSubject,
+  Observable,
   Subscription,
   debounceTime,
+  filter,
+  map,
   pairwise,
   startWith,
   take,
@@ -73,8 +76,8 @@ export class EventosComponent implements OnInit, OnDestroy {
     return this.eventService.getCities;
   }
 
-  get services() {
-    return this.dataService.getServices;
+  get services$() {
+    return this.dataStore.services$;
   }
 
   get mainImagesUrl(): string[] {
@@ -90,7 +93,7 @@ export class EventosComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private dataService: DataService,
+    private dataStore: DataStore,
     private eventService: EventService,
     private uploadImageEventService: UploadImageEventService
   ) {}
@@ -101,15 +104,15 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //Obtiene todos los eventos
-    this.eventsSubscription = this.events$.pipe(take(1)).subscribe((events) => {
-      if (events.length === 0) this.getEvents();
-    });
+    this.eventsSubscription = this.events$
+      .pipe(
+        filter((events) => events.length === 0),
+        take(1)
+      )
+      .subscribe((_) => this.getEvents());
 
     //Obtiene las ciudades de los eventos
     if (this.cities.length === 0) this.getCities();
-
-    //Obtiene las lista de servicios
-    if (this.services.length === 0) this.getServices();
 
     //Obtiene las imagenes principales para el slider del header
     if (this.mainImagesUrl.length === 0) this.getMainImages();
@@ -145,10 +148,6 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   getCities() {
     this.eventService.getCitiesEvents().subscribe((_) => {});
-  }
-
-  getServices() {
-    this.dataService.getAllServices().subscribe((_) => {});
   }
 
   getMainImages() {
@@ -262,9 +261,13 @@ export class EventosComponent implements OnInit, OnDestroy {
     return city ? city.name : "";
   }
 
-  getServiceNameById(serviceId: any): string {
-    const service = this.services.find((s) => s.id == serviceId);
-    return service ? service.name : "";
+  getServiceNameById(serviceId: any): Observable<string> {
+    return this.services$.pipe(
+      map((services) => {
+        const service = services.find((serv) => serv.id == serviceId);
+        return service ? service.name : "";
+      })
+    );
   }
 
   hasMoreEvents(): boolean {
