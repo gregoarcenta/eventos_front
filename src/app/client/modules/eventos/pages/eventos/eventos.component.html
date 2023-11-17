@@ -7,7 +7,10 @@
       [pauseOnFocus]="false"
       [showNavigationIndicators]="false"
     >
-      <ng-template ngbSlide *ngFor="let image of mainImagesUrl; index as i">
+      <ng-template
+        ngbSlide
+        *ngFor="let image of mainImagesUrl$ | async; index as i"
+      >
         <!-- <div class="carousel-caption">
           <h3>My slide {{i + 1}} title</h3>
         </div> -->
@@ -18,20 +21,11 @@
       </ng-template>
     </ngb-carousel>
   </div>
-  <div class="imageGrid2">
-    <img
-      [src]="secondariesImagesUrl[1]"
-      alt="imagen promo 2"
-      class="img-fluid"
-    />
-  </div>
-  <div class="imageGrid3">
-    <img
-      [src]="secondariesImagesUrl[0]"
-      alt="imagen promo 3"
-      class="img-fluid"
-    />
-  </div>
+  <ng-container *ngFor="let image of secondaryImagesUrl$ | async; index as i">
+    <div [class]="'imageGrid' + (i + 2)">
+      <img [src]="image" alt="imagen promo 2" class="img-fluid" />
+    </div>
+  </ng-container>
 </header>
 
 <main class="container my-4">
@@ -44,12 +38,12 @@
             type="search"
             class="form-control input-adm"
             placeholder="Buscar eventos..."
-            [formControl]="inputSearchControl"
-            (keyup.enter)="onClickInputSearch()"
+            [(ngModel)]="inputValue"
+            (keyup.enter)="onInputSearch()"
           />
           <button
             class="btn btn-primary ms-2 text-nowrap"
-            (click)="onClickInputSearch()"
+            (click)="onInputSearch()"
           >
             <i class="bi bi-search"></i
             ><span class="d-none m-0 d-sm-inline-block ms-sm-1"
@@ -76,9 +70,9 @@
         <label class="me-2">Ubicación</label>
         <select class="form-select input-adm" formControlName="city">
           <option [value]="null">No seleccionado</option>
-          <option [value]="city.id" *ngFor="let city of cities"
-            >{{ city.name }}</option
-          >
+          <option [value]="city.id" *ngFor="let city of cities$ | async">
+            {{ city.name }}
+          </option>
         </select>
         <button
           class="btn btn-warning ms-2"
@@ -96,18 +90,24 @@
   <!-- badges filters -->
   <section
     class="mt-3"
-    *ngIf="conditionsFiltered?.city || conditionsFiltered?.end_date ||conditionsFiltered?.start_date || conditionsFiltered?.outstanding || conditionsFiltered?.type"
+    *ngIf="
+      conditionsFiltered?.city ||
+      conditionsFiltered?.end_date ||
+      conditionsFiltered?.start_date ||
+      conditionsFiltered?.outstanding ||
+      conditionsFiltered?.type
+    "
   >
     <label class="ms-2 fw-semibold"> Filtrado por:</label>
     <span
       class="badge text-bg-warning pointer mx-1"
       *ngIf="conditionsFiltered?.city"
-      >Ciudad: {{getCityNameById(conditionsFiltered?.city)}}</span
+      >Ciudad: {{ getCityNameById(conditionsFiltered?.city) | async }}</span
     >
     <span
       class="badge text-bg-warning pointer mx-1"
       *ngIf="conditionsFiltered?.type"
-      >Tipo: {{getServiceNameById(conditionsFiltered?.type) | async}}</span
+      >Tipo: {{ getServiceNameById(conditionsFiltered?.type) | async }}</span
     >
     <span
       class="badge text-bg-warning pointer mx-1"
@@ -117,25 +117,30 @@
     <span
       class="badge text-bg-warning pointer mx-1"
       *ngIf="conditionsFiltered?.start_date"
-      >Fecha de inicio: {{conditionsFiltered?.start_date}}</span
+      >Fecha de inicio: {{ conditionsFiltered?.start_date }}</span
     >
     <span
       class="badge text-bg-warning pointer"
       *ngIf="conditionsFiltered?.end_date"
-      >Fecha de fin: {{conditionsFiltered?.end_date}}</span
+      >Fecha de fin: {{ conditionsFiltered?.end_date }}</span
     >
   </section>
 
   <!-- data events -->
   <section
     class="mt-3 section-events"
-    *ngIf="((loading$ | async) || (events$ | async)!.length > 0) && !termNotFound && !notDataFilter; else notData"
+    *ngIf="
+      ((loading$ | async) || (events$ | async)!.length > 0) &&
+        !termNotFound &&
+        !notDataFilter;
+      else notData
+    "
   >
     <div class="row g-3">
       <ng-container *ngIf="loading$ | async; else contentData">
         <div *ngFor="let _ of skeletonCount" class="col-sm-6 col-md-4 col-lg-3">
           <ngx-skeleton-loader
-            [theme]="{height: '280px'}"
+            [theme]="{ height: '280px' }"
           ></ngx-skeleton-loader>
         </div>
       </ng-container>
@@ -147,16 +152,22 @@
     </div>
   </section>
 
-
   <section class="d-flex justify-content-center mt-3">
     <button
-    class="btn btn-primary"
-    (click)="getMoreEvents()"
-    *ngIf="(hasMoreEvents() && eventsFiltered.length === 0) || (hasMoreEventsFiltereds() && eventsFiltered.length > 0)"
+      class="btn btn-primary"
+      (click)="getMoreEvents()"
+      *ngIf="
+        (hasMoreEvents() &&
+          eventsFiltered.length === 0 &&
+          !(spinner$ | async)) ||
+        (hasMoreEventsFiltereds() &&
+          eventsFiltered.length > 0 &&
+          !(spinner$ | async))
+      "
     >
-    Ver más
-  </button>
-</section>
+      Ver más
+    </button>
+  </section>
 </main>
 
 <div #lastEvent></div>
@@ -164,7 +175,7 @@
 <!-- no data -->
 <ng-template #notData>
   <div class="d-flex justify-content-center mt-3">
-    <div *ngIf="(events$ | async)!.length === 0;">
+    <div *ngIf="(events$ | async)!.length === 0">
       <h5 class="alert alert-info">
         No contamos con eventos diponibles
         <i class="bi bi-emoji-frown"></i>
@@ -173,7 +184,7 @@
 
     <div *ngIf="termNotFound">
       <div class="alert alert-info py-2">
-        No hay eventos relacionados con la busqueda: "{{termNotFound}}"
+        No hay eventos relacionados con la busqueda: "{{ termNotFound }}"
       </div>
     </div>
     <div *ngIf="notDataFilter">
@@ -226,15 +237,15 @@
             class="form-check-input"
             type="radio"
             formControlName="type"
-            [id]="'checkservice'+service.id"
+            [id]="'checkservice' + service.id"
             [name]="'type'"
             [value]="service.id"
           />
           <label
             class="form-check-label pointer"
-            [for]="'checkservice'+service.id"
+            [for]="'checkservice' + service.id"
           >
-            {{service.name | titlecase}}
+            {{ service.name | titlecase }}
           </label>
         </div>
       </div>
@@ -286,7 +297,9 @@
       <div class="mt-3 text-center">
         <button
           class="btn btn-primary"
-          (click)="currentPageFilters = 1; searchEvents(); btnCanvasClosed.click();"
+          (click)="
+            currentPageFilters = 1; searchEvents(); btnCanvasClosed.click()
+          "
         >
           Mostrar resultados
         </button>

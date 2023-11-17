@@ -1,16 +1,16 @@
-import { Route } from "../interfaces/Directions";
-import { DirectionService } from "./direction.service";
+import { Route } from "../../interfaces/Directions";
+import { DirectionService } from "../api/direction.service";
 import { Injectable } from "@angular/core";
 import { AnySourceData, LngLat, LngLatBounds, Map, Marker } from "mapbox-gl";
 
 @Injectable({
   providedIn: "root",
 })
-export class MapService {
+export class MapStore {
   private map?: Map;
   private marker?: Marker;
 
-  private mapRutes?: Map;
+  private mapRute?: Map;
 
   get isReadyMap() {
     return !!this.map;
@@ -20,8 +20,8 @@ export class MapService {
     this.map = map;
   }
 
-  setMapRutes(map: Map) {
-    this.mapRutes = map;
+  setRute(map: Map) {
+    this.mapRute = map;
   }
 
   constructor(private directionService: DirectionService) {}
@@ -45,11 +45,11 @@ export class MapService {
   }
 
   createMarkerMapRutes(startCoords: LngLat, endCoords: LngLat) {
-    if (!this.mapRutes)
+    if (!this.mapRute)
       throw new Error("Mapa para mostrar la ruta no inicializado 1");
 
-    new Marker({ color: "red" }).setLngLat(startCoords).addTo(this.mapRutes!);
-    new Marker({ color: "blue" }).setLngLat(endCoords).addTo(this.mapRutes!);
+    new Marker({ color: "red" }).setLngLat(startCoords).addTo(this.mapRute!);
+    new Marker({ color: "blue" }).setLngLat(endCoords).addTo(this.mapRute!);
   }
 
   getRouteBetweenPoints(start: [number, number], end: [number, number]) {
@@ -63,7 +63,7 @@ export class MapService {
   }
 
   private drawPolyline(route: Route) {
-    if (!this.mapRutes)
+    if (!this.mapRute)
       throw new Error("Mapa para mostrar la ruta no inicializado");
 
     const coords = route.geometry.coordinates;
@@ -71,7 +71,7 @@ export class MapService {
     const bounds = new LngLatBounds();
     coords.forEach(([lng, lat]) => bounds.extend([lng, lat]));
 
-    this.mapRutes.fitBounds(bounds, {
+    this.mapRute.fitBounds(bounds, {
       padding: 20,
     });
 
@@ -94,9 +94,9 @@ export class MapService {
     };
 
     //todo: Limpiar ruta previa
-    this.mapRutes.on("load", () => {
-      this.mapRutes!.addSource("RouteString", sourceData);
-      this.mapRutes!.addLayer({
+    this.mapRute.on("load", () => {
+      this.mapRute!.addSource("RouteString", sourceData);
+      this.mapRute!.addLayer({
         id: "RouteString",
         type: "line",
         source: "RouteString",
@@ -109,7 +109,7 @@ export class MapService {
           "line-width": 3,
         },
       });
-      this.mapRutes!.resize()
+      this.mapRute!.resize()
     });
   }
 }

@@ -1,13 +1,13 @@
-import { DataStore } from './../../../../core/services/store/data.store';
+import { CatalogStore } from "../../../../core/services/store/catalog.store";
 import { Event } from "../../../../core/interfaces/event";
-import { AuthService } from "../../../../core/services/auth.service";
-import { UserService } from "../../../../core/services/user.service";
+import { AuthService } from "../../../../core/services/api/auth.service";
+import { UserService } from "../../../../core/services/api/user.service";
 import { User } from "../../../../core/interfaces/user";
-import { FormService } from "../../../../core/services/form.service";
+import { FormStore } from "../../../../core/services/store/form.store";
 import { environment } from "./../../../../../environments/environment";
-import { UploadImageEventService } from "../../../../core/services/upload-image-event.service";
+import { UploadImageEventService } from "../../../../core/services/api/upload-image-event.service";
 import { _patterName } from "../../../utils/regularPatterns";
-import { EventFormService } from "../../../../core/services/event-form.service";
+import { EventFormStore } from "../../../../core/services/store/event-form.store";
 import {
   Component,
   HostListener,
@@ -23,6 +23,8 @@ import {
   catchError,
   concat,
   distinctUntilChanged,
+  filter,
+  map,
   of,
   switchMap,
   tap,
@@ -62,7 +64,7 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   }
 
   get services$() {
-    return this.dataStore.services$;
+    return this.catalog.services$;
   }
 
   get placeHolderOrganizer() {
@@ -73,26 +75,22 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   }
 
   get generalDataForm() {
-    return this.eventFormService.generalDataForm;
-  }
-
-  get generalDataOriginal() {
-    return this.eventFormService.generalDataOriginal;
+    return this.eventForm.generalDataForm;
   }
 
   constructor(
-    public formService: FormService,
-    public dataStore: DataStore,
+    public formStore: FormStore,
+    private catalog: CatalogStore,
     private userService: UserService,
     private authService: AuthService,
-    private eventFormService: EventFormService,
+    private eventForm: EventFormStore,
     private uploadImageEventService: UploadImageEventService
   ) {}
 
   ngOnDestroy(): void {
     this.checkArtistSubscription?.unsubscribe();
-    this.eventFormService.clearEventForm();
-    this.eventFormService.generalDataOriginal = undefined;
+    this.eventForm.clearEventForm();
+    this.eventForm.generalDataOriginal = undefined;
     this.deleteImageIfNotSave();
   }
 
@@ -216,11 +214,13 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
     this.organizers$ = concat(
       of([]), // default items
       this.organizerTerm$.pipe(
+        filter(term => !!term),
         distinctUntilChanged(),
         tap(() => (this.organizerLoading = true)),
         switchMap((term) =>
           this.userService.getUsersByUsernameOrName(term).pipe(
-            catchError(() => of([])), // empty list on error
+            map((response) => response.data),
+            catchError(() => of([])),
             tap(() => (this.organizerLoading = false))
           )
         )
@@ -231,7 +231,7 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   onFillEventData() {
     if (!this.event) return;
 
-    this.eventFormService.setGeneralDataForm(this.event);
-    this.eventFormService.setGeneralDataOriginal();
+    this.eventForm.setGeneralDataForm(this.event);
+    this.eventForm.setGeneralDataOriginal();
   }
 }

@@ -40,9 +40,7 @@
       <div class="card">
         <i class="bi bi-calendar2-check-fill"></i>
         <h2>Reservación</h2>
-        <p>
-          Reserva tus entradas y seleccionas tus asientos de preferencia
-        </p>
+        <p>Reserva tus entradas y seleccionas tus asientos de preferencia</p>
       </div>
     </div>
   </div>
@@ -55,8 +53,8 @@
 <section class="featured-events container mt-5">
   <h2 class="fw-bold">Eventos destacados</h2>
   <app-card-features-upcoming
-    [dataEvents]="featuredEvents"
-    *ngIf="featuredEvents.length > 0; else notDataText"
+  [typeEvent]="typeFeatured"
+    *ngIf="(featuredEvents$ | async)!.length > 0; else notDataText"
   ></app-card-features-upcoming>
 </section>
 
@@ -64,8 +62,8 @@
 <section class="upcoming-events container mt-4">
   <h2 class="fw-bold">Próximos eventos</h2>
   <app-card-features-upcoming
-    [dataEvents]="upcomingEvents"
-    *ngIf="upcomingEvents.length > 0; else notDataText"
+    [typeEvent]="typeUpcoming"
+    *ngIf="(upcomingEvents$ | async)!.length > 0; else notDataText"
   ></app-card-features-upcoming>
 </section>
 

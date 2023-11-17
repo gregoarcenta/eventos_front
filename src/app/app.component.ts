@@ -1,4 +1,4 @@
-import { SpinnerService } from './core/services/spinner.service';
+import { SpinnerStore } from './core/services/store/spinner.store';
 import { Component } from "@angular/core";
 
 @Component({
@@ -7,5 +7,5 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
 
-  constructor(public spinnerService:SpinnerService){}
+  constructor(public spinner:SpinnerStore){}
 }

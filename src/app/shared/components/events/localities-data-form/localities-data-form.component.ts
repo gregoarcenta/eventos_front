@@ -1,6 +1,6 @@
-import { DataStore } from "./../../../../core/services/store/data.store";
+import { CatalogStore } from "../../../../core/services/store/catalog.store";
 import { Event } from "./../../../../core/interfaces/event";
-import { EventFormService } from "./../../../../core/services/event-form.service";
+import { EventFormStore } from "../../../../core/services/store/event-form.store";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 
 @Component({
@@ -12,11 +12,11 @@ export class LocalitiesDataFormComponent implements OnInit, OnDestroy {
   @Input() event: Event | null = null;
 
   get localities$() {
-    return this.dataStore.localities$;
+    return this.catalog.localities$;
   }
 
   get localitiesDataForm() {
-    return this.eventFormService.localitiesDataForm;
+    return this.eventForm.localitiesDataForm;
   }
 
   get localitiesDataArray() {
@@ -24,13 +24,13 @@ export class LocalitiesDataFormComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private dataStore: DataStore,
-    private eventFormService: EventFormService
+    private catalog: CatalogStore,
+    private eventForm: EventFormStore
   ) {}
 
   ngOnDestroy(): void {
-    this.eventFormService.clearLocalitiesForm();
-    this.eventFormService.localitiesDataOriginal = undefined;
+    this.eventForm.clearLocalitiesForm();
+    this.eventForm.localitiesDataOriginal = undefined;
   }
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class LocalitiesDataFormComponent implements OnInit, OnDestroy {
   }
 
   addLocality() {
-    const fgLocality = this.eventFormService.generateFormGroupLocality();
+    const fgLocality = this.eventForm.generateFormGroupLocality();
     this.localitiesDataArray.push(fgLocality);
   }
 
@@ -49,7 +49,7 @@ export class LocalitiesDataFormComponent implements OnInit, OnDestroy {
   onFillLocalitiesData() {
     if (!this.event) return;
 
-    this.eventFormService.setLocalitiesDataForm(this.event.place_localities);
-    this.eventFormService.setLocalitiesDataOriginal();
+    this.eventForm.setLocalitiesDataForm(this.event.place_localities);
+    this.eventForm.setLocalitiesDataOriginal();
   }
 }

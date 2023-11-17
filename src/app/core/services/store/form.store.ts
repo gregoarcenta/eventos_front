@@ -4,12 +4,12 @@ import { FormGroup } from "@angular/forms";
 @Injectable({
   providedIn: "root",
 })
-export class FormService {
+export class FormStore {
   validInput(formGroup: FormGroup, name: string) {
     return formGroup.get(name)?.invalid && formGroup.get(name)?.touched;
   }
 
-  getMsgErrorName(formGroup: FormGroup) {
+  getErrorName(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["name"];
     if (controlEmail.getError("required")) {
       return "El nombre es requerido";
@@ -23,7 +23,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorSurname(formGroup: FormGroup) {
+  getErrorSurname(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["surname"];
     if (controlEmail.getError("required")) {
       return "El apellido es requerido";
@@ -37,7 +37,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorEmail(formGroup: FormGroup) {
+  getErrorEmail(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["email"];
     if (controlEmail.getError("required")) {
       return "El email es requerido";
@@ -51,7 +51,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorUsername(formGroup: FormGroup) {
+  getErrorUsername(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["username"];
     if (controlEmail.getError("required")) {
       return "El nombre de usuario es requerido";
@@ -65,7 +65,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorAge(formGroup: FormGroup) {
+  getErrorAge(formGroup: FormGroup) {
     const controlAge = formGroup.controls["age"];
     if (controlAge.getError("required")) {
       return "La edad es requerida";
@@ -79,7 +79,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorPhone(formGroup: FormGroup) {
+  getErrorPhone(formGroup: FormGroup) {
     const controlPhone = formGroup.controls["phone"];
     if (controlPhone.getError("required")) {
       return "El numero de teléfono es requerido";
@@ -90,7 +90,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorNumDocument(formGroup: FormGroup) {
+  getErrorNumDocument(formGroup: FormGroup) {
     const controlNumDocument = formGroup.controls["num_document"];
     if (controlNumDocument.getError("required"))
       return "El documento es requerido";
@@ -107,7 +107,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorBusinessName(formGroup: FormGroup) {
+  getErrorBusinessName(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["business_name"];
     if (controlEmail.getError("required")) {
       return "La razón social es requerida";
@@ -115,7 +115,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorPass(formGroup: FormGroup) {
+  getErrorPass(formGroup: FormGroup) {
     const controlPass = formGroup.controls["password"];
     if (controlPass.getError("required")) {
       return "La contraseña es requerida";
@@ -146,7 +146,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorPass2(formGroup: FormGroup) {
+  getErrorPass2(formGroup: FormGroup) {
     const controlConfirm = formGroup.controls["password2"];
     if (controlConfirm.getError("required")) {
       return "La confirmación de la contraseña es requerida";
@@ -157,7 +157,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorSelect(formGroup: FormGroup, validate: string) {
+  getErrorSelect(formGroup: FormGroup, validate: string) {
     const controlConfirm = formGroup.controls[validate];
     if (!controlConfirm.getError("error_zero")) return "";
 
@@ -174,7 +174,7 @@ export class FormService {
   }
 
   // Para el registro del evento
-  getMsgErrorDescription(formGroup: FormGroup) {
+  getErrorDescription(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["description"];
     if (controlEmail.getError("required")) {
       return "La descripción es requerida";
@@ -188,7 +188,7 @@ export class FormService {
     return "";
   }
   // Para el registro del evento
-  getMsgErrorReference(formGroup: FormGroup) {
+  getErrorReference(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["reference"];
     if (controlEmail.getError("required")) {
       return "La referencia es requerida";
@@ -199,7 +199,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorArtist(formGroup: FormGroup) {
+  getErrorArtist(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["artist"];
     if (controlEmail.getError("required")) {
       return "El nombre del artista es requerido";
@@ -213,7 +213,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorOrganizer(formGroup: FormGroup) {
+  getErrorOrganizer(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["organizer"];
     if (controlEmail.getError("required")) {
       return "El nombre del organizador es requerido";
@@ -224,7 +224,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorFechaInicio(formGroup: FormGroup) {
+  getErrorFechaInicio(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["start_date"];
     if (controlEmail.getError("required")) {
       return "La fecha de inicio es requerida";
@@ -232,7 +232,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorHoraInicio(formGroup: FormGroup) {
+  getErrorHoraInicio(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["start_time"];
     if (controlEmail.getError("required")) {
       return "La hora de inicio es requerida";
@@ -240,7 +240,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorFechaFin(formGroup: FormGroup) {
+  getErrorFechaFin(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["end_date"];
     if (controlEmail.getError("required")) {
       return "La fecha de finalización es requerida";
@@ -248,7 +248,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorHoraFin(formGroup: FormGroup) {
+  getErrorHoraFin(formGroup: FormGroup) {
     const controlEmail = formGroup.controls["end_time"];
     if (controlEmail.getError("required")) {
       return "La hora de finalización es requerida";
@@ -256,7 +256,7 @@ export class FormService {
     return "";
   }
 
-  getMsgErrorSelectService(formGroup: FormGroup) {
+  getErrorSelectService(formGroup: FormGroup) {
     const controlConfirm = formGroup.controls["service_id"];
     if (!controlConfirm.getError("error_zero")) return "";
     return "Tiene que seleccionar un tipo de evento";

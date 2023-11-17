@@ -1,9 +1,10 @@
-import { DataStore } from './../../../../core/services/store/data.store';
+import { PlaceService } from "./../../../../core/services/api/place.service";
+import { CatalogStore } from "../../../../core/services/store/catalog.store";
 import { DataCatalog } from "./../../../../core/interfaces/catalogs";
-import { PlaceService } from "../../../../core/services/place.service";
-import { EventFormService } from "../../../../core/services/event-form.service";
-import { DataService } from "../../../../core/services/data.service";
-import { FormService } from "../../../../core/services/form.service";
+import { PlaceStore } from "../../../../core/services/store/place.store";
+import { EventFormStore } from "../../../../core/services/store/event-form.store";
+import { CatalogService } from "../../../../core/services/api/catalog.service";
+import { FormStore } from "../../../../core/services/store/form.store";
 import { Event } from "../../../../core/interfaces/event";
 import { Place } from "../../../../core/interfaces/place";
 import { Place as EventPlace } from "../../../../core/interfaces/event";
@@ -42,7 +43,7 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
   }
 
   get provinces$() {
-    return this.dataStore.provinces$;
+    return this.catalog.provinces$;
   }
 
   get cities$() {
@@ -54,23 +55,24 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
   }
 
   get placeDataForm() {
-    return this.eventFormService.placeDataForm;
+    return this.eventForm.placeDataForm;
   }
 
   constructor(
-    public formService: FormService,
-    private dataService: DataService,
-    private dataStore: DataStore,
+    public formStore: FormStore,
+    private eventForm: EventFormStore,
+    private catalogService: CatalogService,
     private placeService: PlaceService,
-    private eventFormService: EventFormService
+    private catalog: CatalogStore,
+    private place: PlaceStore
   ) {}
 
   ngOnDestroy(): void {
     this.provinceSubscription?.unsubscribe();
-    this.eventFormService.clearPlaceForm();
-    this.eventFormService.placeDataOriginal = undefined;
-    this.placeService.placeLocation = null;
-    this.placeService.userLocation = null;
+    this.eventForm.clearPlaceForm();
+    this.eventForm.placeDataOriginal = undefined;
+    this.place.placeLocation = null;
+    this.place.userLocation = null;
   }
 
   ngOnInit(): void {
@@ -124,20 +126,17 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
 
   setPlace(place: EventPlace) {
     setTimeout(() => {
-      this.placeService.setPlaceLocation(
-        place.direction.lng,
-        place.direction.lat
-      );
+      this.place.setPlaceLocation(place.direction.lng, place.direction.lat);
     }, 1000);
-    this.eventFormService.setPlaceDataForm(place);
+    this.eventForm.setPlaceDataForm(place);
     this.placeDataForm.disable();
   }
 
   setCustomPlace() {
     if (this.editMode) return;
-    this.eventFormService.clearPlaceForm();
+    this.eventForm.clearPlaceForm();
     this.placeDataForm.controls["customPlace"].setValue(true);
-    this.placeService
+    this.place
       .getUserLocation()
       .then(({ lng, lat }) => {
         // this.placeDataForm.get("validCoords")?.setValue(true);
@@ -154,9 +153,11 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
   }
 
   loadCities(provinceId: number) {
-    this.dataService.getCitiesByProvinceId(provinceId).subscribe((response) => {
-      this.setCities = response.data;
-    });
+    this.catalogService
+      .getCitiesByProvinceId(provinceId)
+      .subscribe((response) => {
+        this.setCities = response.data;
+      });
   }
 
   onFillPlaceData() {
@@ -164,6 +165,6 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
 
     this.loadCities(this.event.place.direction.province_id);
     this.setPlace(this.event.place);
-    this.eventFormService.setPlaceDataOriginal();
+    this.eventForm.setPlaceDataOriginal();
   }
 }

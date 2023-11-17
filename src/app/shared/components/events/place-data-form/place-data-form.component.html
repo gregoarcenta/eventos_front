@@ -67,9 +67,9 @@
           id="placeName"
         />
         <small
-          *ngIf="formService.validInput(placeDataForm, 'name')"
+          *ngIf="formStore.validInput(placeDataForm, 'name')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorName(placeDataForm) }}</small
+          >{{ formStore.getErrorName(placeDataForm) }}</small
         >
       </div>
       <!--description-->
@@ -83,9 +83,9 @@
           id="placeDescription"
         ></textarea>
         <small
-          *ngIf="formService.validInput(placeDataForm, 'description')"
+          *ngIf="formStore.validInput(placeDataForm, 'description')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorDescription(placeDataForm) }}</small
+          >{{ formStore.getErrorDescription(placeDataForm) }}</small
         >
       </div>
       <!--reference-->
@@ -99,9 +99,9 @@
           id="placeReference"
         />
         <small
-          *ngIf="formService.validInput(placeDataForm, 'reference')"
+          *ngIf="formStore.validInput(placeDataForm, 'reference')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorReference(placeDataForm) }}</small
+          >{{ formStore.getErrorReference(placeDataForm) }}</small
         >
       </div>
 
@@ -117,10 +117,10 @@
               </option>
             </select>
             <small
-              *ngIf="formService.validInput(placeDataForm, 'province_id')"
+              *ngIf="formStore.validInput(placeDataForm, 'province_id')"
               class="form-text text-danger"
             >
-              {{ formService.getMsgErrorSelect(placeDataForm, "province_id") }}
+              {{ formStore.getErrorSelect(placeDataForm, "province_id") }}
             </small>
           </div>
         </div>
@@ -135,10 +135,10 @@
               </option>
             </select>
             <small
-              *ngIf="formService.validInput(placeDataForm, 'city_id')"
+              *ngIf="formStore.validInput(placeDataForm, 'city_id')"
               class="form-text text-danger"
             >
-              {{ formService.getMsgErrorSelect(placeDataForm, "city_id") }}
+              {{ formStore.getErrorSelect(placeDataForm, "city_id") }}
             </small>
           </div>
         </div>

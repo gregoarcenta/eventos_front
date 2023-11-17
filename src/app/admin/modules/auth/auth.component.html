@@ -24,7 +24,7 @@
             formControlName="username"
           />
           <small
-            *ngIf="formService.validInput(loginForm, 'username')"
+            *ngIf="formStore.validInput(loginForm, 'username')"
             class="form-text text-danger"
             >Usuario o email requerido</small
           >
@@ -40,7 +40,7 @@
             formControlName="password"
           />
           <small
-            *ngIf="formService.validInput(loginForm,'password')"
+            *ngIf="formStore.validInput(loginForm,'password')"
             class="form-text text-danger"
             >La contraseña es requerida</small
           >

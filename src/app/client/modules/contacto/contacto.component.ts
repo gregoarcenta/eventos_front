@@ -1,10 +1,10 @@
-import { DataStore } from './../../../core/services/store/data.store';
+import { CatalogStore } from '../../../core/services/store/catalog.store';
 import { DataCatalog } from './../../../core/interfaces/catalogs';
 import { CustomValidators } from "./../../../shared/validations/validations-forms";
 import { environment } from "./../../../../environments/environment";
-import { ContactService } from "../../../core/services/contact.service";
-import { DataService } from "../../../core/services/data.service";
-import { FormService } from "../../../core/services/form.service";
+import { ContactService } from "../../../core/services/api/contact.service";
+import { CatalogService } from "../../../core/services/api/catalog.service";
+import { FormStore } from "../../../core/services/store/form.store";
 import {
   _patterName,
   _patternCell,
@@ -50,11 +50,11 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
   });
 
   get services$() {
-    return this.dataStore.services$;
+    return this.catalog.services$;
   }
 
   get provinces$() {
-    return this.dataStore.provinces$;
+    return this.catalog.provinces$;
   }
 
   get cities$() {
@@ -69,9 +69,9 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    public formService: FormService,
-    private dataService: DataService,
-    private dataStore: DataStore,
+    public formStore: FormStore,
+    private catalogService: CatalogService,
+    private catalog: CatalogStore,
     private contactService: ContactService
   ) {}
 
@@ -117,7 +117,7 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
       .get("province")!
       .valueChanges.subscribe((value) => {
         //Obtiene lista de ciudades por id de provincia
-        this.dataService
+        this.catalogService
           .getCitiesByProvinceId(Number(value))
           .subscribe(
             (response) => (this.setCities = response.data)

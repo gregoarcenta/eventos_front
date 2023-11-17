@@ -42,9 +42,9 @@
           id="name"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'name')"
+          *ngIf="formStore.validInput(userForm, 'name')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorName(userForm) }}</small
+          >{{ formStore.getErrorName(userForm) }}</small
         >
       </div>
     </div>
@@ -60,9 +60,9 @@
           id="surname"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'surname')"
+          *ngIf="formStore.validInput(userForm, 'surname')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorSurname(userForm) }}</small
+          >{{ formStore.getErrorSurname(userForm) }}</small
         >
       </div>
     </div>
@@ -78,9 +78,9 @@
           id="email"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'email')"
+          *ngIf="formStore.validInput(userForm, 'email')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorEmail(userForm) }}</small
+          >{{ formStore.getErrorEmail(userForm) }}</small
         >
       </div>
     </div>
@@ -96,9 +96,9 @@
           id="username"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'username')"
+          *ngIf="formStore.validInput(userForm, 'username')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorUsername(userForm) }}</small
+          >{{ formStore.getErrorUsername(userForm) }}</small
         >
       </div>
     </div>
@@ -115,9 +115,9 @@
           (keypress)="validaNumeros($event)"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'age')"
+          *ngIf="formStore.validInput(userForm, 'age')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorAge(userForm) }}</small
+          >{{ formStore.getErrorAge(userForm) }}</small
         >
       </div>
     </div>
@@ -134,9 +134,9 @@
           (keypress)="validaNumeros($event)"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'phone')"
+          *ngIf="formStore.validInput(userForm, 'phone')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorPhone(userForm) }}</small
+          >{{ formStore.getErrorPhone(userForm) }}</small
         >
       </div>
     </div>
@@ -172,9 +172,9 @@
           (keypress)="validaNumeros($event)"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'num_document')"
+          *ngIf="formStore.validInput(userForm, 'num_document')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorNumDocument(userForm) }}</small
+          >{{ formStore.getErrorNumDocument(userForm) }}</small
         >
       </div>
     </div>
@@ -190,9 +190,9 @@
           id="business_name"
         />
         <small
-          *ngIf="formService.validInput(userForm, 'business_name')"
+          *ngIf="formStore.validInput(userForm, 'business_name')"
           class="form-text text-danger"
-          >{{ formService.getMsgErrorBusinessName(userForm) }}</small
+          >{{ formStore.getErrorBusinessName(userForm) }}</small
         >
       </div>
     </div>

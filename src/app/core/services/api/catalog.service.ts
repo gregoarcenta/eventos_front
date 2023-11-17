@@ -1,5 +1,5 @@
-import { ResponseCatalog } from "../interfaces/catalogs";
-import { environment } from "../../../environments/environment";
+import { ResponseCatalog } from "../../interfaces/catalogs";
+import { environment } from "../../../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class DataService {
+export class CatalogService {
   private url: string = environment.url;
 
   constructor(private http: HttpClient) {}

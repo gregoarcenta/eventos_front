@@ -1,11 +1,9 @@
 import { getMimeFile, urlToFile } from "../../../shared/utils/convertImage";
-import { SpinnerService } from "../../../core/services/spinner.service";
-import { UserService } from "../../../core/services/user.service";
-import { AuthService } from "../../../core/services/auth.service";
+import { UserService } from "../../../core/services/api/user.service";
+import { AuthService } from "../../../core/services/api/auth.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgxImageCompressService } from "ngx-image-compress";
-import Swal from "sweetalert2";
-import { ImageCroppedEvent, LoadedImage } from "ngx-image-cropper";
+import { ImageCroppedEvent } from "ngx-image-cropper";
 
 @Component({
   selector: "app-cuenta-layout",
@@ -28,7 +26,6 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private imageCompress: NgxImageCompressService,
     private authService: AuthService,
-    private spinner: SpinnerService,
     private userService: UserService
   ) {}
 

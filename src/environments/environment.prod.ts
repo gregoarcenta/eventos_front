@@ -8,4 +8,5 @@ export const environment = {
   msgErrorSession: "Tu sesión expiró, inténtelo nuevamente",
   msgErrorDefault:
     "Ha ocurrido un error inesperado en el sistema, vuelva a intentarlo mas tarde",
+  pageSizeEvents: 12,
 };

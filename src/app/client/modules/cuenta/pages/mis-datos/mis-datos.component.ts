@@ -1,11 +1,11 @@
-import { DataStore } from "./../../../../../core/services/store/data.store";
+import { CatalogStore } from "../../../../../core/services/store/catalog.store";
 import { EmailValidatorService } from "./../../../../../shared/validations/services/email-validator.service";
 import { DocumentValidatorService } from "./../../../../../shared/validations/services/document-validator.service";
 import { UsernameValidatorService } from "./../../../../../shared/validations/services/username-validator.service";
 import { CustomValidators } from "./../../../../../shared/validations/validations-forms";
 
-import { UserService } from "../../../../../core/services/user.service";
-import { FormService } from "../../../../../core/services/form.service";
+import { UserService } from "../../../../../core/services/api/user.service";
+import { FormStore } from "../../../../../core/services/store/form.store";
 
 import {
   _patterName,
@@ -15,11 +15,11 @@ import {
   _patternCell,
   _patternAge,
 } from "../../../../../shared/utils/regularPatterns";
-import { AuthService } from "../../../../../core/services/auth.service";
+import { AuthService } from "../../../../../core/services/api/auth.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import Swal from "sweetalert2";
 import { Subscription, take } from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-mis-datos",
@@ -75,7 +75,7 @@ export class MisDatosComponent implements OnInit, OnDestroy {
   }
 
   get documents$() {
-    return this.dataStore.documents$;
+    return this.catalog.documents$;
   }
 
   get getImgUser() {
@@ -102,8 +102,8 @@ export class MisDatosComponent implements OnInit, OnDestroy {
     private evs: EmailValidatorService,
     private authService: AuthService,
     private userService: UserService,
-    private dataStore: DataStore,
-    public formService: FormService,
+    private catalog: CatalogStore,
+    public formStore: FormStore,
     private fb: FormBuilder
   ) {}
 

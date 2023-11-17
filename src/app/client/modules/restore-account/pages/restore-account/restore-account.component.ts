@@ -1,6 +1,5 @@
 import { User } from "../../../../../core/interfaces/user";
-import { SpinnerService } from "../../../../../core/services/spinner.service";
-import { RestoreAccountService } from "../../../../../core/services/restore-account.service";
+import { RestoreAccountService } from "../../../../../core/services/api/restore-account.service";
 import { _patternPassword } from "../../../../../shared/utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
@@ -53,7 +52,6 @@ export class RestoreAccountComponent implements OnInit {
 
   constructor(
     private restoreAccountService: RestoreAccountService,
-    private spinner: SpinnerService,
     private route: ActivatedRoute,
     private router: Router
   ) {}

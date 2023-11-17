@@ -1,6 +1,6 @@
-import { MapService } from "../../../core/services/map.service";
+import { MapStore } from "../../../core/services/store/map.store";
 import { Map } from "mapbox-gl";
-import { PlaceService } from "../../../core/services/place.service";
+import { PlaceStore } from "../../../core/services/store/place.store";
 import {
   AfterViewInit,
   Component,
@@ -20,15 +20,15 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   @Input() markRoute: Boolean = false;
 
   constructor(
-    private placeService: PlaceService,
-    private mapService: MapService
+    private place: PlaceStore,
+    private map: MapStore
   ) {}
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     const coords =
-      this.placeService.userLocation || this.placeService.placeLocation;
+      this.place.userLocation || this.place.placeLocation;
     if (this.markRoute) {
       const map = new Map({
         container: this.mapViewElement.nativeElement, // container ID
@@ -36,7 +36,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
         center: coords!,
         zoom: 16, // starting zoom
       });
-      this.mapService.setMapRutes(map);
+      this.map.setRute(map);
     } else {
       setTimeout(() => {
         const map = new Map({
@@ -46,12 +46,12 @@ export class MapViewComponent implements OnInit, AfterViewInit {
           zoom: 16, // starting zoom
         });
 
-        this.mapService.setMap(map);
+        this.map.setMap(map);
 
-        this.mapService.createMarker(coords!);
+        this.map.createMarker(coords!);
 
         map.on("click", (event) => {
-          this.placeService.setPlaceLocation(
+          this.place.setPlaceLocation(
             event.lngLat.lng,
             event.lngLat.lat
           );

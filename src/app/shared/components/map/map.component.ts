@@ -1,5 +1,4 @@
-import { MapService } from "../../../core/services/map.service";
-import { PlaceService } from "../../../core/services/place.service";
+import { PlaceStore } from "../../../core/services/store/place.store";
 import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
@@ -12,18 +11,18 @@ export class MapComponent implements OnInit {
   @Input() markRoute: Boolean = false;
 
   get isUserLocationReady(): boolean {
-    return this.placeService.isUserLocationReady;
+    return this.place.isUserLocationReady;
   }
 
   get isPlaceLocationReady(): boolean {
-    return this.placeService.isPlaceLocationReady;
+    return this.place.isPlaceLocationReady;
   }
 
   get isGeolocationDenied() {
-    return this.placeService.isGeolocationDenied;
+    return this.place.isGeolocationDenied;
   }
 
-  constructor(private placeService: PlaceService) {}
+  constructor(private place: PlaceStore) {}
 
   ngOnInit(): void {}
 }

@@ -1,5 +1,6 @@
 <swiper-container #swiper init="false">
-  <swiper-slide *ngFor="let featured of dataEvents">
+  <swiper-slide *ngFor="let featured of events">
     <event-card [event]="featured" [marginB]="true"></event-card>
   </swiper-slide>
 </swiper-container>
+

@@ -1,13 +1,22 @@
-import { DataService } from './../data.service';
 import { DataCatalog } from "./../../interfaces/catalogs";
+import { CatalogService } from "../api/catalog.service";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, EMPTY, catchError, filter, forkJoin, map, switchMap, take } from "rxjs";
+import {
+  BehaviorSubject,
+  EMPTY,
+  catchError,
+  filter,
+  forkJoin,
+  map,
+  switchMap,
+  take,
+} from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class DataStore {
+export class CatalogStore {
   private servicesSubject = new BehaviorSubject<DataCatalog[]>([]);
   private documentsSubject = new BehaviorSubject<DataCatalog[]>([]);
   private provincesSubject = new BehaviorSubject<DataCatalog[]>([]);
@@ -29,30 +38,30 @@ export class DataStore {
     return this.localitiesSubject.asObservable();
   }
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private catalogService: CatalogService, private router: Router) {
     forkJoin([
       this.services$.pipe(
         take(1),
         filter((services) => services.length === 0),
-        switchMap(() => this.dataService.getAllServices()),
+        switchMap(() => this.catalogService.getAllServices()),
         map((response) => response.data)
       ),
       this.documents$.pipe(
         take(1),
         filter((documents) => documents.length === 0),
-        switchMap(() => this.dataService.getAllDocuments()),
+        switchMap(() => this.catalogService.getAllDocuments()),
         map((response) => response.data)
       ),
       this.provinces$.pipe(
         take(1),
         filter((provinces) => provinces.length === 0),
-        switchMap(() => this.dataService.getAllProvinces()),
+        switchMap(() => this.catalogService.getAllProvinces()),
         map((response) => response.data)
       ),
       this.localities$.pipe(
         take(1),
         filter((localities) => localities.length === 0),
-        switchMap(() => this.dataService.getAllLocalities()),
+        switchMap(() => this.catalogService.getAllLocalities()),
         map((response) => response.data)
       ),
     ])

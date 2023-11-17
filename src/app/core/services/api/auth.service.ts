@@ -1,10 +1,9 @@
-import { SpinnerService } from "./spinner.service";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
 import { Router } from "@angular/router";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { ResponseUser, User } from "../interfaces/user";
+import { ResponseUser, User } from "../../interfaces/user";
 import Swal from "sweetalert2";
 
 @Injectable({
@@ -23,7 +22,6 @@ export class AuthService {
   }
 
   constructor(
-    private spinner: SpinnerService,
     private http: HttpClient,
     private router: Router
   ) {}

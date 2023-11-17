@@ -1,7 +1,7 @@
 import { Subject, debounceTime, switchMap, take } from "rxjs";
 import { environment } from "./../../../../environments/environment";
 import { _patterName } from "../../../shared/utils/regularPatterns";
-import { EventService } from "../../../core/services/events.service";
+import { EventStore } from "../../../core/services/store/event.store";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -16,14 +16,14 @@ export class EventsComponent implements OnInit {
   public skeletonCount = Array(8).fill(0);
 
   get events$() {
-    return this.eventService.events$;
+    return this.events.get$;
   }
 
   get loading$() {
-    return this.eventService.loading$;
+    return this.events.loading$;
   }
 
-  constructor(private eventService: EventService) {}
+  constructor(private events: EventStore) {}
 
   ngOnInit(): void {
     this.events$.pipe(take(1)).subscribe((events) => {
@@ -31,7 +31,7 @@ export class EventsComponent implements OnInit {
     });
 
     this.searchTerm$.pipe(debounceTime(300)).subscribe((term) => {
-      this.eventService.searchEvents(term).subscribe((_) => {});
+      this.events.searchEvents(term).subscribe();
     });
   }
 
@@ -44,6 +44,6 @@ export class EventsComponent implements OnInit {
   }
 
   getAllEvent() {
-    this.eventService.getAllEvents().subscribe((_) => {});
+    this.events.getAllEvents().subscribe();
   }
 }

@@ -5,7 +5,7 @@
   #stepper
   (selectionChange)="validateChangeStepper($event)"
 >
-  <mat-step [stepControl]="eventForm">
+  <mat-step [stepControl]="generalForm">
     <ng-template matStepLabel>Descripción general del evento</ng-template>
     <general-data-form></general-data-form>
     <div class="text-end">

@@ -1,6 +1,6 @@
-import { ResponseUploadImage } from "../interfaces/event";
+import { ResponseUploadImage } from "../../interfaces/event";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
@@ -9,25 +9,6 @@ import { Observable } from "rxjs";
 })
 export class UploadImageEventService {
   private url: string = environment.url;
-
-  private mainImages: string[] = [];
-  private secondariesImages: string[] = [];
-
-  get getMainImages(){
-    return this.mainImages;
-  }
-
-  set setMainImages(mainImages:string[]){
-    this.mainImages = mainImages
-  }
-
-  get getSecondariesImages(){
-    return this.secondariesImages;
-  }
-
-  set setSecondariesImages(secondariesImages:string[]){
-    this.secondariesImages = secondariesImages
-  }
 
   constructor(private http: HttpClient) {}
 

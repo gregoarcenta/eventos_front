@@ -1,8 +1,9 @@
-import { DataStore } from './../../../../../core/services/store/data.store';
+import { EventService } from "./../../../../../core/services/api/event.service";
+import { BannersStore } from "./../../../../../core/services/store/banners.store";
+import { CatalogStore } from "../../../../../core/services/store/catalog.store";
 import { Event } from "../../../../../core/interfaces/event";
-import { UploadImageEventService } from "../../../../../core/services/upload-image-event.service";
 import { environment } from "./../../../../../../environments/environment";
-import { EventService } from "../../../../../core/services/events.service";
+import { EventStore } from "../../../../../core/services/store/event.store";
 import {
   Component,
   ElementRef,
@@ -11,14 +12,18 @@ import {
   ViewChild,
 } from "@angular/core";
 import {
-  BehaviorSubject,
   Observable,
+  Subject,
   Subscription,
+  catchError,
   debounceTime,
+  distinctUntilChanged,
   filter,
+  forkJoin,
   map,
-  pairwise,
+  of,
   startWith,
+  switchMap,
   take,
 } from "rxjs";
 import { FormControl, FormGroup } from "@angular/forms";
@@ -31,14 +36,12 @@ import { FormControl, FormGroup } from "@angular/forms";
 export class EventosComponent implements OnInit, OnDestroy {
   @ViewChild("lastEvent") lastEvent!: ElementRef;
   public eventsSubscription?: Subscription;
-
   private url = `${environment.url}/upload/eventos`;
-
   public skeletonCount = Array(4).fill(0);
 
-  public pageSize: number = 12;
+  public pageSize: number = environment.pageSizeEvents;
 
-  private eventTerm$ = new BehaviorSubject<string>("");
+  public termSubject$ = new Subject<string>();
   public termNotFound: string | null = null;
   public notDataFilter: boolean = false;
   public eventsFiltered: Event[] = [];
@@ -46,8 +49,7 @@ export class EventosComponent implements OnInit, OnDestroy {
   public currentPageFilters: number = 1;
   public totalEventFiltereds: number = 0;
 
-  public inputSearchControl = new FormControl<string | null>(null);
-
+  public inputValue: string = "";
   public filters = new FormGroup({
     city: new FormControl<string | null>(null),
     type: new FormControl<string | null>(null),
@@ -57,126 +59,98 @@ export class EventosComponent implements OnInit, OnDestroy {
   });
 
   get events$() {
-    return this.eventService.events$;
+    return this.events.get$;
+  }
+
+  get cities$() {
+    return this.events.cities$;
   }
 
   get loading$() {
-    return this.eventService.loading$;
+    return this.events.loading$;
   }
 
   get spinner$() {
-    return this.eventService.spinner$;
-  }
-
-  get currentPage() {
-    return this.eventService.currentPage;
-  }
-
-  get cities() {
-    return this.eventService.getCities;
+    return this.events.spinner$;
   }
 
   get services$() {
-    return this.dataStore.services$;
+    return this.catalog.services$;
   }
 
-  get mainImagesUrl(): string[] {
-    return this.uploadImageEventService.getMainImages.map(
-      (image) => `${this.url}/${image}`
+  get mainImagesUrl$(): Observable<string[]> {
+    return this.banners.mainImages$.pipe(
+      map((images) => images.map((image) => `${this.url}/${image}`))
     );
   }
 
-  get secondariesImagesUrl(): string[] {
-    return this.uploadImageEventService.getSecondariesImages.map(
-      (image) => `${this.url}/${image}`
+  get secondaryImagesUrl$(): Observable<string[]> {
+    return this.banners.secondaryImages$.pipe(
+      map((images) => images.map((image) => `${this.url}/${image}`))
     );
   }
 
   constructor(
-    private dataStore: DataStore,
+    private catalog: CatalogStore,
     private eventService: EventService,
-    private uploadImageEventService: UploadImageEventService
+    private events: EventStore,
+    private banners: BannersStore
   ) {}
 
   ngOnDestroy(): void {
     this.eventsSubscription?.unsubscribe();
+    if (this.events.currentPage > 1) {
+      this.events.getEventsPublish().subscribe();
+    }
   }
 
   ngOnInit(): void {
-    //Obtiene todos los eventos
-    this.eventsSubscription = this.events$
-      .pipe(
-        filter((events) => events.length === 0),
-        take(1)
-      )
-      .subscribe((_) => this.getEvents());
-
-    //Obtiene las ciudades de los eventos
-    if (this.cities.length === 0) this.getCities();
-
-    //Obtiene las imagenes principales para el slider del header
-    if (this.mainImagesUrl.length === 0) this.getMainImages();
-
-    //Obtiene las imagenes secundarias del header
-    if (this.secondariesImagesUrl.length === 0) this.getSecondariesImages();
+    this.eventsSubscription = forkJoin([
+      this.cities$.pipe(
+        take(1),
+        filter((cities) => cities.length === 0),
+        switchMap(() => this.eventService.getCitiesEvents()),
+        map((response) => response.data),
+        catchError(() => of([]))
+      ),
+      this.events$.pipe(
+        take(1),
+        filter((cities) => cities.length === 0),
+        switchMap(() => this.events.getEventsPublish())
+      ),
+    ]).subscribe((response) => {
+      const [cities] = response;
+      this.events.setCities(cities);
+    });
 
     // Para buscar los eventos por el input
-    this.eventTerm$.pipe(pairwise()).subscribe(([oldValue, newValue]) => {
-      if (oldValue !== newValue) {
+    this.termSubject$
+      .pipe(
+        filter((term) => !!term && term.length >= 3),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
         this.currentPageFilters = 1;
         this.searchEvents();
-      }
-    });
+      });
 
     // Para buscar los eventos cuando cambie de ciudad
     this.filters
       .get("city")!
-      .valueChanges.pipe(startWith(""), debounceTime(300), pairwise())
-      .subscribe(([oldValue, newValue]) => {
-        if (oldValue !== newValue) {
-          this.currentPageFilters = 1;
-          this.searchEvents();
-        }
+      .valueChanges.pipe(
+        startWith(""),
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.currentPageFilters = 1;
+        this.searchEvents();
       });
   }
 
-  getEvents() {
-    this.eventService
-      .getAllEventsPublish(this.currentPage, this.pageSize)
-      .subscribe((_) => {});
-  }
-
-  getCities() {
-    this.eventService.getCitiesEvents().subscribe((_) => {});
-  }
-
-  getMainImages() {
-    /*  this.eventService.getMainImages().subscribe((response) => {
-      this.uploadImageEventService.setMainImages = response.data;
-    }); */
-    this.uploadImageEventService.setMainImages = [
-      "green.jpg",
-      "16-8.jpg",
-      "20086cb5-928d-4cd1-b5a2-ab1c81d5b0d1.jpg",
-    ];
-  }
-
-  getSecondariesImages() {
-    /* this.eventService.getSecondariesImages().subscribe((response) => {
-      this.uploadImageEventService.setSecondariesImages = response.data;
-    }); */
-    this.uploadImageEventService.setSecondariesImages = [
-      "green.jpg",
-      "16-8.jpg",
-    ];
-  }
-
-  onClickInputSearch() {
-    const term = this.inputSearchControl.value;
-    this.events$.subscribe((events) => {
-      if (term && term.length >= 3 && events.length > 0) {
-        this.eventTerm$.next(term);
-      }
+  onInputSearch() {
+    this.events$.pipe(take(1)).subscribe((events) => {
+      if (events.length > 0) this.termSubject$.next(this.inputValue);
     });
   }
 
@@ -184,10 +158,7 @@ export class EventosComponent implements OnInit, OnDestroy {
     this.conditionsFiltered = {
       ...this.filters.value,
       city: this.filters.value.city === "null" ? null : this.filters.value.city,
-      term:
-        this.inputSearchControl.value === ""
-          ? null
-          : this.inputSearchControl.value,
+      term: this.inputValue === "" ? null : this.inputValue,
     };
     if (
       !this.conditionsFiltered.city &&
@@ -205,32 +176,19 @@ export class EventosComponent implements OnInit, OnDestroy {
   searchEvents() {
     const conditions = this.getConditionsFiltereds();
     if (!conditions) return;
+
     this.eventService
-      .searchEventsPublish(
-        this.currentPageFilters,
-        this.pageSize,
-        this.conditionsFiltered
-      )
+      .searchEventsPublish(this.currentPageFilters, this.conditionsFiltered)
       .subscribe((response) => {
-        if (this.currentPageFilters === 1) {
-          this.eventsFiltered = response.data.events;
-        } else {
-          this.eventsFiltered = [
-            ...this.eventsFiltered,
-            ...response.data.events,
-          ];
-        }
+        this.eventsFiltered = [...this.eventsFiltered, ...response.data.events];
         this.totalEventFiltereds = response.data.total ?? 0;
         if (response.data.events.length > 0) {
           this.termNotFound = null;
           this.notDataFilter = false;
           return;
         }
-        if (
-          this.inputSearchControl.value &&
-          this.inputSearchControl.value.length > 0
-        ) {
-          this.termNotFound = this.inputSearchControl.value;
+        if (this.inputValue.length > 0) {
+          this.termNotFound = this.inputValue;
           this.notDataFilter = false;
           return;
         }
@@ -246,7 +204,7 @@ export class EventosComponent implements OnInit, OnDestroy {
     this.conditionsFiltered = null;
     this.currentPageFilters = 1;
     this.totalEventFiltereds = 0;
-    this.inputSearchControl.setValue(null);
+    this.inputValue = "";
     this.filters.patchValue({
       city: null,
       type: null,
@@ -256,22 +214,22 @@ export class EventosComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCityNameById(cityId: any): string {
-    const city = this.cities.find((c) => c.id == cityId);
-    return city ? city.name : "";
+  getCityNameById(cityId: any): Observable<string> {
+    return this.cities$.pipe(
+      map((cities) => cities.find((c) => c.id == cityId)),
+      map((city) => (city ? city.name : ""))
+    );
   }
 
   getServiceNameById(serviceId: any): Observable<string> {
     return this.services$.pipe(
-      map((services) => {
-        const service = services.find((serv) => serv.id == serviceId);
-        return service ? service.name : "";
-      })
+      map((services) => services.find((service) => service.id == serviceId)),
+      map((service) => (service ? service.name : ""))
     );
   }
 
   hasMoreEvents(): boolean {
-    return this.currentPage * this.pageSize < this.eventService.totalEvents!;
+    return this.events.currentPage * this.pageSize < this.events.totalEvents!;
   }
 
   hasMoreEventsFiltereds(): boolean {
@@ -279,10 +237,8 @@ export class EventosComponent implements OnInit, OnDestroy {
   }
 
   getMoreEvents() {
-    const conditions = this.getConditionsFiltereds();
-    if (!conditions) {
-      this.eventService.currentPage += 1;
-      this.getEvents();
+    if (!this.getConditionsFiltereds()) {
+      this.events.getMoreEventsPublish().subscribe();
     } else {
       this.currentPageFilters += 1;
       this.searchEvents();

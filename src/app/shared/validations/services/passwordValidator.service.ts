@@ -1,4 +1,4 @@
-import { RestoreAccountService } from '../../../core/services/restore-account.service';
+import { ChangePasswordService } from './../../../core/services/api/change-password.service';
 import { Injectable } from "@angular/core";
 import {
   AbstractControl,
@@ -13,13 +13,13 @@ import { map, Observable } from "rxjs";
 export class PasswordValidatorService implements AsyncValidator {
 
   constructor(
-    private restoreAccountService: RestoreAccountService,
+    private changePasswordService: ChangePasswordService,
   ) {}
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     const password: string = control.value;
 
-    return this.restoreAccountService.validatePassword(password)
+    return this.changePasswordService.validatePassword(password)
       .pipe(map((valid) => (valid ? null : { password_invalid: true })));
   }
 }

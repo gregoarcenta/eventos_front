@@ -1,5 +1,5 @@
 import { environment } from "../../../environments/environment";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../services/api/auth.service";
 import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,

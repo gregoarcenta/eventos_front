@@ -40,9 +40,9 @@
                       id="name"
                     />
                     <small
-                      *ngIf="formService.validInput(contactForm, 'name')"
+                      *ngIf="formStore.validInput(contactForm, 'name')"
                       class="form-text text-danger"
-                      >{{ formService.getMsgErrorName(contactForm) }}</small
+                      >{{ formStore.getErrorName(contactForm) }}</small
                     >
                   </div>
                 </div>
@@ -58,9 +58,9 @@
                       id="surname"
                     />
                     <small
-                      *ngIf="formService.validInput(contactForm, 'surname')"
+                      *ngIf="formStore.validInput(contactForm, 'surname')"
                       class="form-text text-danger"
-                      >{{ formService.getMsgErrorSurname(contactForm) }}</small
+                      >{{ formStore.getErrorSurname(contactForm) }}</small
                     >
                   </div>
                 </div>
@@ -76,9 +76,9 @@
                       id="email"
                     />
                     <small
-                      *ngIf="formService.validInput(contactForm, 'email')"
+                      *ngIf="formStore.validInput(contactForm, 'email')"
                       class="form-text text-danger"
-                      >{{ formService.getMsgErrorEmail(contactForm) }}</small
+                      >{{ formStore.getErrorEmail(contactForm) }}</small
                     >
                   </div>
                 </div>
@@ -95,9 +95,9 @@
                       (keypress)="validaNumeros($event)"
                     />
                     <small
-                      *ngIf="formService.validInput(contactForm, 'phone')"
+                      *ngIf="formStore.validInput(contactForm, 'phone')"
                       class="form-text text-danger"
-                      >{{ formService.getMsgErrorPhone(contactForm) }}</small
+                      >{{ formStore.getErrorPhone(contactForm) }}</small
                     >
                   </div>
                 </div>
@@ -123,11 +123,11 @@
                       <span class="visually-hidden">Loading...</span>
                     </div>
                     <small
-                      *ngIf="formService.validInput(contactForm, 'province')"
+                      *ngIf="formStore.validInput(contactForm, 'province')"
                       class="form-text text-danger"
                     >
                       {{
-                        formService.getMsgErrorSelect(contactForm, "province")
+                        formStore.getErrorSelect(contactForm, "province")
                       }}
                     </small>
                   </div>
@@ -155,10 +155,10 @@
                       <span class="visually-hidden">Loading...</span>
                     </div>
                     <small
-                      *ngIf="formService.validInput(contactForm, 'city')"
+                      *ngIf="formStore.validInput(contactForm, 'city')"
                       class="form-text text-danger"
                     >
-                      {{ formService.getMsgErrorSelect(contactForm, "city") }}
+                      {{ formStore.getErrorSelect(contactForm, "city") }}
                     </small>
                   </div>
                 </div>
@@ -183,11 +183,11 @@
                       <span class="visually-hidden">Loading...</span>
                     </div>
                     <small
-                      *ngIf="formService.validInput(contactForm, 'service')"
+                      *ngIf="formStore.validInput(contactForm, 'service')"
                       class="form-text text-danger"
                     >
                       {{
-                        formService.getMsgErrorSelect(contactForm, "service")
+                        formStore.getErrorSelect(contactForm, "service")
                       }}
                     </small>
                   </div>

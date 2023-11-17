@@ -1,8 +1,7 @@
 import { EmailValidatorService } from "./../../../../../shared/validations/services/email-validator.service";
 import { UsernameValidatorService } from "./../../../../../shared/validations/services/username-validator.service";
-import { RegisterService } from "./../../../../../core/services/register.service";
-import { FormService } from "../../../../../core/services/form.service";
-import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { RegisterService } from "../../../../../core/services/api/register.service";
+import { FormStore } from "../../../../../core/services/store/form.store";
 import { CustomValidators } from "./../../../../../shared/validations/validations-forms";
 import {
   _patternMail,
@@ -68,8 +67,7 @@ export class RegistroComponent implements OnInit {
     private registerService: RegisterService,
     private uvs: UsernameValidatorService,
     private evs: EmailValidatorService,
-    public formService: FormService,
-    private spinner: SpinnerService,
+    public formStore: FormStore,
     private fb: FormBuilder,
     private router: Router
   ) {}

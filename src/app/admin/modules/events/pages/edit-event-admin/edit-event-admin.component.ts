@@ -1,8 +1,7 @@
+import { EventService } from './../../../../../core/services/api/event.service';
 import { EditEventComponent } from './../../../../../shared/components/events/edit-event/edit-event.component';
-import { EventFormService } from "../../../../../core/services/event-form.service";
-import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { EventFormStore } from "../../../../../core/services/store/event-form.store";
 import { Event } from "../../../../../core/interfaces/event";
-import { EventService } from "../../../../../core/services/events.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import Swal from "sweetalert2";
@@ -19,10 +18,9 @@ export class EditEventAdminComponent implements OnInit {
   public event!: Event;
 
   constructor(
-    private eventFormService: EventFormService,
+    private eventForm: EventFormStore,
     private activatedRoute: ActivatedRoute,
     private eventService: EventService,
-    public spinner: SpinnerService,
     private router: Router
   ) {}
 
@@ -51,7 +49,7 @@ export class EditEventAdminComponent implements OnInit {
       .updateDataGeneralEvent(event, this.eventId!)
       .subscribe((response) => {
         Swal.fire("¡Listo!", response.message, "success");
-        this.eventFormService.setGeneralDataOriginal();
+        this.eventForm.setGeneralDataOriginal();
         this.editEventChild.changesMade = false
       });
   }
@@ -60,7 +58,7 @@ export class EditEventAdminComponent implements OnInit {
       .updateDataPlaceEvent(event, this.eventId!)
       .subscribe((response) => {
         Swal.fire("¡Listo!", response.message, "success");
-        this.eventFormService.setPlaceDataOriginal();
+        this.eventForm.setPlaceDataOriginal();
         this.editEventChild.changesMade = false
       });
   }
@@ -69,8 +67,8 @@ export class EditEventAdminComponent implements OnInit {
       .updateDataLocalitiesEvent(event, this.eventId!)
       .subscribe((response) => {
         Swal.fire("¡Listo!", response.message, "success");
-        this.eventFormService.setLocalitiesDataForm(response.data)
-        this.eventFormService.setLocalitiesDataOriginal();
+        this.eventForm.setLocalitiesDataForm(response.data)
+        this.eventForm.setLocalitiesDataOriginal();
         this.editEventChild.changesMade = false
       });
   }

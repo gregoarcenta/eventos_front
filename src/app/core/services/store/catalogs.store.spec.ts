@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DataStore } from './data.store';
+import { CatalogStore } from './catalog.store';
 
 describe('DataStore', () => {
-  let service: DataStore;
+  let store: CatalogStore;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DataStore);
+    store = TestBed.inject(CatalogStore);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(CatalogStore).toBeTruthy();
   });
 });

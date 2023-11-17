@@ -1,4 +1,4 @@
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../services/api/auth.service";
 import { environment } from "../../../environments/environment";
 import Swal from "sweetalert2";
 import { Injectable } from "@angular/core";

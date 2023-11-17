@@ -1,16 +1,12 @@
-import { MapService } from "./map.service";
-import { ResponsePlace, ResponsePlaces } from "../interfaces/place";
-import { environment } from "../../../environments/environment";
+import { MapStore } from "./map.store";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 import { LngLat } from "mapbox-gl";
 
 @Injectable({
   providedIn: "root",
 })
-export class PlaceService {
-  private url: string = environment.url;
+export class PlaceStore {
   public userLocation: LngLat | null = null;
   public placeLocation: LngLat | null = null;
 
@@ -28,7 +24,7 @@ export class PlaceService {
     return false;
   }
 
-  constructor(private http: HttpClient, private mapService: MapService) {}
+  constructor(private http: HttpClient, private map: MapStore) {}
 
   getUserLocation(forRoute: boolean = false): Promise<LngLat> {
     return new Promise((resolve, reject) => {
@@ -56,22 +52,14 @@ export class PlaceService {
   setUserLocation(coords: LngLat) {
     this.placeLocation = null;
     this.userLocation = coords;
-    this.mapService.flyTo(this.userLocation);
-    this.mapService.createMarker(this.userLocation);
+    this.map.flyTo(this.userLocation);
+    this.map.createMarker(this.userLocation);
   }
 
   setPlaceLocation(lng: any, lat: any) {
     this.userLocation = null;
     this.placeLocation = new LngLat(Number(lng), Number(lat));
-    this.mapService.flyTo(this.placeLocation);
-    this.mapService.createMarker(this.placeLocation);
-  }
-
-  getPlaceById(id: number): Observable<ResponsePlace> {
-    return this.http.get<any>(`${this.url}/places/${id}`);
-  }
-
-  searchPlaces(term: string): Observable<ResponsePlaces> {
-    return this.http.get<ResponsePlaces>(`${this.url}/places/search/${term}`);
+    this.map.flyTo(this.placeLocation);
+    this.map.createMarker(this.placeLocation);
   }
 }

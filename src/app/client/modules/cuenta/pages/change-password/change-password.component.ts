@@ -1,16 +1,10 @@
-import { PasswordValidatorService } from './../../../../../shared/validations/services/passwordValidator.service';
-import { CustomValidators } from './../../../../../shared/validations/validations-forms';
-import { SpinnerService } from "../../../../../core/services/spinner.service";
-import { RestoreAccountService } from "../../../../../core/services/restore-account.service";
-import { FormService } from "../../../../../core/services/form.service";
+import { ChangePasswordService } from "./../../../../../core/services/api/change-password.service";
+import { PasswordValidatorService } from "./../../../../../shared/validations/services/passwordValidator.service";
+import { CustomValidators } from "./../../../../../shared/validations/validations-forms";
+import { FormStore } from "../../../../../core/services/store/form.store";
 import { _patternPassword } from "../../../../../shared/utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import Swal from "sweetalert2";
 
 @Component({
@@ -42,7 +36,7 @@ export class ChangePasswordComponent implements OnInit {
 
   get getMsgErrorPass() {
     const controlPassword = this.passwordForm.controls["oldPassword"];
-/*     if (controlPassword.getError("required")) {
+    /*     if (controlPassword.getError("required")) {
       return "La contraseña actual es requerida";
     } */
     if (controlPassword.getError("password_invalid")) {
@@ -51,12 +45,15 @@ export class ChangePasswordComponent implements OnInit {
     return "";
   }
 
+  get validating() {
+    return this.changePasswordService.validating;
+  }
+
   constructor(
     private fb: FormBuilder,
-    private spinner: SpinnerService,
-    public formService: FormService,
+    public formStore: FormStore,
     private pvs: PasswordValidatorService,
-    public restoreAccountService: RestoreAccountService
+    public changePasswordService: ChangePasswordService
   ) {}
 
   ngOnInit(): void {}
@@ -67,7 +64,7 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
     //this.spinner.setActive(true);
-    this.restoreAccountService
+    this.changePasswordService
       .changePassword(this.passwordForm.value)
       .subscribe((response) => {
         this.passwordForm.reset();

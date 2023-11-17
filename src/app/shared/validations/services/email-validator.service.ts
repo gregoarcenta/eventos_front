@@ -1,5 +1,5 @@
-import { AuthService } from "../../../core/services/auth.service";
-import { UserService } from "../../../core/services/user.service";
+import { AuthService } from "../../../core/services/api/auth.service";
+import { UserService } from "../../../core/services/api/user.service";
 import { Injectable } from "@angular/core";
 import {
   AbstractControl,
@@ -30,6 +30,6 @@ export class EmailValidatorService implements AsyncValidator {
 
     return this.userService
       .getUserByEmail(email)
-      .pipe(map((valid) => (valid ? null : { exists_email: true })));
+      .pipe(map(({ data }) => (data.valid ? null : { exists_email: true })));
   }
 }

@@ -1,5 +1,4 @@
-import { SpinnerService } from "../../../core/services/spinner.service";
-import { AuthService } from "../../../core/services/auth.service";
+import { AuthService } from "../../../core/services/api/auth.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
@@ -18,7 +17,6 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private spinner: SpinnerService,
     private fb: FormBuilder,
     private router: Router
   ) {}

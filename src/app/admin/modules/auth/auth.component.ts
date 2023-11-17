@@ -1,9 +1,8 @@
-import { FormService } from "../../../core/services/form.service";
-import { SpinnerService } from "../../../core/services/spinner.service";
+import { FormStore } from "../../../core/services/store/form.store";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { AuthService } from "../../../core/services/auth.service";
+import { AuthService } from "../../../core/services/api/auth.service";
 @Component({
   selector: "app-auth",
   templateUrl: "./auth.component.html",
@@ -17,8 +16,7 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private spinner: SpinnerService,
-    public formService: FormService,
+    public formStore: FormStore,
     private fb: FormBuilder,
     private router: Router
   ) {}

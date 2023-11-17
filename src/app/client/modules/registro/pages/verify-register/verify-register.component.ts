@@ -1,5 +1,4 @@
-import { RegisterService } from "../../../../../core/services/register.service";
-import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { RegisterService } from "../../../../../core/services/api/register.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import Swal from "sweetalert2";
@@ -12,7 +11,6 @@ import Swal from "sweetalert2";
 export class VerifyRegisterComponent implements OnInit {
   constructor(
     private registerService: RegisterService,
-    private spinner: SpinnerService,
     private route: ActivatedRoute,
     private router: Router
   ) {}

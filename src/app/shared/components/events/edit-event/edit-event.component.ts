@@ -1,8 +1,8 @@
 import { PlaceDataFormComponent } from "./../place-data-form/place-data-form.component";
 import {
-  EventFormService,
+  EventFormStore,
   ILocalitiesDataArr,
-} from "../../../../core/services/event-form.service";
+} from "../../../../core/services/store/event-form.store";
 import { Event as MyEvent } from "../../../../core/interfaces/event";
 import {
   Component,
@@ -39,31 +39,34 @@ export class EditEventComponent implements OnInit, OnDestroy {
 
   private subscriptionChangeTab?: Subscription;
 
+  // General
   get generalDataForm() {
-    return this.eventFormService.generalDataForm;
+    return this.eventForm.generalDataForm;
   }
   get generalDataOriginal() {
-    return this.eventFormService.generalDataOriginal;
+    return this.eventForm.generalDataOriginal;
   }
 
+  // Place
   get placeDataForm() {
-    return this.eventFormService.placeDataForm;
+    return this.eventForm.placeDataForm;
   }
   get placeDataOriginal() {
-    return this.eventFormService.placeDataOriginal;
+    return this.eventForm.placeDataOriginal;
   }
 
+  // Localidades
   get localitiesDataForm() {
-    return this.eventFormService.localitiesDataForm;
+    return this.eventForm.localitiesDataForm;
   }
   get localitiesDataOriginal() {
-    return this.eventFormService.localitiesDataOriginal;
+    return this.eventForm.localitiesDataOriginal;
   }
   get localitiesDataArray() {
     return this.localitiesDataForm.controls["localities"];
   }
 
-  constructor(private eventFormService: EventFormService) {}
+  constructor(private eventForm: EventFormStore) {}
 
   ngOnDestroy(): void {
     this.subscriptionChangeTab?.unsubscribe();
@@ -111,14 +114,14 @@ export class EditEventComponent implements OnInit, OnDestroy {
   resetChangesTab(tab: number) {
     switch (tab) {
       case 0: //Valida el formulario data general
-        this.eventFormService.setGeneralDataForm(this.generalDataOriginal);
+        this.eventForm.setGeneralDataForm(this.generalDataOriginal);
         break;
       case 1: //Valida el formulario data place
         this.placeFormChild.setPlace(this.placeDataOriginal);
 
         break;
       case 2: //Valida el formulario data localities
-        this.eventFormService.setLocalitiesDataForm(
+        this.eventForm.setLocalitiesDataForm(
           this.localitiesDataOriginal
         );
         break;

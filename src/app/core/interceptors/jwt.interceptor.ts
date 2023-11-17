@@ -1,4 +1,4 @@
-import { SpinnerService } from "../services/spinner.service";
+import { SpinnerStore } from "../services/store/spinner.store";
 import { Injectable } from "@angular/core";
 import {
   HttpRequest,
@@ -11,7 +11,7 @@ import { Observable, finalize } from "rxjs";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private spinner: SpinnerService) {}
+  constructor(private spinner: SpinnerStore) {}
 
   intercept(
     request: HttpRequest<any>,

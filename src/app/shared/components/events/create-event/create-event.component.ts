@@ -1,6 +1,6 @@
-import { EventFormService } from "../../../../core/services/event-form.service";
+import { EventFormStore } from "../../../../core/services/store/event-form.store";
 import { Event } from "../../../../core/interfaces/event";
-import { PlaceService } from "../../../../core/services/place.service";
+import { PlaceStore } from "../../../../core/services/store/place.store";
 import {
   Component,
   EventEmitter,
@@ -22,16 +22,16 @@ export class CreateEventComponent implements OnInit {
   @ViewChild(MatStepper) stepper!: MatStepper;
   @Output() onCreateEvent = new EventEmitter<Event>();
 
-  get eventForm() {
-    return this.eventFormService.generalDataForm;
+  get generalForm() {
+    return this.eventForm.generalDataForm;
   }
 
   get placeForm() {
-    return this.eventFormService.placeDataForm;
+    return this.eventForm.placeDataForm;
   }
 
   get localitiesForm() {
-    return this.eventFormService.localitiesDataForm;
+    return this.eventForm.localitiesDataForm;
   }
 
   get localitiesArray() {
@@ -39,8 +39,8 @@ export class CreateEventComponent implements OnInit {
   }
 
   constructor(
-    private eventFormService: EventFormService,
-    private placeService: PlaceService
+    private eventForm: EventFormStore,
+    private place: PlaceStore
   ) {}
 
   ngOnInit(): void {}
@@ -69,13 +69,12 @@ export class CreateEventComponent implements OnInit {
 
     // Paso del step 2 formulario de ubicacion
     if (e.selectedIndex == 2) {
-      //&& !this.place -> quite esto aqui
       const lng =
-        this.placeService.placeLocation?.lng ||
-        this.placeService.userLocation?.lng;
+        this.place.placeLocation?.lng ||
+        this.place.userLocation?.lng;
       const lat =
-        this.placeService.placeLocation?.lat ||
-        this.placeService.userLocation?.lat;
+        this.place.placeLocation?.lat ||
+        this.place.userLocation?.lat;
 
       this.placeForm.get("lng")?.setValue(lng + "");
       this.placeForm.get("lat")?.setValue(lat + "");
@@ -83,8 +82,8 @@ export class CreateEventComponent implements OnInit {
   }
 
   validateEventForm() {
-    if (this.eventForm.invalid) {
-      this.eventForm.markAllAsTouched();
+    if (this.generalForm.invalid) {
+      this.generalForm.markAllAsTouched();
       return false;
     }
     return this.stepper.next();
@@ -112,15 +111,15 @@ export class CreateEventComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.eventForm.invalid) {
-      this.eventForm.markAllAsTouched();
+    if (this.generalForm.invalid) {
+      this.generalForm.markAllAsTouched();
       this.stepper.previous();
       this.stepper.previous();
       return;
     }
 
     if (this.placeForm.invalid) {
-      this.eventForm.markAllAsTouched();
+      this.placeForm.markAllAsTouched();
       this.stepper.previous();
       return;
     }
@@ -149,7 +148,7 @@ export class CreateEventComponent implements OnInit {
     });
 
     const event: any = {
-      ...this.eventForm.value,
+      ...this.generalForm.value,
       place_id: this.placeForm.value.place_id,
       place: this.placeForm.value,
       place_localities,

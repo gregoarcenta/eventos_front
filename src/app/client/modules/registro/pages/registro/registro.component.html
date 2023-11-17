@@ -50,9 +50,9 @@
                       id="name"
                     />
                     <small
-                      *ngIf="formService.validInput(registerForm, 'name')"
+                      *ngIf="formStore.validInput(registerForm, 'name')"
                       class="form-text text-danger"
-                      >{{formService.getMsgErrorName(registerForm)}}</small
+                      >{{formStore.getErrorName(registerForm)}}</small
                     >
                   </div>
                 </div>
@@ -68,9 +68,9 @@
                       id="surname"
                     />
                     <small
-                      *ngIf="formService.validInput(registerForm, 'surname')"
+                      *ngIf="formStore.validInput(registerForm, 'surname')"
                       class="form-text text-danger"
-                      >{{formService.getMsgErrorSurname(registerForm)}}</small
+                      >{{formStore.getErrorSurname(registerForm)}}</small
                     >
                   </div>
                 </div>
@@ -86,9 +86,9 @@
                       id="email"
                     />
                     <small
-                      *ngIf="formService.validInput(registerForm, 'email')"
+                      *ngIf="formStore.validInput(registerForm, 'email')"
                       class="form-text text-danger"
-                      >{{formService.getMsgErrorEmail(registerForm)}}</small
+                      >{{formStore.getErrorEmail(registerForm)}}</small
                     >
                   </div>
                 </div>
@@ -104,9 +104,9 @@
                       id="username"
                     />
                     <small
-                      *ngIf="formService.validInput(registerForm, 'username')"
+                      *ngIf="formStore.validInput(registerForm, 'username')"
                       class="form-text text-danger"
-                      >{{formService.getMsgErrorUsername(registerForm)}}</small
+                      >{{formStore.getErrorUsername(registerForm)}}</small
                     >
                   </div>
                 </div>
@@ -132,9 +132,9 @@
                       (click)="showPassword = !showPassword"
                     ></i>
                     <small
-                      *ngIf="formService.validInput(registerForm, 'password')"
+                      *ngIf="formStore.validInput(registerForm, 'password')"
                       class="form-text text-danger"
-                      [innerHTML]="formService.getMsgErrorPass(registerForm)"
+                      [innerHTML]="formStore.getErrorPass(registerForm)"
                     ></small>
                   </div>
                 </div>
@@ -160,9 +160,9 @@
                       (click)="showPassword2 = !showPassword2"
                     ></i>
                     <small
-                      *ngIf="formService.validInput(registerForm, 'password2')"
+                      *ngIf="formStore.validInput(registerForm, 'password2')"
                       class="form-text text-danger"
-                      >{{formService.getMsgErrorPass2(registerForm)}}</small
+                      >{{formStore.getErrorPass2(registerForm)}}</small
                     >
                   </div>
                 </div>
@@ -186,7 +186,7 @@
                 </label>
                 <div
                   class="form-text text-danger"
-                  *ngIf="formService.validInput(registerForm, 'terminos')"
+                  *ngIf="formStore.validInput(registerForm, 'terminos')"
                 >
                   Tiene que aceptar los terminos y condiciones
                 </div>

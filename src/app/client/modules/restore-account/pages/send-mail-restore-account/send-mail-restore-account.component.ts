@@ -1,5 +1,4 @@
-import { RestoreAccountService } from "../../../../../core/services/restore-account.service";
-import { SpinnerService } from "../../../../../core/services/spinner.service";
+import { RestoreAccountService } from "../../../../../core/services/api/restore-account.service";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
@@ -16,7 +15,6 @@ export class SendMailRestoreAccountComponent implements OnInit {
 
   constructor(
     private restoreAccountService: RestoreAccountService,
-    private spinner: SpinnerService,
     private router: Router
   ) {}
 

@@ -1,5 +1,5 @@
 import { environment } from '../../../../environments/environment';
-import { AuthService } from "../../../core/services/auth.service";
+import { AuthService } from "../../../core/services/api/auth.service";
 import {
   AfterViewInit,
   Component,

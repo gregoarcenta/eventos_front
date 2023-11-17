@@ -1,9 +1,10 @@
-import { MapService } from "../../../../../core/services/map.service";
-import { PlaceService } from "../../../../../core/services/place.service";
+import { EventService } from './../../../../../core/services/api/event.service';
+import { MapStore } from "../../../../../core/services/store/map.store";
+import { PlaceStore } from "../../../../../core/services/store/place.store";
 import { environment } from "./../../../../../../environments/environment";
 
 import { Event } from "../../../../../core/interfaces/event";
-import { EventService } from "../../../../../core/services/events.service";
+import { EventStore } from "../../../../../core/services/store/event.store";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -42,8 +43,8 @@ export class EventoComponent implements OnInit {
   constructor(
     private router: Router,
     private modalService: NgbModal,
-    private mapService: MapService,
-    private placeService: PlaceService,
+    private map: MapStore,
+    private place: PlaceStore,
     private eventService: EventService,
     private activatedRoute: ActivatedRoute
   ) {
@@ -56,7 +57,7 @@ export class EventoComponent implements OnInit {
     this.eventService.getEventPublishById(this.eventId!).subscribe({
       next: (response) => {
         this.event = response.data;
-        this.placeService.setPlaceLocation(
+        this.place.setPlaceLocation(
           this.event.place.direction.lng,
           this.event.place.direction.lat
         );
@@ -85,10 +86,10 @@ export class EventoComponent implements OnInit {
   }
 
   openMapFullscreen(map: any) {
-    this.placeService.getUserLocation(true).then(({ lng, lat }) => {
+    this.place.getUserLocation(true).then(({ lng, lat }) => {
       const lng_ = this.event!.place.direction.lng;
       const lat_ = this.event!.place.direction.lat;
-      this.mapService.getRouteBetweenPoints([lng, lat],[Number(lng_), Number(lat_)])
+      this.map.getRouteBetweenPoints([lng, lat],[Number(lng_), Number(lat_)])
     });
     this.modalService.open(map, { fullscreen: true });
   }

@@ -78,3 +78,8 @@ export interface PlaceLocality {
   locality_id: number;
   locality: DataCatalog;
 }
+
+export enum TypeEvents {
+  Feature,
+  upcoming
+}

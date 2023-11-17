@@ -36,15 +36,15 @@
         <label for="name">Nombre del Evento</label>
         <input
           type="text"
-          placeholder="Ingrese su nombre"
+          placeholder="Ingrese nombre del evento"
           formControlName="name"
           class="form-control input-adm"
           id="name"
         />
         <small
-          *ngIf="formService.validInput(generalDataForm, 'name')"
+          *ngIf="formStore.validInput(generalDataForm, 'name')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorName(generalDataForm)}}</small
+          >{{formStore.getErrorName(generalDataForm)}}</small
         >
       </div>
       <!--description-->
@@ -58,9 +58,9 @@
           id="description"
         ></textarea>
         <small
-          *ngIf="formService.validInput(generalDataForm, 'description')"
+          *ngIf="formStore.validInput(generalDataForm, 'description')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorDescription(generalDataForm)}}</small
+          >{{formStore.getErrorDescription(generalDataForm)}}</small
         >
       </div>
       <!--Evento destacado-->
@@ -116,9 +116,9 @@
           id="artist"
         />
         <small
-          *ngIf="formService.validInput(generalDataForm, 'artist')"
+          *ngIf="formStore.validInput(generalDataForm, 'artist')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorArtist(generalDataForm)}}</small
+          >{{formStore.getErrorArtist(generalDataForm)}}</small
         >
       </div>
     </div>
@@ -136,10 +136,10 @@
           >
         </select>
         <small
-          *ngIf="formService.validInput(generalDataForm, 'service_id')"
+          *ngIf="formStore.validInput(generalDataForm, 'service_id')"
           class="form-text text-danger"
         >
-          {{formService.getMsgErrorSelectService(generalDataForm)}}
+          {{formStore.getErrorSelectService(generalDataForm)}}
         </small>
       </div>
     </div>
@@ -187,9 +187,9 @@
           </ng-template>
         </ng-select>
         <small
-          *ngIf="formService.validInput(generalDataForm, 'organizer')"
+          *ngIf="formStore.validInput(generalDataForm, 'organizer')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorOrganizer(generalDataForm)}}</small
+          >{{formStore.getErrorOrganizer(generalDataForm)}}</small
         >
       </div>
     </div>
@@ -208,9 +208,9 @@
           id="start_date"
         />
         <small
-          *ngIf="formService.validInput(generalDataForm, 'start_date')"
+          *ngIf="formStore.validInput(generalDataForm, 'start_date')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorFechaInicio(generalDataForm)}}</small
+          >{{formStore.getErrorFechaInicio(generalDataForm)}}</small
         >
         <small
           *ngIf="generalDataForm.hasError('fechaInicioInvalida')"
@@ -232,9 +232,9 @@
           id="start_time"
         />
         <small
-          *ngIf="formService.validInput(generalDataForm, 'start_time')"
+          *ngIf="formStore.validInput(generalDataForm, 'start_time')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorHoraInicio(generalDataForm)}}</small
+          >{{formStore.getErrorHoraInicio(generalDataForm)}}</small
         >
       </div>
     </div>
@@ -250,9 +250,9 @@
           id="end_date"
         />
         <small
-          *ngIf="formService.validInput(generalDataForm, 'end_date')"
+          *ngIf="formStore.validInput(generalDataForm, 'end_date')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorFechaFin(generalDataForm)}}</small
+          >{{formStore.getErrorFechaFin(generalDataForm)}}</small
         >
 
         <small
@@ -276,9 +276,9 @@
           id="end_time"
         />
         <small
-          *ngIf="formService.validInput(generalDataForm, 'end_time')"
+          *ngIf="formStore.validInput(generalDataForm, 'end_time')"
           class="form-text text-danger"
-          >{{formService.getMsgErrorHoraFin(generalDataForm)}}</small
+          >{{formStore.getErrorHoraFin(generalDataForm)}}</small
         >
       </div>
     </div>

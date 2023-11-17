@@ -1,6 +1,6 @@
-import { CustomValidators } from './../../shared/validations/validations-forms';
-import { Event, Place, PlaceLocality } from "../interfaces/event";
-import { _patterDescription, _patterName } from "../../shared/utils/regularPatterns";
+import { CustomValidators } from '../../../shared/validations/validations-forms';
+import { Event, Place, PlaceLocality } from "../../interfaces/event";
+import { _patterDescription, _patterName } from "../../../shared/utils/regularPatterns";
 import { Injectable } from "@angular/core";
 import {
   AbstractControlOptions,
@@ -55,7 +55,7 @@ interface ILocalitiesData {
 @Injectable({
   providedIn: "root",
 })
-export class EventFormService {
+export class EventFormStore {
   public generalDataOriginal?: any;
   public generalDataForm = this.nnfb.group<IEventData>(
     {
