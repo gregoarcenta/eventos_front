@@ -1,5 +1,5 @@
 import { ApiResponse } from '../../interfaces/Http';
-import { IPlace } from '../../interfaces/Place';
+import { IPlace } from '../../interfaces/Placefgfds';
 import { environment } from "./../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";

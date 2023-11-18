@@ -1,4 +1,4 @@
-import { IEvent } from '../../../core/interfaces/Event';
+import { IEvent } from '../../../core/interfaces/Eventgfds';
 import { environment } from './../../../../environments/environment';
 import { Component, Input, OnInit } from '@angular/core';
 

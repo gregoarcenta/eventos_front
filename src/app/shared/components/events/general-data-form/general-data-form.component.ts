@@ -1,8 +1,8 @@
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
-import { IEvent } from "../../../../core/interfaces/Event";
+import { IEvent } from "../../../../core/interfaces/Eventgfds";
 import { AuthService } from "../../../../core/services/api/auth.service";
 import { UserService } from "../../../../core/services/api/user.service";
-import { IUser } from "../../../../core/interfaces/User";
+import { IUser } from "../../../../core/interfaces/Userfdgmsd";
 import { FormStore } from "../../../../core/services/store/form.store";
 import { environment } from "./../../../../../environments/environment";
 import { UploadImageEventService } from "../../../../core/services/api/upload-image-event.service";

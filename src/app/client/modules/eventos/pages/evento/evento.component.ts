@@ -3,7 +3,7 @@ import { MapStore } from "../../../../../core/services/store/map.store";
 import { PlaceStore } from "../../../../../core/services/store/place.store";
 import { environment } from "./../../../../../../environments/environment";
 
-import { IEvent } from "../../../../../core/interfaces/Event";
+import { IEvent } from "../../../../../core/interfaces/Eventgfds";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
