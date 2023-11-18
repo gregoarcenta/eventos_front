@@ -1,6 +1,6 @@
-import { ICatalog } from "./Catalog";
-import { IPlace } from "./Place";
-import { IUser } from "./User";
+import { ICatalog } from "./catalog";
+import { IPlace } from "./place";
+import { IUser } from "./user";
 
 export interface IEventList {
   events: IEvent[];

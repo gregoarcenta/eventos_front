@@ -1,4 +1,4 @@
-import { ApiResponse } from './../../interfaces/Http';
+import { ApiResponse } from '../../interfaces/http';
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";

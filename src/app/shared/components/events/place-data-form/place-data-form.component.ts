@@ -1,6 +1,6 @@
-import { IPlace } from './../../../../core/interfaces/Place';
-import { ICatalog } from './../../../../core/interfaces/Catalog';
-import { IEvent } from '../../../../core/interfaces/Event';
+import { IPlace } from '../../../../core/interfaces/place';
+import { ICatalog } from '../../../../core/interfaces/catalog';
+import { IEvent } from '../../../../core/interfaces/event';
 import { PlaceService } from "./../../../../core/services/api/place.service";
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
 import { PlaceStore } from "../../../../core/services/store/place.store";

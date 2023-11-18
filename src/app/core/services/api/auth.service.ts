@@ -1,10 +1,10 @@
-import { IUser, IUserAuth } from './../../interfaces/User';
+import { IUser, IUserAuth } from '../../interfaces/user';
 import { environment } from "../../../../environments/environment";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { ApiResponse } from './../../interfaces/Http';
+import { ApiResponse } from '../../interfaces/http';
 import Swal from "sweetalert2";
 
 @Injectable({

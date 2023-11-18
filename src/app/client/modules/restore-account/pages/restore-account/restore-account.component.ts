@@ -1,4 +1,4 @@
-import { IUser } from "../../../../../core/interfaces/User";
+import { IUser } from "../../../../../core/interfaces/user";
 import { RestoreAccountService } from "../../../../../core/services/api/restore-account.service";
 import { _patternPassword } from "../../../../../shared/utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";

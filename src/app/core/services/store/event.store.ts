@@ -1,6 +1,6 @@
 import { EventService } from "../api/event.service";
-import { ICatalog } from "../../interfaces/Catalog";
-import { IEvent } from "../../interfaces/Event";
+import { ICatalog } from "../../interfaces/catalog";
+import { IEvent } from "../../interfaces/event";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, catchError, map, of, tap } from "rxjs";
 

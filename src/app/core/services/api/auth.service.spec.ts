@@ -1,4 +1,4 @@
-import { User } from "../../interfaces/User";
+import { User } from "../../interfaces/user";
 import { environment } from "../../../../environments/environment";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthService } from "./auth.service";
