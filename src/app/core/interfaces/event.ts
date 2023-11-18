@@ -7,10 +7,6 @@ export interface IEventList {
   total?: number;
 }
 
-
-
-
-
 export interface IEvent {
   id:               number;
   status:           boolean;
@@ -49,6 +45,11 @@ export interface ILocality {
 }
 
 export enum TypeEvents {
+  Feature,
+  upcoming
+}
+
+export enum TypeEventsdfsd {
   Feature,
   upcoming
 }
