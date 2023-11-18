@@ -1,9 +1,9 @@
+import { ICatalog } from './../../interfaces/Catalog';
+import { ApiResponse } from './../../interfaces/Http';
+import { IEvent, IEventList, ILocality } from './../../interfaces/event';
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ICatalog } from "app/core/interfaces/Catalog";
-import { ApiResponse } from "app/core/interfaces/Http";
-import { IEvent, IEventList, ILocality } from "app/core/interfaces/event";
 import { Observable } from "rxjs";
 
 @Injectable({

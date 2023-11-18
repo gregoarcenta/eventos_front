@@ -1,3 +1,6 @@
+import { IPlace } from './../../../../core/interfaces/Place';
+import { ICatalog } from './../../../../core/interfaces/Catalog';
+import { IEvent } from './../../../../core/interfaces/event';
 import { PlaceService } from "./../../../../core/services/api/place.service";
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
 import { PlaceStore } from "../../../../core/services/store/place.store";
@@ -13,9 +16,6 @@ import {
   distinctUntilChanged,
   map,
 } from "rxjs";
-import { ICatalog } from "app/core/interfaces/Catalog";
-import { IPlace } from "app/core/interfaces/Place";
-import { IEvent } from "app/core/interfaces/event";
 
 @Component({
   selector: "place-data-form",

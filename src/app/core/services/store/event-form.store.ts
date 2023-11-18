@@ -1,3 +1,5 @@
+import { IPlace } from './../../interfaces/Place';
+import { IEvent, ILocality } from './../../interfaces/event';
 import { CustomValidators } from '../../../shared/validations/validations-forms';
 import { _patterDescription, _patterName } from "../../../shared/utils/regularPatterns";
 import { Injectable } from "@angular/core";
@@ -9,8 +11,6 @@ import {
   NonNullableFormBuilder,
   Validators,
 } from "@angular/forms";
-import { IPlace } from "app/core/interfaces/Place";
-import { IEvent, ILocality } from "app/core/interfaces/event";
 
 interface IEventData {
   name: FormControl<string>;

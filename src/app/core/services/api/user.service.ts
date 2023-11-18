@@ -1,8 +1,8 @@
+import { IUser } from './../../interfaces/User';
+import { ApiResponse } from './../../interfaces/Http';
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ApiResponse } from "app/core/interfaces/Http";
-import { IUser } from "app/core/interfaces/User";
 import { Observable } from "rxjs";
 
 @Injectable({
