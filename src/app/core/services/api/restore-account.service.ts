@@ -1,4 +1,4 @@
-import { IUser } from '../../interfaces/Userfdgmsd';
+import { IUser } from '../../interfaces/User';
 import { ApiResponse } from '../../interfaces/Http';
 import { environment } from "../../../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";

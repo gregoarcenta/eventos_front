@@ -1,4 +1,4 @@
-import { IUser, IUserAuth } from '../../interfaces/Userfdgmsd';
+import { IUser, IUserAuth } from '../../interfaces/User';
 import { environment } from "../../../../environments/environment";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";

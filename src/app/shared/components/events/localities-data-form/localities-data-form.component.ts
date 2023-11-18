@@ -1,5 +1,5 @@
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
-import { IEvent } from "../../../../core/interfaces/Eventgfds";
+import { IEvent } from "../../../../core/interfaces/Event";
 import { EventFormStore } from "../../../../core/services/store/event-form.store";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 

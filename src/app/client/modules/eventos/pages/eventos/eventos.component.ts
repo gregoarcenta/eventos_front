@@ -1,7 +1,7 @@
 import { EventService } from "./../../../../../core/services/api/event.service";
 import { BannersStore } from "./../../../../../core/services/store/banners.store";
 import { CatalogStore } from "../../../../../core/services/store/catalog.store";
-import { IEvent } from "../../../../../core/interfaces/Eventgfds";
+import { IEvent } from "../../../../../core/interfaces/Event";
 import { environment } from "./../../../../../../environments/environment";
 import { EventStore } from "../../../../../core/services/store/event.store";
 import {

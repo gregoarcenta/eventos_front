@@ -3,7 +3,7 @@ import {
   EventFormStore,
   ILocalitiesDataArr,
 } from "../../../../core/services/store/event-form.store";
-import { IEvent } from "../../../../core/interfaces/Eventgfds";
+import { IEvent } from "../../../../core/interfaces/Event";
 import {
   Component,
   EventEmitter,

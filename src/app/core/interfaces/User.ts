@@ -3,9 +3,6 @@ export interface IUserAuth {
   jwt:  string;
 }
 
-
-
-
 export interface IUser {
   id?:                    number;
   name:                   string;

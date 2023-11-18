@@ -1,4 +1,4 @@
-import { IEvent, TypeEvents } from "../../../../../core/interfaces/Eventgfds";
+import { IEvent, TypeEvents } from "../../../../../core/interfaces/Event";
 
 import { EventStore } from "../../../../../core/services/store/event.store";
 import {
