@@ -1,5 +1,5 @@
-import { ApiResponse } from '../../interfaces/http';
-import { ICatalog } from '../../interfaces/catalog';
+import { ApiResponse } from '../../interfaces/Http';
+import { ICatalog } from '../../interfaces/Catalog';
 import { environment } from "../../../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";

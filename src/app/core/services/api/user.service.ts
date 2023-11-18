@@ -1,5 +1,5 @@
-import { IUser } from '../../interfaces/user';
-import { ApiResponse } from '../../interfaces/http';
+import { IUser } from '../../interfaces/User';
+import { ApiResponse } from '../../interfaces/Http';
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";

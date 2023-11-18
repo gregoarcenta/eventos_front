@@ -1,5 +1,5 @@
 import { EventFormStore } from "../../../../core/services/store/event-form.store";
-import { IEvent } from "../../../../core/interfaces/event";
+import { IEvent } from "../../../../core/interfaces/Event";
 import { PlaceStore } from "../../../../core/services/store/place.store";
 import {
   Component,

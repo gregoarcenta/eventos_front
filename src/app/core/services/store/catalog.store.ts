@@ -1,4 +1,4 @@
-import { ICatalog } from "../../interfaces/catalog";
+import { ICatalog } from "../../interfaces/Catalog";
 import { CatalogService } from "../api/catalog.service";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";

@@ -1,4 +1,4 @@
-import { ICatalog } from './catalog';
+import { ICatalog } from './Catalog';
 
 
 export interface IPlace {

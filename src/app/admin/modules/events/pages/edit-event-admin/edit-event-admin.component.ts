@@ -1,4 +1,4 @@
-import { IEvent } from '../../../../../core/interfaces/event';
+import { IEvent } from '../../../../../core/interfaces/Event';
 import { EventService } from './../../../../../core/services/api/event.service';
 import { EditEventComponent } from './../../../../../shared/components/events/edit-event/edit-event.component';
 import { EventFormStore } from "../../../../../core/services/store/event-form.store";

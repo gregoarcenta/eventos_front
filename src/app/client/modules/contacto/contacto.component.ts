@@ -1,5 +1,5 @@
 import { CatalogStore } from '../../../core/services/store/catalog.store';
-import { ICatalog } from '../../../core/interfaces/catalog';
+import { ICatalog } from '../../../core/interfaces/Catalog';
 import { CustomValidators } from "./../../../shared/validations/validations-forms";
 import { environment } from "./../../../../environments/environment";
 import { ContactService } from "../../../core/services/api/contact.service";
