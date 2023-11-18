@@ -1,5 +1,5 @@
 import { IPlace } from './../../interfaces/Place';
-import { IEvent, ILocality } from './../../interfaces/event';
+import { IEvent, ILocality } from '../../interfaces/Event';
 import { CustomValidators } from '../../../shared/validations/validations-forms';
 import { _patterDescription, _patterName } from "../../../shared/utils/regularPatterns";
 import { Injectable } from "@angular/core";

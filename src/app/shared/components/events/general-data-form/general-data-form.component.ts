@@ -1,5 +1,5 @@
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
-import { IEvent } from "../../../../core/interfaces/event";
+import { IEvent } from "../../../../core/interfaces/Event";
 import { AuthService } from "../../../../core/services/api/auth.service";
 import { UserService } from "../../../../core/services/api/user.service";
 import { IUser } from "../../../../core/interfaces/User";

@@ -1,5 +1,5 @@
 import { EventService } from "./../../../core/services/api/event.service";
-import { TypeEvents } from "./../../../core/interfaces/event";
+import { TypeEvents } from "../../../core/interfaces/Event";
 import { EventStore } from "../../../core/services/store/event.store";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 import {

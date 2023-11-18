@@ -1,6 +1,6 @@
 import { ICatalog } from './../../interfaces/Catalog';
 import { ApiResponse } from './../../interfaces/Http';
-import { IEvent, IEventList, ILocality } from './../../interfaces/event';
+import { IEvent, IEventList, ILocality } from '../../interfaces/Event';
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
