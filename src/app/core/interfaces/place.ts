@@ -1,13 +1,11 @@
 import { ICatalog } from './Catalog';
 
-
 export interface IPlace {
   id:           number;
   name:         string;
   user_id:      number | null;
   direction?:   IDirection;
 }
-
 
 export interface IDirection {
   id:           number;

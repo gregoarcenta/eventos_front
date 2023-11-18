@@ -7,6 +7,10 @@ export interface IEventList {
   total?: number;
 }
 
+
+
+
+
 export interface IEvent {
   id:               number;
   status:           boolean;
