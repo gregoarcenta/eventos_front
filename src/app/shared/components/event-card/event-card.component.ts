@@ -1,4 +1,4 @@
-import { Event } from '../../../core/interfaces/event';
+import { IEvent } from '../../../core/interfaces/event';
 import { environment } from './../../../../environments/environment';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./event-card.component.scss']
 })
 export class EventCardComponent implements OnInit {
-  @Input() event?: Event
+  @Input() event?: IEvent
   @Input() marginB:boolean = false;
   public url = `${environment.url}/upload/eventos`;
 

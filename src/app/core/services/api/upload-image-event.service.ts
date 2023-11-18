@@ -1,8 +1,8 @@
-import { ResponseUploadImage } from "../../interfaces/event";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
+import { ApiResponse } from "app/core/interfaces/Http";
 
 @Injectable({
   providedIn: "root",
@@ -12,11 +12,11 @@ export class UploadImageEventService {
 
   constructor(private http: HttpClient) {}
 
-  uploadImgEvent(img: File): Observable<ResponseUploadImage> {
+  uploadImgEvent(img: File): Observable<ApiResponse<string>> {
     let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
     const formData = new FormData();
     formData.append("imgBannerEvent", img, img.name);
-    return this.http.post<ResponseUploadImage>(
+    return this.http.post<ApiResponse<string>>(
       `${this.url}/upload/eventos`,
       formData,
       {
@@ -25,11 +25,11 @@ export class UploadImageEventService {
     );
   }
 
-  updateImgEvent(img: File, idEvent:number): Observable<ResponseUploadImage> {
+  updateImgEvent(img: File, idEvent:number): Observable<ApiResponse<string>> {
     let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
     const formData = new FormData();
     formData.append("imgBannerEvent", img, img.name);
-    return this.http.put<ResponseUploadImage>(
+    return this.http.put<ApiResponse<string>>(
       `${this.url}/upload/eventos/${idEvent}`,
       formData,
       {
@@ -38,7 +38,7 @@ export class UploadImageEventService {
     );
   }
 
-  deleteImgIfNotExists(nameImage: string): Observable<any> {
-    return this.http.post<any>(`${this.url}/upload/eventos/${nameImage}`, {});
+  deleteImgIfNotExists(nameImage: string): Observable<ApiResponse<null>> {
+    return this.http.post<any>(`${this.url}/upload/eventos/${nameImage}`, {})
   }
 }

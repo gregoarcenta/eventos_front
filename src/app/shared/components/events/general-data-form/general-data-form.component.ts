@@ -1,8 +1,8 @@
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
-import { Event } from "../../../../core/interfaces/event";
+import { IEvent } from "../../../../core/interfaces/event";
 import { AuthService } from "../../../../core/services/api/auth.service";
 import { UserService } from "../../../../core/services/api/user.service";
-import { User } from "../../../../core/interfaces/user";
+import { IUser } from "../../../../core/interfaces/User";
 import { FormStore } from "../../../../core/services/store/form.store";
 import { environment } from "./../../../../../environments/environment";
 import { UploadImageEventService } from "../../../../core/services/api/upload-image-event.service";
@@ -41,13 +41,13 @@ export class GeneralDataFormComponent implements OnInit, OnDestroy {
   beforeUnloadHandler(event: Event) {
     this.deleteImageIfNotSave();
   }
-  @Input() event: Event | null = null;
+  @Input() event: IEvent | null = null;
 
   private checkArtistSubscription?: Subscription;
 
   public imagesForDelete: string[] = [];
 
-  public organizers$?: Observable<User[]>;
+  public organizers$?: Observable<IUser[]>;
   public organizerTerm$ = new Subject<string>();
   public organizerLoading: boolean = false;
 

@@ -1,15 +1,9 @@
-export interface ResponseUser {
-  status:  number;
-  message: string;
-  data:    Data;
-}
-
-export interface Data {
-  user: User;
+export interface IUserAuth {
+  user: IUser;
   jwt:  string;
 }
 
-export interface User {
+export interface IUser {
   id?:                    number;
   name:                   string;
   surname:                string;

@@ -1,7 +1,6 @@
-import { environment } from "./../../../../environments/environment";
 import { EventService } from "../api/event.service";
-import { DataCatalog } from "../../interfaces/catalogs";
-import { Event, ResponseEvents } from "../../interfaces/event";
+import { ICatalog } from "../../interfaces/Catalog";
+import { IEvent } from "../../interfaces/event";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, catchError, map, of, tap } from "rxjs";
 
@@ -12,10 +11,10 @@ export class EventStore {
   public totalEvents?: number;
   public currentPage: number = 1;
 
-  private eventsSubject = new BehaviorSubject<Event[]>([]);
-  private eventsFeaturedSubject = new BehaviorSubject<Event[]>([]);
-  private eventsUpcomingSubject = new BehaviorSubject<Event[]>([]);
-  private citiesSubject = new BehaviorSubject<DataCatalog[]>([]);
+  private eventsSubject = new BehaviorSubject<IEvent[]>([]);
+  private eventsFeaturedSubject = new BehaviorSubject<IEvent[]>([]);
+  private eventsUpcomingSubject = new BehaviorSubject<IEvent[]>([]);
+  private citiesSubject = new BehaviorSubject<ICatalog[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private spinnerSubject = new BehaviorSubject<boolean>(false);
 
@@ -45,23 +44,23 @@ export class EventStore {
 
   constructor(private eventService: EventService) {}
 
-  set(events: Event[]) {
+  set(events: IEvent[]) {
     this.eventsSubject.next(events);
   }
 
-  setCities(cities: DataCatalog[]) {
+  setCities(cities: ICatalog[]) {
     this.citiesSubject.next(cities);
   }
 
-  setFeatured(featured: Event[]) {
+  setFeatured(featured: IEvent[]) {
     this.eventsFeaturedSubject.next(featured);
   }
 
-  setUpcoming(upcoming: Event[]) {
+  setUpcoming(upcoming: IEvent[]) {
     this.eventsUpcomingSubject.next(upcoming);
   }
 
-  getAllEvents(): Observable<ResponseEvents> {
+  getAllEvents() {
     this.loadingSubject.next(true);
     return this.eventService.getAllEvents().pipe(
       tap((response) => {
@@ -71,7 +70,7 @@ export class EventStore {
     );
   }
 
-  searchEvents(term: string): Observable<ResponseEvents> {
+  searchEvents(term: string) {
     return this.eventService.searchEvents(term).pipe(
       tap((response) => {
         this.eventsSubject.next(response.data.events);

@@ -1,8 +1,9 @@
-import { ResponseCatalog } from "../../interfaces/catalogs";
 import { environment } from "../../../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { ApiResponse } from "app/core/interfaces/Http";
+import { ICatalog } from "app/core/interfaces/Catalog";
 
 @Injectable({
   providedIn: "root",
@@ -12,23 +13,23 @@ export class CatalogService {
 
   constructor(private http: HttpClient) {}
 
-  getAllDocuments(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/documents`);
+  getAllDocuments(): Observable<ApiResponse<ICatalog[]>> {
+    return this.http.get<ApiResponse<ICatalog[]>>(`${this.url}/documents`);
   }
 
-  getAllServices(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/services`);
+  getAllServices(): Observable<ApiResponse<ICatalog[]>> {
+    return this.http.get<ApiResponse<ICatalog[]>>(`${this.url}/services`);
   }
 
-  getAllLocalities(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/localities`);
+  getAllLocalities(): Observable<ApiResponse<ICatalog[]>> {
+    return this.http.get<ApiResponse<ICatalog[]>>(`${this.url}/localities`);
   }
 
-  getAllProvinces(): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/provinces`);
+  getAllProvinces(): Observable<ApiResponse<ICatalog[]>> {
+    return this.http.get<ApiResponse<ICatalog[]>>(`${this.url}/provinces`);
   }
 
-  getCitiesByProvinceId(provinceId: number): Observable<ResponseCatalog> {
-    return this.http.get<ResponseCatalog>(`${this.url}/cities/${provinceId}`);
+  getCitiesByProvinceId(provinceId: number): Observable<ApiResponse<ICatalog[]>> {
+    return this.http.get<ApiResponse<ICatalog[]>>(`${this.url}/cities/${provinceId}`);
   }
 }

@@ -21,10 +21,8 @@ export class VerifyRegisterComponent implements OnInit {
       this.router.navigateByUrl("/");
       return;
     }
-    //this.spinner.setActive(true);
     this.registerService.verifyRegister(token).subscribe({
       next: (response) => {
-        //this.spinner.setActive(false);
         Swal.fire({
           title: "Listo!",
           text: response.message,

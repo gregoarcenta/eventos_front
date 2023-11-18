@@ -1,23 +1,24 @@
 import { environment } from "../../../../environments/environment";
 import { Router } from "@angular/router";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { ResponseUser, User } from "../../interfaces/user";
+import { ApiResponse } from './../../interfaces/Http';
+import { IUser, IUserAuth } from "app/core/interfaces/User";
 import Swal from "sweetalert2";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  private authUser?: User;
+  private authUser?: IUser;
   private url: string = environment.url;
 
   get getAuthUser() {
     return this.authUser;
   }
 
-  set setAuthUser(user: User) {
+  set setAuthUser(user: IUser) {
     this.authUser = user;
   }
 
@@ -33,7 +34,7 @@ export class AuthService {
 
     if (this.authUser) return of(true);
 
-    return this.http.get<ResponseUser>(`${this.url}/login/renew`).pipe(
+    return this.http.get<ApiResponse<IUserAuth>>(`${this.url}/login/renew`).pipe(
       map(({ data }) => {
         localStorage.setItem("token", data.jwt);
         this.authUser = data.user;
@@ -43,8 +44,8 @@ export class AuthService {
     );
   }
 
-  login(data: any): Observable<ResponseUser> {
-    return this.http.post<ResponseUser>(`${this.url}/login`, data).pipe(
+  login(data: any): Observable<ApiResponse<IUserAuth>> {
+    return this.http.post<ApiResponse<IUserAuth>>(`${this.url}/login`, data).pipe(
       tap(({ data }) => {
         this.authUser = data.user;
         localStorage.setItem("token", data.jwt);

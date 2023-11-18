@@ -1,7 +1,7 @@
 import { EventService } from "./../../../../../core/services/api/event.service";
 import { BannersStore } from "./../../../../../core/services/store/banners.store";
 import { CatalogStore } from "../../../../../core/services/store/catalog.store";
-import { Event } from "../../../../../core/interfaces/event";
+import { IEvent } from "../../../../../core/interfaces/event";
 import { environment } from "./../../../../../../environments/environment";
 import { EventStore } from "../../../../../core/services/store/event.store";
 import {
@@ -44,7 +44,7 @@ export class EventosComponent implements OnInit, OnDestroy {
   public termSubject$ = new Subject<string>();
   public termNotFound: string | null = null;
   public notDataFilter: boolean = false;
-  public eventsFiltered: Event[] = [];
+  public eventsFiltered: IEvent[] = [];
   public conditionsFiltered: any = null;
   public currentPageFilters: number = 1;
   public totalEventFiltereds: number = 0;

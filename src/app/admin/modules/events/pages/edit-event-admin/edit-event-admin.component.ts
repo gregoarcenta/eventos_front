@@ -1,9 +1,9 @@
 import { EventService } from './../../../../../core/services/api/event.service';
 import { EditEventComponent } from './../../../../../shared/components/events/edit-event/edit-event.component';
 import { EventFormStore } from "../../../../../core/services/store/event-form.store";
-import { Event } from "../../../../../core/interfaces/event";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { IEvent } from "app/core/interfaces/event";
 import Swal from "sweetalert2";
 
 @Component({
@@ -15,7 +15,7 @@ export class EditEventAdminComponent implements OnInit {
   @ViewChild(EditEventComponent) editEventChild!: EditEventComponent;
   public isAdmin: boolean = true;
   public eventId!: number;
-  public event!: Event;
+  public event!: IEvent;
 
   constructor(
     private eventForm: EventFormStore,

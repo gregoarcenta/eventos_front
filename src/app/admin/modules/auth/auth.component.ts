@@ -26,10 +26,8 @@ export class AuthComponent implements OnInit {
   login() {
     if (this.loginForm.invalid) return this.loginForm.markAllAsTouched();
 
-    //this.spinner.setActive(true);
     this.authService.login(this.loginForm.value).subscribe((_) => {
       this.router.navigate(["/administrador/dashboard"]);
-      //this.spinner.setActive(false);
     });
   }
 }

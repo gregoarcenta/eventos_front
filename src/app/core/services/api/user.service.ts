@@ -1,6 +1,8 @@
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ApiResponse } from "app/core/interfaces/Http";
+import { IUser } from "app/core/interfaces/User";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -11,28 +13,41 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  updateUser(user: any): Observable<any> {
-    return this.http.put<any>(`${this.url}/user`, user);
+  updateUser(user: any): Observable<ApiResponse<IUser>> {
+    return this.http.put<ApiResponse<IUser>>(`${this.url}/user`, user);
   }
 
-  updateImgProfileUser(img: string): Observable<any> {
-    return this.http.put<any>(`${this.url}/user/update-img-profile`, { img });
+  updateImgProfileUser(img: string): Observable<ApiResponse<IUser>> {
+    return this.http.put<ApiResponse<IUser>>(
+      `${this.url}/user/update-img-profile`,
+      { img }
+    );
   }
 
-  getUserByEmail(email: string): Observable<any> {
-    return this.http.get<any>(`${this.url}/user/find-by-email/${email}`);
+  getUserByEmail(email: string): Observable<ApiResponse<{ valid: boolean }>> {
+    return this.http.get<ApiResponse<{ valid: boolean }>>(
+      `${this.url}/user/find-by-email/${email}`
+    );
   }
 
-  getUserByDocument(document: string): Observable<any> {
-    return this.http.get<any>(`${this.url}/user/find-by-document/${document}`);
+  getUserByDocument(
+    document: string
+  ): Observable<ApiResponse<{ valid: boolean }>> {
+    return this.http.get<ApiResponse<{ valid: boolean }>>(
+      `${this.url}/user/find-by-document/${document}`
+    );
   }
 
-  getUserByUsername(username: string): Observable<any> {
-    return this.http.get<any>(`${this.url}/user/find-by-username/${username}`);
+  getUserByUsername(
+    username: string
+  ): Observable<ApiResponse<{ valid: boolean }>> {
+    return this.http.get<ApiResponse<{ valid: boolean }>>(
+      `${this.url}/user/find-by-username/${username}`
+    );
   }
 
   // getUsersByUsernameOrName(term: string): Observable<User[]> {
-  getUsersByUsernameOrName(term: string): Observable<any> {
-    return this.http.post<any>(`${this.url}/user`, { term });
+  getUsersByUsernameOrName(term: string): Observable<ApiResponse<IUser[]>> {
+    return this.http.post<ApiResponse<IUser[]>>(`${this.url}/user`, { term });
   }
 }

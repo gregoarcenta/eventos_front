@@ -3,7 +3,7 @@ import {
   EventFormStore,
   ILocalitiesDataArr,
 } from "../../../../core/services/store/event-form.store";
-import { Event as MyEvent } from "../../../../core/interfaces/event";
+import { IEvent } from "../../../../core/interfaces/event";
 import {
   Component,
   EventEmitter,
@@ -27,11 +27,11 @@ export class EditEventComponent implements OnInit, OnDestroy {
   @ViewChild("tabGroup") matTabGroup!: MatTabGroup;
   @ViewChild(PlaceDataFormComponent) placeFormChild!: PlaceDataFormComponent;
   @Input() isAdmin: boolean = false;
-  @Input() event!: MyEvent;
+  @Input() event!: IEvent;
 
-  @Output() onDataGeneralUpdate = new EventEmitter<MyEvent>();
-  @Output() onDataPlaceUpdate = new EventEmitter<MyEvent>();
-  @Output() onDataLocalitiesUpdate = new EventEmitter<MyEvent>();
+  @Output() onDataGeneralUpdate = new EventEmitter<IEvent>();
+  @Output() onDataPlaceUpdate = new EventEmitter<IEvent>();
+  @Output() onDataLocalitiesUpdate = new EventEmitter<IEvent>();
 
   private actualTab: number = 0;
   public loadMap: boolean = false;

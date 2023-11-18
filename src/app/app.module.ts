@@ -13,7 +13,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 
 import { AppRoutes } from "./app-routing.module";
-import { AppComponent } from "./app.component";
 
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
@@ -22,6 +21,7 @@ import { JwtInterceptor } from "./core/interceptors/jwt.interceptor";
 
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
+import { AppComponent } from "./app.component";
 // register Swiper custom elements
 register();
 

@@ -1,4 +1,4 @@
-import { User } from "../../../../../core/interfaces/user";
+import { IUser } from "../../../../../core/interfaces/User";
 import { RestoreAccountService } from "../../../../../core/services/api/restore-account.service";
 import { _patternPassword } from "../../../../../shared/utils/regularPatterns";
 import { Component, OnInit } from "@angular/core";
@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 })
 export class RestoreAccountComponent implements OnInit {
   public token!: string;
-  public user!: User;
+  public user!: IUser;
   public showPassword: boolean = false;
   public password = new FormControl("", [
     Validators.required,
@@ -80,12 +80,10 @@ export class RestoreAccountComponent implements OnInit {
   restorePassword() {
     if (this.password.invalid) return this.password.markAllAsTouched();
 
-    //this.spinner.setActive(true);
     this.restoreAccountService
       .restoreAccount(this.token, this.password.value!)
       .subscribe({
         next: (response) => {
-          //this.spinner.setActive(false);
           Swal.fire({
             title: "Listo!",
             text: response.message,

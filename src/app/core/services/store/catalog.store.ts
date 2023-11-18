@@ -1,4 +1,4 @@
-import { DataCatalog } from "./../../interfaces/catalogs";
+import { ICatalog } from "../../interfaces/Catalog";
 import { CatalogService } from "../api/catalog.service";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
@@ -17,10 +17,10 @@ import {
   providedIn: "root",
 })
 export class CatalogStore {
-  private servicesSubject = new BehaviorSubject<DataCatalog[]>([]);
-  private documentsSubject = new BehaviorSubject<DataCatalog[]>([]);
-  private provincesSubject = new BehaviorSubject<DataCatalog[]>([]);
-  private localitiesSubject = new BehaviorSubject<DataCatalog[]>([]);
+  private servicesSubject = new BehaviorSubject<ICatalog[]>([]);
+  private documentsSubject = new BehaviorSubject<ICatalog[]>([]);
+  private provincesSubject = new BehaviorSubject<ICatalog[]>([]);
+  private localitiesSubject = new BehaviorSubject<ICatalog[]>([]);
 
   get services$() {
     return this.servicesSubject.asObservable();
@@ -80,19 +80,19 @@ export class CatalogStore {
       });
   }
 
-  setServices(services: DataCatalog[]) {
+  setServices(services: ICatalog[]) {
     this.servicesSubject.next(services);
   }
 
-  setDocuments(documents: DataCatalog[]) {
+  setDocuments(documents: ICatalog[]) {
     this.documentsSubject.next(documents);
   }
 
-  setProvinces(provinces: DataCatalog[]) {
+  setProvinces(provinces: ICatalog[]) {
     this.provincesSubject.next(provinces);
   }
 
-  setLocalities(localities: DataCatalog[]) {
+  setLocalities(localities: ICatalog[]) {
     this.localitiesSubject.next(localities);
   }
 }

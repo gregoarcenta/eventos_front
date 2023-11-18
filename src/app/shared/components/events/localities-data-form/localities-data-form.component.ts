@@ -1,5 +1,5 @@
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
-import { Event } from "./../../../../core/interfaces/event";
+import { IEvent } from "./../../../../core/interfaces/event";
 import { EventFormStore } from "../../../../core/services/store/event-form.store";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 
@@ -9,7 +9,7 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
   styleUrls: ["./localities-data-form.component.scss"],
 })
 export class LocalitiesDataFormComponent implements OnInit, OnDestroy {
-  @Input() event: Event | null = null;
+  @Input() event: IEvent | null = null;
 
   get localities$() {
     return this.catalog.localities$;

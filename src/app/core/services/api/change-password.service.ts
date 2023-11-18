@@ -1,6 +1,7 @@
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ApiResponse } from "app/core/interfaces/Http";
 import { Observable, map } from "rxjs";
 
 @Injectable({
@@ -13,10 +14,12 @@ export class ChangePasswordService {
   constructor(private http: HttpClient) {}
 
   // Pantalla cambiar contrasena
-  validatePassword(password: string): Observable<any> {
+  validatePassword(password: string): Observable<boolean> {
     this.validating = true;
     return this.http
-      .post<any>(`${this.url}/change-password`, { password })
+      .post<ApiResponse<{ valid: boolean }>>(`${this.url}/change-password`, {
+        password,
+      })
       .pipe(
         map(({ data }) => {
           this.validating = false;
@@ -25,7 +28,7 @@ export class ChangePasswordService {
       );
   }
 
-  changePassword(passwordObj: any): Observable<any> {
-    return this.http.put(`${this.url}/change-password`, passwordObj);
+  changePassword(passwordObj: any): Observable<ApiResponse<null>> {
+    return this.http.put<ApiResponse<null>>(`${this.url}/change-password`, passwordObj);
   }
 }

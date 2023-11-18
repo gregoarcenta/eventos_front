@@ -1,6 +1,7 @@
 import { environment } from "../../../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ApiResponse } from "app/core/interfaces/Http";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -11,16 +12,19 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
-  register(data: any): Observable<any> {
-    return this.http.post<any>(`${this.url}/register`, data);
+  register(data: any): Observable<ApiResponse<null>> {
+    return this.http.post<ApiResponse<null>>(`${this.url}/register`, data);
   }
 
-  verifyRegister(token: string): Observable<any> {
+  verifyRegister(token: string): Observable<ApiResponse<{ token: string }>> {
     const headers = new HttpHeaders()
       .set("Content-Type", "application/json")
       .set("authorization", `bearer ${token}`);
-    return this.http.get<any>(`${this.url}/register/verify`, {
-      headers,
-    });
+    return this.http.get<ApiResponse<{ token: string }>>(
+      `${this.url}/register/verify`,
+      {
+        headers,
+      }
+    );
   }
 }

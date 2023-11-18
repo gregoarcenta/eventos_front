@@ -1,4 +1,4 @@
-import { Route } from "../../interfaces/Directions";
+import { Route } from "../../interfaces/Direction";
 import { DirectionService } from "../api/direction.service";
 import { Injectable } from "@angular/core";
 import { AnySourceData, LngLat, LngLatBounds, Map, Marker } from "mapbox-gl";

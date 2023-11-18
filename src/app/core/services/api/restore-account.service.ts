@@ -1,6 +1,8 @@
 import { environment } from "../../../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ApiResponse } from "app/core/interfaces/Http";
+import { IUser } from "app/core/interfaces/User";
 import { Observable, map } from "rxjs";
 
 @Injectable({
@@ -11,23 +13,32 @@ export class RestoreAccountService {
 
   constructor(private http: HttpClient) {}
 
-  sendMailRestoreAccount(email: string): Observable<any> {
-    return this.http.post(`${this.url}/recover`, { email });
+  sendMailRestoreAccount(email: string): Observable<ApiResponse<null>> {
+    return this.http.post<ApiResponse<null>>(`${this.url}/recover`, { email });
   }
 
-  isValidTokenRestoreAccount(token: string): Observable<any> {
+  isValidTokenRestoreAccount(token: string): Observable<ApiResponse<IUser>> {
     let headers = new HttpHeaders()
       .set("Content-Type", "application/json")
       .set("authorization", `bearer ${token}`);
 
-    return this.http.get(`${this.url}/recover`, { headers });
+    return this.http.get<ApiResponse<IUser>>(`${this.url}/recover`, {
+      headers,
+    });
   }
 
-  restoreAccount(token: string, password: string): Observable<any> {
+  restoreAccount(
+    token: string,
+    password: string
+  ): Observable<ApiResponse<{ token: string }>> {
     let headers = new HttpHeaders()
       .set("Content-Type", "application/json")
       .set("authorization", `bearer ${token}`);
 
-    return this.http.put(`${this.url}/recover`, { password }, { headers });
+    return this.http.put<ApiResponse<{ token: string }>>(
+      `${this.url}/recover`,
+      { password },
+      { headers }
+    );
   }
 }

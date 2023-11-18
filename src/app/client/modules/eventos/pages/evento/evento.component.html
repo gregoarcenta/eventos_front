@@ -165,8 +165,8 @@
       <section class="place mt-4">
         <h3 class="fw-bold">Dirección</h3>
         <p class="m-0">
-          {{event.place.direction.city.name | titlecase}} -
-          {{event.place.direction.province.name | titlecase}}
+          {{event.place.direction!.city.name | titlecase}} -
+          {{event.place.direction!.province.name | titlecase}}
         </p>
         <p class="m-0">
           <span
@@ -175,7 +175,7 @@
             triggers="mouseenter"
           >
             {{event.place.name}}</span
-          >, {{event.place.direction.reference}}
+          >, {{event.place.direction!.reference}}
         </p>
       </section>
     </div>
@@ -203,7 +203,7 @@
 </ng-template>
 
 <ng-template #popContentPlace>
-  {{event!.place.direction.description}}
+  {{event!.place.direction!.description}}
 </ng-template>
 
 <ng-template #map let-modal>

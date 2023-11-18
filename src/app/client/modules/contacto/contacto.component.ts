@@ -1,5 +1,5 @@
 import { CatalogStore } from '../../../core/services/store/catalog.store';
-import { DataCatalog } from './../../../core/interfaces/catalogs';
+import { ICatalog } from '../../../core/interfaces/Catalog';
 import { CustomValidators } from "./../../../shared/validations/validations-forms";
 import { environment } from "./../../../../environments/environment";
 import { ContactService } from "../../../core/services/api/contact.service";
@@ -23,7 +23,7 @@ declare const grecaptcha: any;
   styleUrls: ["./contacto.component.scss"],
 })
 export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
-  private citiesSubject = new BehaviorSubject<DataCatalog[]>([]);
+  private citiesSubject = new BehaviorSubject<ICatalog[]>([]);
 
   public contactForm = this.fb.group({
     name: [
@@ -61,7 +61,7 @@ export class ContactoComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.citiesSubject.asObservable();
   }
 
-  set setCities(cities: DataCatalog[]) {
+  set setCities(cities: ICatalog[]) {
     this.citiesSubject.next(cities);
   }
 

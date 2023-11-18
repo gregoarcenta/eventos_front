@@ -1,7 +1,8 @@
-import { ResponsePlace, ResponsePlaces } from "./../../interfaces/place";
 import { environment } from "./../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ApiResponse } from "app/core/interfaces/Http";
+import { IPlace } from "app/core/interfaces/Place";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -12,11 +13,11 @@ export class PlaceService {
 
   constructor(private http: HttpClient) {}
 
-  getPlaceById(id: number): Observable<ResponsePlace> {
-    return this.http.get<any>(`${this.url}/places/${id}`);
+  getPlaceById(id: number): Observable<ApiResponse<IPlace>> {
+    return this.http.get<ApiResponse<IPlace>>(`${this.url}/places/${id}`);
   }
 
-  searchPlaces(term: string): Observable<ResponsePlaces> {
-    return this.http.get<ResponsePlaces>(`${this.url}/places/search/${term}`);
+  searchPlaces(term: string): Observable<ApiResponse<IPlace[]>> {
+    return this.http.get<ApiResponse<IPlace[]>>(`${this.url}/places/search/${term}`);
   }
 }

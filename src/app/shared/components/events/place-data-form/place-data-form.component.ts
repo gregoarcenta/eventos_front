@@ -1,13 +1,9 @@
 import { PlaceService } from "./../../../../core/services/api/place.service";
 import { CatalogStore } from "../../../../core/services/store/catalog.store";
-import { DataCatalog } from "./../../../../core/interfaces/catalogs";
 import { PlaceStore } from "../../../../core/services/store/place.store";
 import { EventFormStore } from "../../../../core/services/store/event-form.store";
 import { CatalogService } from "../../../../core/services/api/catalog.service";
 import { FormStore } from "../../../../core/services/store/form.store";
-import { Event } from "../../../../core/interfaces/event";
-import { Place } from "../../../../core/interfaces/place";
-import { Place as EventPlace } from "../../../../core/interfaces/event";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   BehaviorSubject,
@@ -17,6 +13,9 @@ import {
   distinctUntilChanged,
   map,
 } from "rxjs";
+import { ICatalog } from "app/core/interfaces/Catalog";
+import { IPlace } from "app/core/interfaces/Place";
+import { IEvent } from "app/core/interfaces/event";
 
 @Component({
   selector: "place-data-form",
@@ -24,14 +23,14 @@ import {
   styleUrls: ["./place-data-form.component.scss"],
 })
 export class PlaceDataFormComponent implements OnInit, OnDestroy {
-  @Input() event: Event | null = null;
+  @Input() event: IEvent | null = null;
 
-  private citiesSubject = new BehaviorSubject<DataCatalog[]>([]);
+  private citiesSubject = new BehaviorSubject<ICatalog[]>([]);
 
   private provinceSubscription?: Subscription;
 
   private placeTerm$ = new Subject<string>();
-  public places: Place[] = [];
+  public places: IPlace[] = [];
   public notFoundPlace: boolean = false;
 
   get place_id(): boolean {
@@ -50,7 +49,7 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
     return this.citiesSubject.asObservable();
   }
 
-  set setCities(cities: DataCatalog[]) {
+  set setCities(cities: ICatalog[]) {
     this.citiesSubject.next(cities);
   }
 
@@ -124,9 +123,9 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  setPlace(place: EventPlace) {
+  setPlace(place: IPlace) {
     setTimeout(() => {
-      this.place.setPlaceLocation(place.direction.lng, place.direction.lat);
+      this.place.setPlaceLocation(place.direction!.lng, place.direction!.lat);
     }, 1000);
     this.eventForm.setPlaceDataForm(place);
     this.placeDataForm.disable();
@@ -163,7 +162,7 @@ export class PlaceDataFormComponent implements OnInit, OnDestroy {
   onFillPlaceData() {
     if (!this.event) return;
 
-    this.loadCities(this.event.place.direction.province_id);
+    this.loadCities(this.event.place.direction!.province_id);
     this.setPlace(this.event.place);
     this.eventForm.setPlaceDataOriginal();
   }

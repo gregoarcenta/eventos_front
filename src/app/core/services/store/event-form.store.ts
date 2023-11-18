@@ -1,5 +1,4 @@
 import { CustomValidators } from '../../../shared/validations/validations-forms';
-import { Event, Place, PlaceLocality } from "../../interfaces/event";
 import { _patterDescription, _patterName } from "../../../shared/utils/regularPatterns";
 import { Injectable } from "@angular/core";
 import {
@@ -10,6 +9,8 @@ import {
   NonNullableFormBuilder,
   Validators,
 } from "@angular/forms";
+import { IPlace } from "app/core/interfaces/Place";
+import { IEvent, ILocality } from "app/core/interfaces/event";
 
 interface IEventData {
   name: FormControl<string>;
@@ -190,7 +191,7 @@ export class EventFormStore {
     this.localitiesDataForm.controls["localities"].clear();
   }
 
-  setGeneralDataForm(event: Event) {
+  setGeneralDataForm(event: IEvent) {
     this.generalDataForm.setValue({
       name: event.name,
       description: event.description,
@@ -211,16 +212,16 @@ export class EventFormStore {
     this.generalDataOriginal = structuredClone(this.generalDataForm.value);
   }
 
-  setPlaceDataForm(place: Place) {
+  setPlaceDataForm(place: IPlace) {
     this.placeDataForm.setValue({
-      place_id: place.direction.place_id,
+      place_id: place.direction!.place_id,
       name: place.name,
-      description: place.direction.description,
-      reference: place.direction.reference,
-      province_id: place.direction.province_id,
-      city_id: place.direction.city_id,
-      lat: place.direction.lat,
-      lng: place.direction.lng,
+      description: place.direction!.description,
+      reference: place.direction!.reference,
+      province_id: place.direction!.province_id,
+      city_id: place.direction!.city_id,
+      lat: place.direction!.lat,
+      lng: place.direction!.lng,
       // validCoords: true,
       customPlace: false,
     });
@@ -240,7 +241,7 @@ export class EventFormStore {
     };
   }
 
-  setLocalitiesDataForm(localities: PlaceLocality[]) {
+  setLocalitiesDataForm(localities: ILocality[]) {
     this.clearLocalitiesForm();
 
     localities.forEach((locality) => {

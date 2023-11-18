@@ -1,5 +1,5 @@
 import { EventFormStore } from "../../../../core/services/store/event-form.store";
-import { Event } from "../../../../core/interfaces/event";
+import { IEvent } from "../../../../core/interfaces/event";
 import { PlaceStore } from "../../../../core/services/store/place.store";
 import {
   Component,
@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 export class CreateEventComponent implements OnInit {
   @Input() isAdmin: boolean = false;
   @ViewChild(MatStepper) stepper!: MatStepper;
-  @Output() onCreateEvent = new EventEmitter<Event>();
+  @Output() onCreateEvent = new EventEmitter<IEvent>();
 
   get generalForm() {
     return this.eventForm.generalDataForm;

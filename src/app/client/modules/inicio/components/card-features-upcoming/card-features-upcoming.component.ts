@@ -1,4 +1,4 @@
-import { Event, TypeEvents } from "./../../../../../core/interfaces/event";
+import { IEvent, TypeEvents } from "./../../../../../core/interfaces/event";
 
 import { EventStore } from "../../../../../core/services/store/event.store";
 import {
@@ -29,7 +29,7 @@ export class CardFeaturesUpcomingComponent
 
   public eventSubscription?: Subscription;
 
-  public events: Event[] = [];
+  public events: IEvent[] = [];
 
   constructor(private eventStore: EventStore) {}
   ngOnDestroy(): void {

@@ -3,8 +3,7 @@ import { MapStore } from "../../../../../core/services/store/map.store";
 import { PlaceStore } from "../../../../../core/services/store/place.store";
 import { environment } from "./../../../../../../environments/environment";
 
-import { Event } from "../../../../../core/interfaces/event";
-import { EventStore } from "../../../../../core/services/store/event.store";
+import { IEvent } from "../../../../../core/interfaces/event";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -16,7 +15,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 })
 export class EventoComponent implements OnInit {
   public eventId: number | null = null;
-  public event: Event | null = null;
+  public event: IEvent | null = null;
 
   get imageURL(): string {
     return `${environment.url}/upload/eventos/${this.event!.img}`;
@@ -58,8 +57,8 @@ export class EventoComponent implements OnInit {
       next: (response) => {
         this.event = response.data;
         this.place.setPlaceLocation(
-          this.event.place.direction.lng,
-          this.event.place.direction.lat
+          this.event.place.direction!.lng,
+          this.event.place.direction!.lat
         );
 
       },
@@ -87,8 +86,8 @@ export class EventoComponent implements OnInit {
 
   openMapFullscreen(map: any) {
     this.place.getUserLocation(true).then(({ lng, lat }) => {
-      const lng_ = this.event!.place.direction.lng;
-      const lat_ = this.event!.place.direction.lat;
+      const lng_ = this.event!.place.direction!.lng;
+      const lat_ = this.event!.place.direction!.lat;
       this.map.getRouteBetweenPoints([lng, lat],[Number(lng_), Number(lat_)])
     });
     this.modalService.open(map, { fullscreen: true });
