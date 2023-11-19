@@ -10,6 +10,7 @@ import { CreateEventAdminComponent } from "./pages/create-event-admin/create-eve
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { EditEventAdminComponent } from './pages/edit-event-admin/edit-event-admin.component';
+import { MatButtonModule } from "@angular/material/button";
 
 @NgModule({
   declarations: [EventsComponent, CreateEventAdminComponent, EditEventAdminComponent],
@@ -19,7 +20,7 @@ import { EditEventAdminComponent } from './pages/edit-event-admin/edit-event-adm
     EventsRoutingModule,
     ReactiveFormsModule,
     NgxSkeletonLoaderModule,
-    NgbTooltipModule,
+    NgbTooltipModule
   ],
 })
 export class EventsModule {}
