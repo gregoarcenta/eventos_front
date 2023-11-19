@@ -16,7 +16,7 @@ export class SpinnerStore {
 
   show() {
     if (this.activeRequests === 0) {
-      setTimeout(() => this._active.next(true));
+      this._active.next(true);
     }
     this.activeRequests++;
   }
