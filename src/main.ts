@@ -13,6 +13,8 @@ if (!navigator.geolocation) {
   throw new Error("El navegador no soporta la geolocalización");
 }
 
+// declare const google:any
+
 const html = `
 <p>
   Queremos informarte que actualmente estamos en proceso de prueba de nuestra aplicación y los eventos que se encuentran publicados son parte de este proceso.

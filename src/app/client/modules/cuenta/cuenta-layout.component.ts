@@ -10,7 +10,7 @@ import { ImageCroppedEvent } from "ngx-image-cropper";
   templateUrl: "./cuenta-layout.component.html",
   styleUrls: ["./cuenta-layout.component.scss"],
 })
-export class CuentaLayoutComponent implements OnInit, OnDestroy {
+export class CuentaLayoutComponent implements OnDestroy {
   public imageBase64?: string;
   public croppedImage?: any;
   public croppedOrientation?: any;
@@ -32,8 +32,6 @@ export class CuentaLayoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.cleanData();
   }
-
-  ngOnInit(): void {}
 
   getImageFile() {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {

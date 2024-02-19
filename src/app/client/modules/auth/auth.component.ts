@@ -1,14 +1,17 @@
 import { AuthService } from "../../../core/services/api/auth.service";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { environment } from "../../../../environments/environment";
+
+declare const google: any;
 
 @Component({
   selector: "app-auth",
   templateUrl: "./auth.component.html",
   styleUrls: ["./auth.component.scss"],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements AfterViewInit {
   public showPassword: boolean = false;
   public loginForm = this.fb.group({
     username: ["", [Validators.required]],
@@ -21,7 +24,20 @@ export class AuthComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    google.accounts.id.initialize({
+      client_id: environment.client_id,
+      callback: this.handleCredentialResponse.bind(this),
+    });
+    google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
+      theme: "outline",
+      size: "large",
+      // type: "icon",
+      // shape: "circle",
+      text: "continue_with",
+    });
+    // google.accounts.id.prompt();
+  }
 
   validInput(name: string) {
     return (
@@ -29,8 +45,15 @@ export class AuthComponent implements OnInit {
     );
   }
 
-  toggleShowPassword(){
-    this.showPassword = !this.showPassword
+  handleCredentialResponse(response: any) {
+    // console.log("Encoded JWT ID token: " + response.credential);
+    this.authService.loginGoogle(response.credential).subscribe((_) => {
+      this.router.navigateByUrl("/");
+    });
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 
   login() {

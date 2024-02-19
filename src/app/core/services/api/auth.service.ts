@@ -1,10 +1,10 @@
-import { IUser, IUserAuth } from '../../interfaces/User';
+import { IUser, IUserAuth } from "../../interfaces/User";
 import { environment } from "../../../../environments/environment";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { ApiResponse } from '../../interfaces/Http';
+import { ApiResponse } from "../../interfaces/Http";
 import Swal from "sweetalert2";
 
 @Injectable({
@@ -22,10 +22,7 @@ export class AuthService {
     this.authUser = user;
   }
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   isAuthenticate(): Observable<boolean> {
     const token: string = localStorage.getItem("token") || "";
@@ -34,23 +31,38 @@ export class AuthService {
 
     if (this.authUser) return of(true);
 
-    return this.http.get<ApiResponse<IUserAuth>>(`${this.url}/login/renew`).pipe(
-      map(({ data }) => {
-        localStorage.setItem("token", data.jwt);
-        this.authUser = data.user;
-        return true;
-      }),
-      catchError((_) => of(false))
-    );
+    return this.http
+      .get<ApiResponse<IUserAuth>>(`${this.url}/login/renew`)
+      .pipe(
+        map(({ data }) => {
+          localStorage.setItem("token", data.jwt);
+          this.authUser = data.user;
+          return true;
+        }),
+        catchError((_) => of(false))
+      );
   }
 
   login(data: any): Observable<ApiResponse<IUserAuth>> {
-    return this.http.post<ApiResponse<IUserAuth>>(`${this.url}/login`, data).pipe(
-      tap(({ data }) => {
-        this.authUser = data.user;
-        localStorage.setItem("token", data.jwt);
-      })
-    );
+    return this.http
+      .post<ApiResponse<IUserAuth>>(`${this.url}/login`, data)
+      .pipe(
+        tap(({ data }) => {
+          this.authUser = data.user;
+          localStorage.setItem("token", data.jwt);
+        })
+      );
+  }
+
+  loginGoogle(tokenGoogle: string): Observable<ApiResponse<IUserAuth>> {
+    return this.http
+      .post<ApiResponse<IUserAuth>>(`${this.url}/login/google`, { tokenGoogle })
+      .pipe(
+        tap(({ data }) => {
+          this.authUser = data.user;
+          localStorage.setItem("token", data.jwt);
+        })
+      );
   }
 
   async onLogout() {

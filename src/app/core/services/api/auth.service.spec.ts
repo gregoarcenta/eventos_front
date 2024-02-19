@@ -1,4 +1,4 @@
-import { User } from "../../interfaces/User";
+import { IUser } from "../../interfaces/User";
 import { environment } from "../../../../environments/environment";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthService } from "./auth.service";
@@ -69,7 +69,7 @@ describe("AuthService", () => {
 
   it("Debe de retornar true(Si autenticado) si existe el tanto el jwt como el usuario", (done) => {
     localStorage.setItem("token", "TOKEN");
-    service.setAuthUser = {} as User;
+    service.setAuthUser = {} as IUser;
     service.isAuthenticate().subscribe((response) => {
       expect(response).toBe(true);
       done();
@@ -159,7 +159,7 @@ describe("AuthService", () => {
 
   it("Debe eliminar el token y usuario al hacer cerrar sesion", () => {
     localStorage.setItem("token", "TOKEN");
-    service.setAuthUser = {} as User;
+    service.setAuthUser = {} as IUser;
 
     router.navigate = jest.fn();
 
