@@ -1,8 +1,7 @@
 import { AuthService } from "../../../core/services/api/auth.service";
 import { FormBuilder, Validators } from "@angular/forms";
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { environment } from "../../../../environments/environment";
 
 declare const google: any;
 
@@ -24,32 +23,19 @@ export class AuthComponent implements AfterViewInit {
     private router: Router
   ) {}
 
-  ngAfterViewInit(): void {
-    google.accounts.id.initialize({
-      client_id: environment.client_id,
-      callback: this.handleCredentialResponse.bind(this),
-    });
-    google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
-      theme: "outline",
-      size: "large",
-      // type: "icon",
-      // shape: "circle",
-      text: "continue_with",
-    });
-    // google.accounts.id.prompt();
+  ngAfterViewInit(){
+      google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
+        theme: "outline",
+        size: "large",
+        text: "continue_with",
+      });
+
   }
 
   validInput(name: string) {
     return (
       this.loginForm.get(name)?.invalid && this.loginForm.get(name)?.touched
     );
-  }
-
-  handleCredentialResponse(response: any) {
-    // console.log("Encoded JWT ID token: " + response.credential);
-    this.authService.loginGoogle(response.credential).subscribe((_) => {
-      this.router.navigateByUrl("/");
-    });
   }
 
   toggleShowPassword() {

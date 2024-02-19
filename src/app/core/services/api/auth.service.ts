@@ -2,10 +2,12 @@ import { IUser, IUserAuth } from "../../interfaces/User";
 import { environment } from "../../../../environments/environment";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
 import { ApiResponse } from "../../interfaces/Http";
 import Swal from "sweetalert2";
+
+declare const google: any;
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +24,22 @@ export class AuthService {
     this.authUser = user;
   }
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private zone: NgZone
+  ) {
+    this.cargarScript()
+      .then(() => {
+        google.accounts.id.initialize({
+          client_id: environment.client_id,
+          callback: this.handleCredentialResponse.bind(this),
+        });
+      })
+      .catch((err) =>
+        console.error("Error al cargar el script de google:", err)
+      );
+  }
 
   isAuthenticate(): Observable<boolean> {
     const token: string = localStorage.getItem("token") || "";
@@ -82,12 +99,58 @@ export class AuthService {
   }
 
   logout() {
+    const { google: isGoogleAccount, email } = this.getAuthUser!;
     localStorage.removeItem("token");
     this.authUser = undefined;
+
+    if (isGoogleAccount) {
+      google.accounts.id.revoke(email, () => {
+        this.router.navigate(["/login"]);
+      });
+      return;
+    }
+
     if (environment.domain === "eventosec.com") {
       this.router.navigate(["/login"]);
     } else {
       this.router.navigate(["/administrador/login"]);
     }
+  }
+
+  handleCredentialResponse(response: any) {
+    // console.log("Encoded JWT ID token: " + response.credential);
+    this.loginGoogle(response.credential).subscribe({
+      next: (_) => {
+        this.zone.run(() => this.router.navigateByUrl("/"));
+      },
+      error: ({ error }) => {
+        console.log("ERROR WAY: ", error);
+
+        if (error.status === 403) {
+          google.accounts.id.revoke("gregoarcenta@gmail.com", () => {
+            this.zone.run(() => this.router.navigateByUrl("/login"));
+          });
+        }
+      },
+    });
+  }
+
+  public cargarScript(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.onload = () => {
+        // Script cargado exitosamente
+        resolve();
+      };
+      script.onerror = (error) => {
+        // Hubo un error al cargar el script
+        reject(error);
+      };
+
+      // Agrega el script al DOM.
+      document.head.appendChild(script);
+    });
   }
 }

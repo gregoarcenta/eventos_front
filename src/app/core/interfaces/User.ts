@@ -9,6 +9,7 @@ export interface IUser {
   surname:                string;
   username:               string;
   email:                  string;
+  google:                 boolean;
   img:                    string | null;
   age:                    number | null;
   phone:                  string | null;
