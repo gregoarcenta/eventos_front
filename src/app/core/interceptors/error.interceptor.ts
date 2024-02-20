@@ -31,8 +31,6 @@ export class ErrorInterceptor implements HttpInterceptor {
             icon: "info",
           });
 
-          console.log("error: ", error);
-
           error.emailGoogle
             ? this.authService.logoutGoogle(error.emailGoogle)
             : this.authService.logout();
