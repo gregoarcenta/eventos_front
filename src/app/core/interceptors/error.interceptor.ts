@@ -12,9 +12,7 @@ import { catchError, Observable } from "rxjs";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -32,7 +30,13 @@ export class ErrorInterceptor implements HttpInterceptor {
             text: "Tu sesión expiró, inicia sesión nuevamente",
             icon: "info",
           });
-          this.authService.logout();
+
+          console.log("error: ", error);
+
+          error.emailGoogle
+            ? this.authService.logoutGoogle(error.emailGoogle)
+            : this.authService.logout();
+
           throw { error };
         } else if (error.status === 500) {
           Swal.fire("¡Lo sentimos!", environment.msgErrorDefault, "error");

@@ -94,21 +94,23 @@ export class AuthService {
       cancelButtonColor: "#7460ee",
     });
     if (response.isConfirmed) {
-      this.logout();
+      const { google: isGoogleAccount, email } = this.getAuthUser!;
+
+      isGoogleAccount ? this.logoutGoogle(email) : this.logout();
     }
   }
 
-  logout() {
-    const { google: isGoogleAccount, email } = this.getAuthUser!;
-    localStorage.removeItem("token");
-    this.authUser = undefined;
+  logoutGoogle(email: string) {
+    google.accounts.id.revoke(email, () => {
+      this.authUser = undefined;
+      localStorage.removeItem("token");
+      this.router.navigate(["/login"]);
+    });
+  }
 
-    if (isGoogleAccount) {
-      google.accounts.id.revoke(email, () => {
-        this.router.navigate(["/login"]);
-      });
-      return;
-    }
+  logout() {
+    this.authUser = undefined;
+    localStorage.removeItem("token");
 
     if (environment.domain === "eventosec.com") {
       this.router.navigate(["/login"]);
@@ -124,8 +126,6 @@ export class AuthService {
         this.zone.run(() => this.router.navigateByUrl("/"));
       },
       error: ({ error }) => {
-        console.log("ERROR WAY: ", error);
-
         if (error.status === 403) {
           google.accounts.id.revoke("gregoarcenta@gmail.com", () => {
             this.zone.run(() => this.router.navigateByUrl("/login"));
